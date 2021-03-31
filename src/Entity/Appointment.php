@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Appointment
- * @ORM\Entity(repositoryClass="App\Repository\AppointmentRepository")
  * @ORM\Table(name="appointment")
  * @ORM\Entity
  */
