@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8ebc9b3c4c11b78adaef9e14d8b7004",
+    "content-hash": "e856b9a443970fa1ed195f4eddf73b0b",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -3678,6 +3678,7 @@
             ],
             "description": "Allows to easily create, process and reuse HTML forms",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "support": {
                 "source": "https://github.com/symfony/form/tree/v5.2.6"
             },
@@ -3695,6 +3696,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> db27108cd184d3aaf3d86a123d6278663df0c3c8
             "time": "2021-03-28T09:59:03+00:00"
         },
         {
@@ -8098,7 +8101,8 @@
     "platform": {
         "php": ">=7.2.5",
         "ext-ctype": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"

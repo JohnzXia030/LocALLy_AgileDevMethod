@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Inscription{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+    {% block stylesheets %}
+        {#{{ encore_entry_link_tags('app') }}#}
+    {% endblock %}
+</head>
+<body>
+{% block body %}<form>
+        <h2 class="auth-section-title">Content de te revoir !</h2>
+
+    {{ form(form) }}
+
+        <div class="row">
+            <button type="submit">Se connecter</button>
+        </div>
+        <div class="row">
+            <a href="passwordForget">Mot de passe oublié ?</a>
+        </div>
+        <div class="row">
+            <p>Vous n'avez pas de compte ? <a href="signIn">Créer en un !</a></p>
+        </div>
+</form>
+{% endblock %}
+</body>
+</html>
