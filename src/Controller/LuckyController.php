@@ -30,7 +30,7 @@ class LuckyController extends AbstractController
         } catch (\Exception $e) {
         }
         return new Response(
-            '<html lang="fr"><body>Lucky number: ' . json_decode($this::$request->getContent()) . '</body></html>'
+            '<html lang="fr"><body>Lucky number: ' . $number . '</body></html>'
         );
     }
 
