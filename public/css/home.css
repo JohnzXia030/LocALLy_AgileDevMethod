@@ -186,6 +186,11 @@ figure {
     margin: 0 0 1rem;
 }
 
+.recherche_p{
+    margin: 0 auto;
+    width: 500px;
+}
+
 .recherche-input{
     border: 0;
     width: 0;
@@ -10174,4 +10179,9 @@ header.masthead .masthead-heading {
     text-align: center;
     font-size: 0.9rem;
     font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.resize_image {
+    height: 200%;
+    width: auto;
 }
