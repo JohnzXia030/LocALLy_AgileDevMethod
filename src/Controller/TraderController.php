@@ -6,17 +6,23 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\CreateShopForm;
+use App\Entity\ShopClass;
 
 class TraderController extends AbstractController
 {
     /**
-     * @Route("/trader/test")
+     * @Route("/trader/create")
      */
-    public function test(): Response
+    public function create(): Response
     {
-        $number = 'Petit domi';
-        return $this->render('trader/trader.html.twig', [
-            'number' => $number,
-        ]);
+        $oShop = new ShopClass();
+        // Si des attributs de classe ont des valeurs, elles apparaissent automatiquement dans le formulaire
+        
+        $oForm = $this->createForm(CreateShopForm::class, $oShop);
+
+        return $this->render('trader/trader.html.twig', array(
+            'form' => $oForm->createView()
+        ));
     }
 }
