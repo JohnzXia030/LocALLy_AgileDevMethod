@@ -7,9 +7,7 @@ use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\CreateShopForm;
-use App\Entity\ShopClass;
-use App\Form\CatalogFormType;
+
 
 class TraderController extends AbstractController
 {
@@ -18,11 +16,7 @@ class TraderController extends AbstractController
      */
     public function addArticle(): Response
     {
-        $article = new Article();
-        $articleForm = $this->createForm(CatalogFormType::class, $article);
-        return $this->render('trader/add-article.html.twig', [
-            'articleForm' => $articleForm->createView()
-        ]);
+        return $this->render('trader/add-article.html.twig');
     }
 
     /**
@@ -30,13 +24,6 @@ class TraderController extends AbstractController
      */
     public function create(): Response
     {
-        $oShop = new ShopClass();
-        // Si des attributs de classe ont des valeurs, elles apparaissent automatiquement dans le formulaire
-
-        $oForm = $this->createForm(CreateShopForm::class, $oShop);
-
-        return $this->render('trader/trader.html.twig', array(
-            'form' => $oForm->createView()
-        ));
+        return $this->render('trader/trader.html.twig');
     }
 }
