@@ -23,33 +23,33 @@ class GuestController extends AbstractController
      */
     public function signIn(): Response
     {
-        $oSignin = new SigninClass();
-        $oform = $this->createForm(signinForm::class, $oSignin);
-        return $this->render('guest/signIn.html.twig', array(
-            'form'=> $oform->createView()
+        //$oSignin = new SigninClass();
+        //$oform = $this->createForm(signinForm::class, $oSignin);
+        return $this->render('guest/signIn.html.twig');//, array(
+            //'form'=> $oform->createView()
 
-        ));
+        //));
     }
     /**
      * @Route("/guest/login")
      */
     public function login(): Response
     {
-        $oLogin = new LoginClass();
-        $oform = $this->createForm(loginForm::class, $oLogin);
-        return $this->render('guest/login.html.twig', array(
-            'form' => $oform->createView()
-        ));
+        //$oLogin = new LoginClass();
+        //$oform = $this->createForm(loginForm::class, $oLogin);
+        return $this->render('guest/login.html.twig');//, array(
+            //'form' => $oform->createView()
+        //));
     }
     /**
      * @Route("/guest/passwordForget")
      */
     public function passwordForget(): Response
     {
-        $oPassword = new PasswordClass();
-        $oform = $this->createForm(passwordForm::class, $oPassword);
-        return $this->render('guest/passwordForget.html.twig', array(
-            'form' => $oform->createView()
-        ));
+        //$oPassword = new PasswordClass();
+        //$oform = $this->createForm(passwordForm::class, $oPassword);
+        return $this->render('guest/passwordForget.html.twig'); /*array(
+            //'form' => $oform->createView()
+        ));*/
     }
 }
