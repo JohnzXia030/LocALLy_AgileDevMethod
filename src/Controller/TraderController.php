@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
+/**
+ * @Route("/trader")
+ */
 class TraderController extends AbstractController
 {
     public static $request;
@@ -24,7 +27,7 @@ class TraderController extends AbstractController
     }
 
     /**
-     * @Route("/trader/add-article")
+     * @Route("/add-article")
      * @param Connection $connection
      * @return Response
      */
@@ -42,7 +45,7 @@ class TraderController extends AbstractController
     }
 
     /**
-     * @Route("/trader/api/create-article")
+     * @Route("/api/create-article")
      * @param ArticleRepository $articleRepository
      * @return Response
      */
@@ -54,7 +57,7 @@ class TraderController extends AbstractController
     }
 
     /**
-     * @Route("/trader/create")
+     * @Route("/create")
      */
     public function create(): Response
     {
