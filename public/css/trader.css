@@ -19,6 +19,7 @@ body {
     background-image: url("../img/fond-creation-magasin.jpg");
     opacity: 0.90;
     filter: alpha(opacity=50); /* For IE8 and earlier */
+    color: white !important;
 
 }
 /*form styles*/
