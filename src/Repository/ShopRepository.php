@@ -1,24 +1,23 @@
 <?php
 
-
 namespace App\Repository;
 
-use App\Entity\Article;
+use App\Entity\Shop;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ArticleRepository extends ServiceEntityRepository
+class ShopRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Article::class);
+        parent::__construct($registry, Shop::class);
     }
 
     public function addArticle($request)
     {
         $conn = $this->getEntityManager()->getConnection();
-        $this->getEntityManager()->
+
         $sql =
             'SELECT u_id
             FROM user';
