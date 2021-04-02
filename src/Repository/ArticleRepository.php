@@ -48,6 +48,9 @@ class ArticleRepository extends ServiceEntityRepository
         } catch (Exception $e) {
         } catch (\Doctrine\DBAL\Driver\Exception $e) {
         }
-    }
 
+
+        // returns an array of arrays (i.e. a raw data set)
+
+    }
 }
