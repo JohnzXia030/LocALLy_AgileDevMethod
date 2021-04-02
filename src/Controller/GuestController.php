@@ -3,12 +3,6 @@
 
 namespace App\Controller;
 
-use App\Forms\Type\LoginClass;
-use App\Forms\Type\loginForm;
-use App\Forms\Type\PasswordClass;
-use App\Forms\Type\passwordForm;
-use App\Forms\Type\SigninClass;
-use App\Forms\Type\signinForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,33 +17,20 @@ class GuestController extends AbstractController
      */
     public function signIn(): Response
     {
-        $oSignin = new SigninClass();
-        $oform = $this->createForm(signinForm::class, $oSignin);
-        return $this->render('guest/signIn.html.twig', array(
-            'form'=> $oform->createView()
-
-        ));
+        return $this->render('guest/signIn.html.twig');
     }
     /**
      * @Route("/guest/login")
      */
     public function login(): Response
     {
-        $oLogin = new LoginClass();
-        $oform = $this->createForm(loginForm::class, $oLogin);
-        return $this->render('guest/login.html.twig', array(
-            'form' => $oform->createView()
-        ));
+        return $this->render('guest/login.html.twig');
     }
     /**
      * @Route("/guest/passwordForget")
      */
     public function passwordForget(): Response
     {
-        $oPassword = new PasswordClass();
-        $oform = $this->createForm(passwordForm::class, $oPassword);
-        return $this->render('guest/passwordForget.html.twig', array(
-            'form' => $oform->createView()
-        ));
+        return $this->render('guest/passwordForget.html.twig');
     }
 }
