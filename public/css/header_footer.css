@@ -3,12 +3,19 @@
     font-size: 0.9rem;
     font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     width: 100%;
-
 }
+
+.footer a {
+    color: #212529 !important;
+}
+
+img.logo {
+    max-width: 40%;
+}
+
 #mainNav {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
     background-color: #212529;
+    z-index: 1;
 }
 #mainNav .navbar-toggler {
     padding: 0.75rem;
@@ -26,9 +33,6 @@
     letter-spacing: 0.0625em;
     text-transform: uppercase;
 }
-#mainNav .navbar-brand img {
-    height: 1.5rem;
-}
 #mainNav .navbar-nav .nav-item .nav-link {
     font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 0.95rem;
@@ -39,45 +43,29 @@
     color: #fed136;
 }
 
-@media (min-width: 992px) {
-    #mainNav {
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
-        border: none;
-        background-color: transparent;
-        transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
-    }
-    #mainNav .navbar-brand {
-        font-size: 1.5em;
-        transition: font-size 0.3s ease-in-out;
-    }
-    #mainNav .navbar-brand img {
-        height: 2rem;
-        transition: height 0.3s ease-in-out;
-    }
-    #mainNav.navbar-shrink {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        background-color: #212529;
-    }
-    #mainNav.navbar-shrink .navbar-brand {
-        font-size: 1.25em;
-    }
-    #mainNav.navbar-shrink .navbar-brand svg,
-    #mainNav.navbar-shrink .navbar-brand img {
-        height: 1.5rem;
-    }
-    #mainNav .navbar-nav .nav-item {
-        margin-right: 1rem;
-    }
-    #mainNav .navbar-nav .nav-item:last-child {
-        margin-right: 0;
-    }
+#mainNav {
+    border: none;
+    transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
+}
+#mainNav .navbar-brand {
+    font-size: 1.5em;
+    transition: font-size 0.3s ease-in-out;
+}
+#mainNav.navbar-shrink {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: #212529;
+}
+#mainNav .navbar-nav .nav-item {
+    margin-right: 1rem;
+}
+#mainNav .navbar-nav .nav-item:last-child {
+    margin-right: 0;
 }
 
 .masthead {
-    padding-top: 10.5rem;
-    padding-bottom: 6rem;
+    padding-top: 7rem;
+    padding-bottom: 4rem;
     text-align: center;
     color: #fff;
     background-image: url("../img/homeImg/img.png");
@@ -90,34 +78,15 @@
     font-size: 1.5rem;
     font-style: italic;
     line-height: 1.5rem;
-    margin-bottom: 25px;
+    margin-bottom: 3rem;
     font-family: "Droid Serif", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .masthead .masthead-heading {
-    font-size: 3.25rem;
+    font-size: 2.7rem;
     font-weight: 700;
     line-height: 3.25rem;
     margin-bottom: 2rem;
     font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-@media (min-width: 768px) {
-    .masthead {
-        padding-top: 17rem;
-        padding-bottom: 12.5rem;
-    }
-    .masthead .masthead-subheading {
-        font-size: 2.25rem;
-        font-style: italic;
-        line-height: 2.25rem;
-        margin-bottom: 2rem;
-    }
-    .masthead .masthead-heading {
-        font-size: 4.5rem;
-        font-weight: 700;
-        line-height: 4.5rem;
-        margin-bottom: 4rem;
-    }
 }
 
 .container,
@@ -131,27 +100,6 @@
     padding-left: 0.75rem;
     margin-right: auto;
     margin-left: auto;
-}
-
-@media (min-width: 576px) {
-    .container-sm, .container {
-        max-width: 540px;
-    }
-}
-@media (min-width: 768px) {
-    .container-md, .container-sm, .container {
-        max-width: 720px;
-    }
-}
-@media (min-width: 992px) {
-    .container-lg, .container-md, .container-sm, .container {
-        max-width: 960px;
-    }
-}
-@media (min-width: 1200px) {
-    .container-xl, .container-lg, .container-md, .container-sm, .container {
-        max-width: 1140px;
-    }
 }
 
 .navbar .container,
@@ -262,37 +210,38 @@
         padding-left: 0;
     }
 }
-@media (min-width: 992px) {
-    .navbar-expand-lg {
-        flex-flow: row nowrap;
-        justify-content: flex-start;
-    }
-    .navbar-expand-lg .navbar-nav {
-        flex-direction: row;
-    }
-    .navbar-expand-lg .navbar-nav .dropdown-menu {
-        position: absolute;
-    }
-    .navbar-expand-lg .navbar-nav .nav-link {
-        padding-right: 0.5rem;
-        padding-left: 0.5rem;
-    }
-    .navbar-expand-lg > .container,
-    .navbar-expand-lg > .container-fluid,
-    .navbar-expand-lg > .container-sm,
-    .navbar-expand-lg > .container-md,
-    .navbar-expand-lg > .container-lg,
-    .navbar-expand-lg > .container-xl {
-        flex-wrap: nowrap;
-    }
-    .navbar-expand-lg .navbar-collapse {
-        display: flex !important;
-        flex-basis: auto;
-    }
-    .navbar-expand-lg .navbar-toggler {
-        display: none;
-    }
+
+.navbar-expand-lg {
+    flex-flow: row nowrap;
+    justify-content: flex-start;
 }
+.navbar-expand-lg .navbar-nav {
+    flex-direction: row;
+}
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+    position: absolute;
+}
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+.navbar-expand-lg > .container,
+.navbar-expand-lg > .container-fluid,
+.navbar-expand-lg > .container-sm,
+.navbar-expand-lg > .container-md,
+.navbar-expand-lg > .container-lg,
+.navbar-expand-lg > .container-xl {
+    flex-wrap: nowrap;
+}
+.navbar-expand-lg .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+}
+.navbar-expand-lg .navbar-toggler {
+    display: none;
+}
+
+
 @media (max-width: 1199.98px) {
     .navbar-expand-xl > .container,
     .navbar-expand-xl > .container-fluid,
@@ -384,6 +333,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.5rem 1rem;
+    width: 100%;
 }
 
 .navbar-brand {
@@ -608,60 +558,18 @@ a:not([href]):not([class]):hover {
     text-decoration: none !important;
 }
 
-@media (min-width: 992px) {
-    .text-lg-left {
-        text-align: left !important;
-    }
-
-    .text-lg-right {
-        text-align: right !important;
-    }
-
-    .text-lg-center {
-        text-align: center !important;
-    }
+.text-lg-left {
+    text-align: left !important;
 }
 
-@media (min-width: 1200px) {
-    .text-xl-left {
-        text-align: left !important;
-    }
-
-    .text-xl-right {
-        text-align: right !important;
-    }
-
-    .text-xl-center {
-        text-align: center !important;
-    }
+.text-lg-right {
+    text-align: right !important;
 }
+
+.text-lg-center {
+    text-align: center !important;
+}
+
 .text-lowercase {
     text-transform: lowercase !important;
-}
-
-@media (min-width: 576px) {
-    .text-sm-left {
-        text-align: left !important;
-    }
-
-    .text-sm-right {
-        text-align: right !important;
-    }
-
-    .text-sm-center {
-        text-align: center !important;
-    }
-}
-@media (min-width: 768px) {
-    .text-md-left {
-        text-align: left !important;
-    }
-
-    .text-md-right {
-        text-align: right !important;
-    }
-
-    .text-md-center {
-        text-align: center !important;
-    }
 }
