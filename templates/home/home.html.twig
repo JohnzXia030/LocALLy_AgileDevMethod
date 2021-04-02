@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head >
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <title>LocAlly</title>
         <link rel="icon" type="image/x-icon" href="img/homeImg/logo.png" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+        <!-- JQuery-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/home.css" rel="stylesheet" />
+        <link href="{{ asset('css/home.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/header_footer.css') }}" rel="stylesheet" />
     </head>
 
-    <header class="masthead">
+    <body >
+    <header>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                <a class="navbar-brand js-scroll-trigger p-0" href="#page-top">
                     <img src="{{ asset('img/homeImg/logo.png') }}" alt="" />
                 </a>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -33,27 +37,27 @@
             </div>
         </nav>
 
-        <div class="recherche_p">
-            <form class="form-inline my-2 my-lg-0">
-                <div class="recherche-barr">
-                    <input class="recherche-input" type="search" placeholder="Recherche"  >
-                    <a href="#" class="recherche-icone">
-                        <i class="fas fa-search fa-2x"></i>
-                    </a>
-                </div>
-            </form>
-        </div>
-
-        <div class="container">
-            <div class="masthead-subheading">Bienvenue</div>
-            <div class="masthead-heading text-uppercase">Trouvez les produits et services prés de chez vous</div>
-            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#magasins">Voir Magasins</a>
-            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#magasins">Voir Produits</a>
-        </div>
-
     </header>
+        <div class="masthead">
+            <div class="recherche_p">
+                <form class="form-inline my-2 my-lg-0">
+                    <div class="recherche-barr">
+                        <input class="recherche-input" type="search" placeholder="Recherche"  >
+                        <a href="#" class="recherche-icone">
+                            <i class="fas fa-search fa-2x"></i>
+                        </a>
+                    </div>
+                </form>
+            </div>
 
-    <body id="page-top">
+            <div class="container">
+                <div class="masthead-subheading">Bienvenue</div>
+                <div class="masthead-heading text-uppercase">Trouvez les produits et services prés de chez vous</div>
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#magasins">Voir Magasins</a>
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#magasins">Voir Produits</a>
+            </div>
+        </div>
+
         <!-- Services-->
         <section class="page-section" id="services">
             <div class="container">
@@ -67,16 +71,16 @@
                                 <i class="fas fa-circle fa-stack-2x text-primary"></i>
                                 <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
                             </span>
-                        <h4 class="my-3">E-Commerce</h4>
-                        <p class="text-muted">Petite description</p>
+                        <h4 class="my-3">Commerçants</h4>
+                        <p class="text-muted">Les commerçants peuvent renseigner leurs produits et services.</p>
                     </div>
                     <div class="col-md-4">
                             <span class="fa-stack fa-4x">
                                 <i class="fas fa-circle fa-stack-2x text-primary"></i>
                                 <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
                             </span>
-                        <h4 class="my-3">Titre service</h4>
-                        <p class="text-muted">Petite description</p>
+                        <h4 class="my-3">Clients</h4>
+                        <p class="text-muted">Acheter des produits locaux et prendre des rendez-vous.</p>
                     </div>
                     <div class="col-md-4">
                             <span class="fa-stack fa-4x">
@@ -93,38 +97,47 @@
         <section class="page-section" id="contact">
             <div class="container">
                 <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Contact Us</h2>
-                    <h3 class="section-subheading text-muted">Description Contact Us</h3>
+                    <h2 class="section-heading text-uppercase">Contactez-nous</h2>
                 </div>
-                {{ form(form) }}
+                    <form id="contactForm" name="sentMessage" novalidate="novalidate">
+                        <div class="row align-items-stretch mb-5">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="form-control" id="lastname" type="text" placeholder="Nom de famille *" required="required" data-validation-required-message="Entrez votre nom de famille." />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" id="firstname" type="text" placeholder="Prénom *" required="required" data-validation-required-message="Entrez votre prénom." />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group mb-md-0">
+                                    <input class="form-control" id="email" type="email" placeholder="Adresse e-mail *" required="required" data-validation-required-message="Entrez votre adresse e-mail." />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group mb-md-0">
+                                    <input class="form-control" id="phone" type="tel" placeholder="Numéro de téléphone"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-group-textarea mb-md-0">
+                                    <textarea class="form-control" rows="5" id="message" placeholder="Message *" required="required" data-validation-required-message="Entrez votre message."></textarea>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div id="success"></div>
+                            <button class="btn btn-primary btn-xl text-uppercase" id="sendMessageButton" type="submit">Envoyer le message</button>
+                        </div>
+                    </form>
 
             </div>
         </section>
-
+        <div id="footer" class="footer py-4 "></div>
     </body>
-
-        <!-- Footer-->
-        <footer class="footer py-4">
-            <div class="container">
-                <div>
-                    <a href="#">FAQ</a>
-                    <a href="#">Conditions Générales d'Utilisation</a>
-                    <a href="#">A propos</a>
-                </div>
-
-                <div>
-                        <a href="home#contact">Contactez-nous</a>
-                </div>
-
-                <div class="row align-items-center">
-                    <div class="col-lg-4 text-lg-left">Copyright © locally 2021</div>
-                </div>
-            </div>
-        </footer>
-
-
-
-
+    <script>
+        $("#footer").load("../../templates/footer.html");
+    </script>
 
     <!-- Bootstrap core JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

@@ -3,12 +3,6 @@
 
 namespace App\Controller;
 
-use App\Forms\Type\LoginClass;
-use App\Forms\Type\loginForm;
-use App\Forms\Type\PasswordClass;
-use App\Forms\Type\passwordForm;
-use App\Forms\Type\SigninClass;
-use App\Forms\Type\signinForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +18,6 @@ class GuestController extends AbstractController
     public function signUp(): Response
     {
         return $this->render('guest/signUp.html.twig');
-        
     }
     /**
      * @Route("/guest/login")
