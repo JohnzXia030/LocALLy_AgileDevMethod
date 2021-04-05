@@ -13,8 +13,6 @@ jQuery(document).ready(function(){
       });
 });
 
-//console.log("Oui");
-
 // Cette fonction gère le contrôle des champs du formulaire
 // 1# en fonction du rôle. 
 function gestionRolePro(srole){
