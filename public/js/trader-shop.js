@@ -3,6 +3,8 @@ var current_fs, next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
+//
+var photoUrl = '';
 
 $(document).ready(function () {
     var max_fields = 10; //maximum input boxes allowed
@@ -47,7 +49,6 @@ $(document).ready(function () {
 });
 
 $(".next").click(function () {
-    console.log('test');
     if (animating) return false;
     animating = true;
 
@@ -201,12 +202,11 @@ $(".submit").click(function () {
     var horaires = [];
     for (let i = 0; i < horairesArray.length; i++) {
         let line = {};
-        line.horaires = horairesArray[i];
-        line.from = fromArray[i];
-        line.to = toArray[i];
+        line.date = horairesArray[i]['horaires'];
+        line.from = fromArray[i]['from'];
+        line.to = toArray[i]['to'];
         horaires.push(line);
     }
-
     var questionArray = $.map($('input[name="question"]'), function (val, _) {
         var newObj = {};
         newObj.question= val.value;
@@ -220,22 +220,50 @@ $(".submit").click(function () {
     var faq = [];
     for (let i = 0; i < reponseArray.length; i++) {
         let line = {};
-        line.question = questionArray[i];
-        line.reponse = reponseArray[i];
+        line.question = questionArray[i]['question'];
+        line.reponse = reponseArray[i]['reponse'];
         faq.push(line);
     }
-
-    var picture = $.map($('input[name="picture"]'), function (val, _) {
+    var picture = $.map($('input[name="picture"]'), function (val, index) {
         var newObj = {};
         newObj.picture = val.value;
+        const file = document.querySelector('input[type="file"]').files[index];
+        newObj.base64 = 'test';
+        let base64;
+        getBase64(file, function (e) {
+            console.log(e.target.result);
+            console.log(newObj);
+            base64 = e.target.result;
+            //newObj.base64 = String(e.target.result);
+        });
+        //newObj.base64 = ;
+        /*console.log(photoUrl);
+        newObj.base64 = photoUrl;*/
         return newObj;
     });
+    // Convertir le formulaire en json
+    const object = {};
+    formData.forEach(function(value, key){
+        object[key] = value;
+    });
+    object['horaires'] = horaires;
+    object['faq'] = faq;
+    object['picture'] = picture;
 
     console.log(formData.get('horaires'));
-    console.log(horaires);
-    console.log(faq);
-    console.log(picture);
-
+    const formJson = JSON.stringify(object);
+    // Envoyer le contenu vers le controller
+    $.ajax({
+        url: "api/create-shop",
+        type: "POST",
+        data: formJson,
+        success: function (msg) {
+            console.log(JSON.stringify(msg));
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
     for (var pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
     }
@@ -243,5 +271,23 @@ $(".submit").click(function () {
 })
 
 function getFormContentToJson() {
+
+}
+
+/**
+ * Convertir les photos en base64
+ * @param file
+ * @param onLoadCallback
+ */
+function getBase64(file, onLoadCallback) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = onLoadCallback;/*function () {
+        console.log(reader.result);
+        photoUrl = reader.result;
+    }*/
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
 
 }

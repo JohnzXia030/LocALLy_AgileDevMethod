@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\ShopRepository;
 use Doctrine\DBAL\Driver\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -52,7 +53,7 @@ class TraderController extends AbstractController
      */
     public function apiAddArticle(ArticleRepository $articleRepository): Response
     {
-        $mNewArticle = json_decode($this::$request->getContent(),true);
+        $mNewArticle = json_decode($this::$request->getContent(), true);
         $result = $articleRepository->addArticle($mNewArticle);
         return new JsonResponse(['result' => $result]);
     }
@@ -63,5 +64,17 @@ class TraderController extends AbstractController
     public function create(): Response
     {
         return $this->render('trader/trader.html.twig');
+    }
+
+    /**
+     * @Route("/api/create-shop")
+     * @param ShopRepository $shopRepository
+     * @return Response
+     */
+    public function apiAddShop(ShopRepository $shopRepository): Response
+    {
+        $mNewShop = json_decode($this::$request->getContent());
+        $result = $shopRepository->addShop($mNewShop);
+        return new JsonResponse(['result' => $result]);
     }
 }
