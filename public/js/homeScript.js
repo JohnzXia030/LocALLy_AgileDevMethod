@@ -4,8 +4,8 @@
     * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-agency/blob/master/LICENSE)
     */
 (function ($) {
-    "use strict"; // Start of use strict
-
+    "use strict"; // Start of use 
+    
     // Smooth scrolling using jQuery easing
     $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
         if (
@@ -43,6 +43,7 @@
 
     // Collapse Navbar
     var navbarCollapse = function () {
+        //console.log($("#mainNav"));
         if ($("#mainNav").offset().top > 100) {
             $("#mainNav").addClass("navbar-shrink");
         } else {

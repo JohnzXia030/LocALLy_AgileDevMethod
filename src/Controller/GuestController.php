@@ -13,17 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class GuestController extends AbstractController
 {
     /**
-     * @Route("/guest/signIn")
+     * @Route("/guest/signUp")
      */
-    public function signIn(): Response
+    public function signUp(): Response
     {
-        return $this->render('guest/signIn.html.twig');
+        return $this->render('guest/signUp.html.twig');
     }
     /**
      * @Route("/guest/login")
      */
     public function login(): Response
     {
+        
         return $this->render('guest/login.html.twig');
     }
     /**
@@ -32,5 +33,6 @@ class GuestController extends AbstractController
     public function passwordForget(): Response
     {
         return $this->render('guest/passwordForget.html.twig');
+        
     }
 }

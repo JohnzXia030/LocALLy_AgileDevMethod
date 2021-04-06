@@ -1,4 +1,4 @@
-/*$("#add-article").on("submit", function(ev) {
+/*$("#form-add-article").on("submit", function(ev) {
     ev.preventDefault(); // Prevent browser default submit.
 
     var formData = new FormData(this);
@@ -17,7 +17,7 @@
 });*/
 
 function submitAddArticleForm(){
-    const form = document.getElementById('add-article');
+    const form = document.getElementById('form-add-article');
     const formData = new FormData(form);
     // Convertir le contenu du formulaire en json
     const object = {};

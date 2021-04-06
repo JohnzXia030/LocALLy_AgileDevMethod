@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TraderController extends AbstractController
 {
+    //TODO instancier ArticleRepository pour éviter la duplication de code
     public static $request;
 
     public function __construct()
@@ -51,7 +52,7 @@ class TraderController extends AbstractController
      */
     public function apiAddArticle(ArticleRepository $articleRepository): Response
     {
-        $mNewArticle = json_decode($this::$request->getContent());
+        $mNewArticle = json_decode($this::$request->getContent(),true);
         $result = $articleRepository->addArticle($mNewArticle);
         return new JsonResponse(['result' => $result]);
     }
