@@ -15,17 +15,48 @@
         processData: false
     });*!/
 });*/
+img = new Image()
+
+
+// If you are loading images from a remote server, be sure to configure “Access-Control-Allow-Origin”
+// For example, the following image can be loaded from anywhere.
+//var url = '//static.base64.guru/uploads/images/1x1.gif';
+//img.src = url;
+
+function convertImgB64(img) {
+    var canvas = document.createElement('canvas'),
+        ctx = canvas.getContext('2d');
+
+    canvas.height = img.naturalHeight;
+    canvas.width = img.naturalWidth;
+    ctx.drawImage(img, 0, 0);
+
+    // Unfortunately, we cannot keep the original image type, so all images will be converted to PNG
+    // For this reason, we cannot get the original Base64 string
+    var uri = canvas.toDataURL('image/png'),
+        b64 = uri.replace(/^data:image.+;base64,/, '');
+
+    console.log(b64); //-> "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWP4z8DwHwAFAAH/q842iQAAAABJRU5ErkJggg=="
+    return b64;
+}
 
 function submitAddArticleForm(){
     const form = document.getElementById('form-add-article');
     const formData = new FormData(form);
     // Convertir le contenu du formulaire en json
+    if(formData.get('available-article')==null){
+        formData.set('available-article',false);
+    }
     const object = {};
     formData.forEach(function(value, key){
         object[key] = value;
     });
     var img = document.querySelector('img');
-    object["photo-article"] = img.src;
+    img.crossOrigin = 'Anonymous';
+
+// The magic begins after the image is successfully loaded
+
+    object["photo-article"] = convertImgB64(img);
     var formJson = JSON.stringify(object);
     // Envoyer le contenu vers le controller
     $.ajax({

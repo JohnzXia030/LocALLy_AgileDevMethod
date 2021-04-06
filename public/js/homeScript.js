@@ -3,8 +3,7 @@
     * Copyright 2013-2020 Start Bootstrap
     * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-agency/blob/master/LICENSE)
     */
-(function ($) {
-    "use strict"; // Start of use 
+$(document).ready(function () {
     
     // Smooth scrolling using jQuery easing
     $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
@@ -54,4 +53,61 @@
     navbarCollapse();
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
-})(jQuery); // End of use strict
+
+    //SendMessage
+    $("#sendMessageButton").click(function () {
+        
+        // Convertir le contenu du formulaire en json
+        const object = {};
+        object["lastname"]=$("#contactForm #lastname").val();
+        object["firstname"]=$("#contactForm #firstname").val();
+        object["email"]=$("#contactForm #email").val();
+        object["phone"]=$("#contactForm #phone").val();
+        object["message"]=$("#contactForm #message").val();
+       
+        $("#contactForm #lastname").removeClass("border-red"); 
+        $("#contactForm #firstname").removeClass("border-red");
+        $("#contactForm #email").removeClass("border-red");
+        $("#contactForm #message").removeClass("border-red");
+        var error=false;
+        if ( object["lastname"] == "") { console.log("test");
+            error=true;
+            $("#contactForm #lastname").addClass("border-red"); 
+        }
+        if ( object["firstname"] == "") {
+            error=true;
+            $("#contactForm #firstname").addClass("border-red"); 
+        }
+        if ( object["email"] == "") {
+            error=true;
+            $("#contactForm #email").addClass("border-red"); 
+        }
+        if ( object["message"] == "") {
+            error=true;
+            $("#contactForm #message").addClass("border-red"); 
+        }
+        if (!error) {
+            var formJson = JSON.stringify(object);
+            // Envoyer le contenu vers le controller
+            console.log("test");
+            $.ajax({
+                url: "api/send-message",
+                type: "POST",
+                data: formJson,
+                success: function (msg) {
+                    console.log(msg);
+                },
+                error: function(e){
+                    console.log(e);
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        }
+        
+    });
+    
+
+}); // End of use strict
+
