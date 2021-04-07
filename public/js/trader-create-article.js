@@ -53,12 +53,12 @@ function submitAddArticleForm(){
     });
     var img = document.querySelector('img');
     img.crossOrigin = 'Anonymous';
-
-// The magic begins after the image is successfully loaded
-
+    // The magic begins after the image is successfully loaded
     object["photo-article"] = convertImgB64(img);
     var formJson = JSON.stringify(object);
+    console.log(formJson);
     // Envoyer le contenu vers le controller
+
     $.ajax({
         url: "api/create-article",
         type: "POST",
