@@ -43,5 +43,16 @@ class ShopRepository extends ServiceEntityRepository
                 ->setValue('faq_id_shop', '1')
                 ->execute();
         }
+        /**
+         * Inserer les photos dans 'photos'
+         */
+        foreach ($request->picture as $line){
+            $qb = $conn->createQueryBuilder();
+            return $request;
+            $qb->insert('picture')
+                ->setValue('p_bin', '"' . $line->base64. '"')
+                ->setValue('p_shop', '1')
+                ->execute();
+        }
     }
 }

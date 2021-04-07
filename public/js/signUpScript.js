@@ -1,264 +1,191 @@
 jQuery(document).ready(function(){
-    // code jquery pour la gestion des cliques => a
-      var sRole = '';
+  // code jquery pour la gestion des cliques => a
+  var sRole = '';
 
-      $("#demo2-a").click(function(){
-        sRole = "Professionel";
-        gestionRolePro(sRole);
-      });
-     // code jquery pour la gestion des cliques => b
-      $("#demo2-b").click(function(){
-        sRole="Particulier";
-        gestionRoleParticular(sRole);
-      });
+  $("#demo2-a").click(function(){
+    sRole = "Professionel";
+    gestionRole(sRole);
+  });
+
+  // code jquery pour la gestion des cliques => b
+  $("#demo2-b").click(function(){
+    sRole="Particulier";
+    gestionRole(sRole);
+  });
+
+  $('#form #buttonSubmit').click(function(e) {
+    e.preventDefault();
+    checkInputs();
+  });
 });
 
 // Cette fonction gère le contrôle des champs du formulaire
-// 1# en fonction du rôle. 
-function gestionRolePro(sRole){
-  //alert("Vous êtes un" + srole)
-  if(sRole="Professionnel"){
-    
-    const form = document.getElementById('form');
-    const lastName = document.getElementById('lastName');
-    const firstName = document.getElementById('firstName'); 
-    const birth = document.getElementById('birth');
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    const phoneNumber = document.getElementById('phoneNumber');
-    const streetNum = document.getElementById('streetNum');
-    const streetName = document.getElementById('streetName');
-    const city = document.getElementById('city');
+function gestionRole(sRole){
+  $("#demo2-a").siblings("label").removeClass('border-red');
+  $("#demo2-b").siblings("label").removeClass('border-red');
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      
-      checkInputs();
-    });
+  $('div.form-control').removeClass('error success');
+  $('div.form-control small').addClass('d-none');
 
-    function checkInputs(){
-      const lastNameValue = lastName.value.trim();
-      const firstNameValue = firstName.value.trim(); 
-      const emailValue = email.value.trim();
-      const passwordValue = password.value.trim();
-      const cityValue = city.value.trim();
-
-      if(lastNameValue === ''){
-        setErrorFor(lastName, '');
-      } else{
-        setSuccessFor(lastName);
-      }
-      if(firstNameValue===''){
-        setErrorFor(firstName, '');
-      }else{
-        setSuccessFor(firstName);
-      }
-      if(emailValue === ''){
-        setErrorFor(email, '');
-      } else{
-        setSuccessFor(email);
-      }
-      if(passwordValue === ''){
-        setErrorFor(password, '');
-      } else{
-        setSuccessFor(password);
-      }
-      if(cityValue === ''){
-        setErrorFor(city, '');
-      } else{
-        setSuccessFor(city);
-      }
-    }
-
-    function setErrorFor(input, message){
-      const formControl = input.parentElement;
-      const small = formControl.querySelector('small');
-      formControl.className ='form-control error';
-      small.innerText = message;
-    }
-
-    function setSuccessFor(input) {
-      const formControl = input.parentElement;
-      formControl.className = 'form-control success';
-    }
-    // Alerte !
+  if(sRole=="Professionel"){
+    $('#birth').parent().addClass('d-none');
+    $('#phoneNumber').parent().addClass('d-none');
+    $('#streetNum').parent().addClass('d-none');
+    $('#streetName').parent().addClass('d-none');
+    $('#city').parent().addClass('d-none');
+    $('#birth').val('');
+    $('#phoneNumber').val('');
+    $('#streetNum').val('');
+    $('#streetName').val('');
+    $('#city').val('');
+  }
+  else {
+    $('#birth').parent().removeClass('d-none');
+    $('#phoneNumber').parent().removeClass('d-none');
+    $('#streetNum').parent().removeClass('d-none');
+    $('#streetName').parent().removeClass('d-none');
+    $('#city').parent().removeClass('d-none');
   }
 } 
 
-function gestionRoleParticular(sRole){
-  if(sRole="Particulier"){
-
-      const form = document.getElementById('form');
-      const lastName = document.getElementById('lastName');
-      const firstName = document.getElementById('firstName'); 
-      const birth = document.getElementById('birth');
-      const email = document.getElementById('email');
-      const password = document.getElementById('password');
-      const phoneNumber = document.getElementById('phoneNumber');
-      const streetNum = document.getElementById('streetNum');
-      const streetName = document.getElementById('streetName');
-      const city = document.getElementById('city');
-
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        
-        checkInputs();
-      });
-
-      function checkInputs(){
-        const lastNameValue = lastName.value.trim();
-        const firstNameValue = firstName.value.trim(); 
-        const birthValue = birth.value.trim();
-        const emailValue = email.value.trim();
-        const passwordValue = password.value.trim();
-        const phoneNumberValue = phoneNumber.value.trim();
-        const streetNumValue = streetNum.value.trim();
-        const streetNameValue = streetName.value.trim();
-        const cityValue = city.value.trim();
-
-        if(lastNameValue === ''){
-          setErrorFor(lastName, '');
-        } else{
-          setSuccessFor(lastName);
-        }
-        if(firstNameValue===''){
-          setErrorFor(firstName, '');
-        }else{
-          setSuccessFor(firstName);
-        }
-        if(birthValue === ''){
-          setErrorFor(birth, '');
-        } else{
-          setSuccessFor(birth);
-        }
-        if(emailValue === ''){
-          setErrorFor(email, '');
-        } else{
-          setSuccessFor(email);
-        }
-        if(passwordValue === ''){
-          setErrorFor(password, '');
-        } else{
-          setSuccessFor(password);
-        }
-        if(phoneNumberValue === ''){
-          setErrorFor(phoneNumber, '');
-        } else{
-          setSuccessFor(phoneNumber);
-        }
-        if(streetNumValue === ''){
-          setErrorFor(streetNum, '');
-        } else{
-          setSuccessFor(streetNum);
-        }
-        if(streetNameValue === ''){
-          setErrorFor(streetName, '');
-        } else{
-          setSuccessFor(streetName);
-        }
-        if(cityValue === ''){
-          setErrorFor(city, '');
-        } else{
-          setSuccessFor(city);
-        }
-      }
-
-      function setErrorFor(input, message){
-        const formControl = input.parentElement;
-        const small = formControl.querySelector('small');
-        formControl.className ='form-control error';
-        small.innerText = message;
-      }
-
-      function setSuccessFor(input) {
-        const formControl = input.parentElement;
-        formControl.className = 'form-control success';
-      }
+function setErrorFor(input, message = ''){
+  var formControl = $(input).parent();
+  var small = formControl.find('small');
+  formControl.addClass('error');
+  if (message != '') {
+    small.html(message); 
+    small.removeClass('d-none');
   }
 }
-  
 
+function setSuccessFor(input) {
+  var formControl = $(input).parent();
+  formControl.addClass('success').removeClass('error');
+  var small = formControl.find('small');
+  small.addClass('d-none');
+}
 
-/*document.getElementById("Inscription").addEventListener("submit", function(){
-      var error;
-      var lastName = document.getElementById("lastName").value;
+function checkInputs(){
+  var sRole = null;
+  if ($("#demo2-a").is(':checked')) {
+    sRole = 'Professionel';
+  }
+  else {
+    if ($("#demo2-b").is(':checked')) {
+      sRole = 'Particulier';
+    }
+  }
 
-      if(!lastName.value){
-        error = "Veuillez indiquer votre nom";
-      }
-      if(error){
-        e.preventDefault();
-        document.getElementById("error").innerHTML = erreur; 
-        return false;
-      }
-      else{
-        console.log("formulaire envoyé");
-      }
-    });*/
+  var aChamp = [];
+  if (sRole == null) {
+    $("#demo2-a").siblings("label").addClass('border-red');
+    $("#demo2-b").siblings("label").addClass('border-red');
+  }
+  else {
+    aChamp.push($('#lastName'), $('#firstName'), $('#email'), $('#password'));
 
-     //e.preventDefault(); 
-      /*var error1;
-      var error2; 
-      var error3;*/
+    if (sRole == 'Particulier') {
+      aChamp.push($('#birth'), $('#phoneNumber'), $('#streetNum'), $('#streetName'), $('#city'));
+    }
+    var bSuccess = true;
 
-      //myRegex = new Regex("^[0-9]+$");
-      /*let lastName = document.getElementById("lastName").value;
-      let firstName = document.getElementById("firstName").value; 
-      let birth = document.getElementById("birth").value;
-      let email = document.getElementById("email").value;
-      let password = document.getElementById("password").value;
-      let phoneNumber = document.getElementById("phoneNumber").value;
-      let streetNum = document.getElementById("streetNum").value;
-      let streetName = document.getElementById("streetName").value;
-      let city = document.getElementById("city").value;
-      //alert("je suis" + lastName);
-      if(!lastName){
-        document.getElementById("lastName").style.borderColor = "Tomato";
+    for (var i = 0 ; i < aChamp.length ; i++) {
+      var sValue = aChamp[i].val();
+      var sType = aChamp[i].attr('type');
+
+      if (sValue != undefined) {
+        sValue = sValue.trim();
       }
-      if(!firstName){
-        document.getElementById("firstName").style.borderColor = "Tomato";
+
+      if (sType == 'email') {
+        var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+		    if(reg.test(sValue)){
+          setSuccessFor(aChamp[i][0]);
+        }
+        else {
+          bSuccess = false;
+          setErrorFor(aChamp[i][0], "L'adresse e-mail renseignée n'est pas valide");
+        }
       }
-      if(!birth){
-        document.getElementById("birth").style.borderColor = "Tomato";
+      else {
+        if (sType == 'tel') {
+          var reg = /^0[1-9]([-. ]?[0-9]{2}){4}$/;
+          if(reg.test(sValue)){
+            setSuccessFor(aChamp[i][0]);
+          }
+          else {
+            bSuccess = false;
+            setErrorFor(aChamp[i][0], "Le numéro de téléphone renseigné n'est pas valide");
+          }
+        }
+        else {
+          if (sType == 'date' && sValue != '') {
+            if (calculateAge(sValue) < 16) {
+              bSuccess = false;
+              setErrorFor(aChamp[i][0], 'Vous devez avoir au minimum 16 ans.');
+            }
+            else {
+              setSuccessFor(aChamp[i][0]);
+            }
+          }
+          else {
+            if(sValue == '' || sValue == undefined){
+              bSuccess = false;
+              setErrorFor(aChamp[i][0], '');
+            } else{
+              setSuccessFor(aChamp[i][0]);
+            }
+          }
+        }
       }
-      if(!email){
-        error1 = "Veuillez indiquer correctement votre e-mail";
-        document.getElementById("email").style.borderColor = "Tomato";
-      }
-      if(!password){
-        error2 = "Votre mdp doit comporter au moins 8 caractères";
-        document.getElementById("password").style.borderColor = "Tomato";
-      }
-      
-      if(!phoneNumber){
-        error3 = "Veuillez indiquer un numéro de téléphone correcte";
-        document.getElementById("phoneNumber").style.borderColor = "Tomato";
-      }
-      if(!streetNum){
-        document.getElementById("streetNum").style.borderColor = "Tomato";
-      }
-      if(!streetName){
-        document.getElementById("streetName").style.borderColor = "Tomato";
+    }
+
+    if (bSuccess) {
+
+      var object = {};
+      object["lastname"]=$("#lastName").val();
+      object["firstname"]=$("#firstName").val();
+      object["email"]=$("#email").val();
+      object["password"]=$("#password").val();
+      object["birth"]=$("#birth").val();
+      object["phoneNumber"]=$("#phoneNumber").val();
+      object["streetNum"]=$("#streetNum").val();
+      object["streetName"]=$("#streetName").val();
+      object["city"]=$("#city").val();
+      object["role"]=sRole;
+
+      var formJson = JSON.stringify(object);
+      // Envoyer le contenu vers le controller
         
-      }
-      if(!city){
-        document.getElementById("city").style.borderColor = "Tomato";
-      }
-      if(error1){
-          e.preventDefault();
-          document.getElementById("error1").innerHTML = error1; 
-          return false;
-      }
-      if(error2){
-          e.preventDefault();
-          document.getElementById("error2").innerHTML = error2; 
-          return false;
-      }
-      if(error3){
-          e.preventDefault();
-          document.getElementById("error3").innerHTML = error3; 
-          return false;
-      }
-      else{ 
-        console.log("formulaire envoyé");
-      }*/
+      $('div.social-media').remove();
+      $('form.form').remove();
+      $('div#successful').removeClass('d-none');
+      console.log(object);
+      console.log(formJson);
+      $.ajax({
+          url: "api/add-user",
+          type: "POST",
+          data: formJson,
+          success: function (msg) {
+              console.log(msg);
+          },
+          error: function(e){
+              console.log(e);
+          },
+          cache: false,
+          contentType: false,
+          processData: false
+      });
+
+
+
+    }
+  }
+}
+
+function calculateAge(inputDate) {
+  var birthday = new Date(inputDate);
+  var ageDifMs = Date.now() - birthday.getTime();
+  var ageDate = new Date(ageDifMs); // miliseconds from epoch
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
