@@ -1,5 +1,7 @@
 body{
     background-color: #343A40;
+    background-image:linear-gradient(rgba(222, 222, 231, 0.712), rgba(255, 255, 0, 0)), url('../img/fond-creation-magasin.jpg');
+
 }
 
 .registration-form{
@@ -94,4 +96,17 @@ body{
         font-size: 30px;
         line-height: 70px;
     }
+}
+
+/******* Formulaire connexion********/
+
+.registration-form a p{
+    color: black;
+    margin-top: 20px;
+}
+
+.registration-form .fPassword {
+    margin:20px;
+    color: black;
+
 }
