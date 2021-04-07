@@ -35,34 +35,5 @@ class Departement
      */
     private $deptCountry;
 
-    public function getDeptCode(): ?int
-    {
-        return $this->deptCode;
-    }
-
-    public function getDeptName(): ?string
-    {
-        return $this->deptName;
-    }
-
-    public function setDeptName(string $deptName): self
-    {
-        $this->deptName = $deptName;
-
-        return $this;
-    }
-
-    public function getDeptCountry(): ?string
-    {
-        return $this->deptCountry;
-    }
-
-    public function setDeptCountry(string $deptCountry): self
-    {
-        $this->deptCountry = $deptCountry;
-
-        return $this;
-    }
-
 
 }

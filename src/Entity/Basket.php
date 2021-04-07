@@ -49,58 +49,5 @@ class Basket
      */
     private $bSubTotal;
 
-    public function getBId(): ?int
-    {
-        return $this->bId;
-    }
-
-    public function getBIdOrder(): ?int
-    {
-        return $this->bIdOrder;
-    }
-
-    public function setBIdOrder(int $bIdOrder): self
-    {
-        $this->bIdOrder = $bIdOrder;
-
-        return $this;
-    }
-
-    public function getBIdArticle(): ?int
-    {
-        return $this->bIdArticle;
-    }
-
-    public function setBIdArticle(int $bIdArticle): self
-    {
-        $this->bIdArticle = $bIdArticle;
-
-        return $this;
-    }
-
-    public function getBQuantityArticle(): ?int
-    {
-        return $this->bQuantityArticle;
-    }
-
-    public function setBQuantityArticle(int $bQuantityArticle): self
-    {
-        $this->bQuantityArticle = $bQuantityArticle;
-
-        return $this;
-    }
-
-    public function getBSubTotal(): ?int
-    {
-        return $this->bSubTotal;
-    }
-
-    public function setBSubTotal(int $bSubTotal): self
-    {
-        $this->bSubTotal = $bSubTotal;
-
-        return $this;
-    }
-
 
 }

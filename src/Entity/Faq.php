@@ -42,46 +42,5 @@ class Faq
      */
     private $faqIdShop;
 
-    public function getFaqId(): ?int
-    {
-        return $this->faqId;
-    }
-
-    public function getFaqQuestion(): ?string
-    {
-        return $this->faqQuestion;
-    }
-
-    public function setFaqQuestion(string $faqQuestion): self
-    {
-        $this->faqQuestion = $faqQuestion;
-
-        return $this;
-    }
-
-    public function getFaqReply(): ?string
-    {
-        return $this->faqReply;
-    }
-
-    public function setFaqReply(string $faqReply): self
-    {
-        $this->faqReply = $faqReply;
-
-        return $this;
-    }
-
-    public function getFaqIdShop(): ?int
-    {
-        return $this->faqIdShop;
-    }
-
-    public function setFaqIdShop(int $faqIdShop): self
-    {
-        $this->faqIdShop = $faqIdShop;
-
-        return $this;
-    }
-
 
 }

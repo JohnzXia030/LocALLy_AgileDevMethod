@@ -28,22 +28,5 @@ class Role
      */
     private $roleName;
 
-    public function getRoleCode(): ?int
-    {
-        return $this->roleCode;
-    }
-
-    public function getRoleName(): ?string
-    {
-        return $this->roleName;
-    }
-
-    public function setRoleName(string $roleName): self
-    {
-        $this->roleName = $roleName;
-
-        return $this;
-    }
-
 
 }

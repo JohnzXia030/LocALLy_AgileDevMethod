@@ -42,46 +42,5 @@ class City
      */
     private $cDeptCode;
 
-    public function getCId(): ?int
-    {
-        return $this->cId;
-    }
-
-    public function getCZipCode(): ?int
-    {
-        return $this->cZipCode;
-    }
-
-    public function setCZipCode(int $cZipCode): self
-    {
-        $this->cZipCode = $cZipCode;
-
-        return $this;
-    }
-
-    public function getCName(): ?string
-    {
-        return $this->cName;
-    }
-
-    public function setCName(string $cName): self
-    {
-        $this->cName = $cName;
-
-        return $this;
-    }
-
-    public function getCDeptCode(): ?int
-    {
-        return $this->cDeptCode;
-    }
-
-    public function setCDeptCode(int $cDeptCode): self
-    {
-        $this->cDeptCode = $cDeptCode;
-
-        return $this;
-    }
-
 
 }

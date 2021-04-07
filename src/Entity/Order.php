@@ -49,58 +49,5 @@ class Order
      */
     private $oTotal;
 
-    public function getOId(): ?int
-    {
-        return $this->oId;
-    }
-
-    public function getODate(): ?\DateTimeInterface
-    {
-        return $this->oDate;
-    }
-
-    public function setODate(\DateTimeInterface $oDate): self
-    {
-        $this->oDate = $oDate;
-
-        return $this;
-    }
-
-    public function getOIdClient(): ?int
-    {
-        return $this->oIdClient;
-    }
-
-    public function setOIdClient(int $oIdClient): self
-    {
-        $this->oIdClient = $oIdClient;
-
-        return $this;
-    }
-
-    public function getOStatecode(): ?int
-    {
-        return $this->oStatecode;
-    }
-
-    public function setOStatecode(int $oStatecode): self
-    {
-        $this->oStatecode = $oStatecode;
-
-        return $this;
-    }
-
-    public function getOTotal(): ?int
-    {
-        return $this->oTotal;
-    }
-
-    public function setOTotal(int $oTotal): self
-    {
-        $this->oTotal = $oTotal;
-
-        return $this;
-    }
-
 
 }

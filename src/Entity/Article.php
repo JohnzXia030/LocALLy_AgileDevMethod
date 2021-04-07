@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Article
- * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ *
  * @ORM\Table(name="article")
  * @ORM\Entity
  */
@@ -36,9 +36,9 @@ class Article
     private $aDescription;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="a_price", type="integer", nullable=false)
+     * @ORM\Column(name="a_price", type="float", precision=10, scale=0, nullable=false)
      */
     private $aPrice;
 
@@ -76,107 +76,6 @@ class Article
      * @ORM\Column(name="a_quantity_stock", type="integer", nullable=false)
      */
     private $aQuantityStock;
-
-    public function getAId(): ?int
-    {
-        return $this->aId;
-    }
-
-    public function getAName(): ?string
-    {
-        return $this->aName;
-    }
-
-    public function setAName(string $aName): self
-    {
-        $this->aName = $aName;
-
-        return $this;
-    }
-
-    public function getADescription(): ?string
-    {
-        return $this->aDescription;
-    }
-
-    public function setADescription(string $aDescription): self
-    {
-        $this->aDescription = $aDescription;
-
-        return $this;
-    }
-
-    public function getAPrice(): ?int
-    {
-        return $this->aPrice;
-    }
-
-    public function setAPrice(int $aPrice): self
-    {
-        $this->aPrice = $aPrice;
-
-        return $this;
-    }
-
-    public function getAIdShop(): ?int
-    {
-        return $this->aIdShop;
-    }
-
-    public function setAIdShop(int $aIdShop): self
-    {
-        $this->aIdShop = $aIdShop;
-
-        return $this;
-    }
-
-    public function getADiscount(): ?int
-    {
-        return $this->aDiscount;
-    }
-
-    public function setADiscount(int $aDiscount): self
-    {
-        $this->aDiscount = $aDiscount;
-
-        return $this;
-    }
-
-    public function getADiscountPeriod(): ?int
-    {
-        return $this->aDiscountPeriod;
-    }
-
-    public function setADiscountPeriod(int $aDiscountPeriod): self
-    {
-        $this->aDiscountPeriod = $aDiscountPeriod;
-
-        return $this;
-    }
-
-    public function getAAvailable(): ?bool
-    {
-        return $this->aAvailable;
-    }
-
-    public function setAAvailable(bool $aAvailable): self
-    {
-        $this->aAvailable = $aAvailable;
-
-        return $this;
-    }
-
-    public function getAQuantityStock(): ?int
-    {
-        return $this->aQuantityStock;
-    }
-
-    public function setAQuantityStock(int $aQuantityStock): self
-    {
-        $this->aQuantityStock = $aQuantityStock;
-
-        return $this;
-    }
 
 
 }

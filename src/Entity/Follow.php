@@ -35,34 +35,5 @@ class Follow
      */
     private $foIdShop;
 
-    public function getFoId(): ?int
-    {
-        return $this->foId;
-    }
-
-    public function getFoIdClient(): ?int
-    {
-        return $this->foIdClient;
-    }
-
-    public function setFoIdClient(int $foIdClient): self
-    {
-        $this->foIdClient = $foIdClient;
-
-        return $this;
-    }
-
-    public function getFoIdShop(): ?int
-    {
-        return $this->foIdShop;
-    }
-
-    public function setFoIdShop(int $foIdShop): self
-    {
-        $this->foIdShop = $foIdShop;
-
-        return $this;
-    }
-
 
 }
