@@ -36,9 +36,9 @@ class User
     private $uFirstname;
 
     /**
-     * @var \DateTime|null
+     * @var string|null
      *
-     * @ORM\Column(name="u_birth", type="datetime", nullable=true)
+     * @ORM\Column(name="u_birth", type="string", nullable=true)
      */
     private $uBirth;
 
