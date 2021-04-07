@@ -64,15 +64,18 @@ body{
 .form-control .icon{
     position: absolute;
     top: 20px;
-    right:18px;
+    right:-10px;
     visibility: hidden;
 }
 
 .form-control small{
     visibility: hidden;
-    position:absolute;
     bottom: 0;
     left:0;
+}
+
+.border-red {
+    border-color: red !important;
 }
 
 .text{
