@@ -4,7 +4,7 @@ var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
 //
-var photoUrl = '';
+var photoBase64 = '';
 
 $(document).ready(function () {
     var max_fields = 10; //maximum input boxes allowed
@@ -182,8 +182,15 @@ $("#piece").change(function () {
 });
 
 $(".submit").click(function () {
+
     let form = document.getElementById('msform');
     let formData = new FormData(form);
+    // Convertir l'objet du formulaire en json
+    const object = {};
+    formData.forEach(function (value, key) {
+        object[key] = value;
+    });
+    // Convertir le formulaire en object
     var horairesArray = $.map($('select[name="horaires"]'), function (val, _) {
         var newObj = {};
         newObj.horaires = val.value;
@@ -209,7 +216,7 @@ $(".submit").click(function () {
     }
     var questionArray = $.map($('input[name="question"]'), function (val, _) {
         var newObj = {};
-        newObj.question= val.value;
+        newObj.question = val.value;
         return newObj;
     });
     var reponseArray = $.map($('input[name="reponse"]'), function (val, _) {
@@ -224,35 +231,53 @@ $(".submit").click(function () {
         line.reponse = reponseArray[i]['reponse'];
         faq.push(line);
     }
-    var picture = $.map($('input[name="picture"]'), function (val, index) {
-        var newObj = {};
-        newObj.picture = val.value;
-        const file = document.querySelector('input[type="file"]').files[index];
-        newObj.base64 = 'test';
-        let base64;
-        getBase64(file, function (e) {
-            console.log(e.target.result);
-            console.log(newObj);
-            base64 = e.target.result;
-            //newObj.base64 = String(e.target.result);
-        });
-        //newObj.base64 = ;
-        /*console.log(photoUrl);
-        newObj.base64 = photoUrl;*/
-        return newObj;
-    });
-    // Convertir le formulaire en json
-    const object = {};
-    formData.forEach(function(value, key){
-        object[key] = value;
-    });
-    object['horaires'] = horaires;
-    object['faq'] = faq;
-    object['picture'] = picture;
-
-    console.log(formData.get('horaires'));
+    var picture = getPicturesUrl();
+    object["horaires"] = horaires;
+    object["faq"] = faq;
+    object["picture"] = picture;
+    console.log(picture);
     const formJson = JSON.stringify(object);
+    console.log(formJson);
     // Envoyer le contenu vers le controller
+    //submitForm(formJson);
+    return false;
+})
+
+
+/**
+ * Convertir les photos en base64
+ * @param file
+ */
+async function getBase64(file) {
+    return await new Promise((resolve) => {
+        let fileReader = new FileReader();
+        fileReader.onload = (e) => resolve(fileReader.result);
+        fileReader.readAsDataURL(file);
+    });
+}
+
+function getPicturesUrl(){
+    $.map($('input[name="picture"]'),function (val, index) {
+        var newObj = {};
+        //newObj.picture = val.value;
+        const file = document.querySelector('input[type="file"]').files[index];
+        //newObj["base64"] = convertImgB64(file);
+
+        let event = new Promise(function (resolve, reject) {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                resolve(reader.result);
+            }
+        });
+        event.then(function (result) {
+            newObj.base = result.replace(/^data:image.+;base64,/, '');
+            return newObj;
+        });
+    });
+}
+
+function submitForm(formJson) {
     $.ajax({
         url: "api/create-shop",
         type: "POST",
@@ -264,30 +289,5 @@ $(".submit").click(function () {
         contentType: false,
         processData: false
     });
-    for (var pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-    }
-    return false;
-})
-
-function getFormContentToJson() {
-
 }
 
-/**
- * Convertir les photos en base64
- * @param file
- * @param onLoadCallback
- */
-function getBase64(file, onLoadCallback) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = onLoadCallback;/*function () {
-        console.log(reader.result);
-        photoUrl = reader.result;
-    }*/
-    reader.onerror = function (error) {
-        console.log('Error: ', error);
-    };
-
-}

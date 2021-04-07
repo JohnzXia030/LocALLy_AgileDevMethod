@@ -28,22 +28,5 @@ class State
      */
     private $sName;
 
-    public function getSCode(): ?int
-    {
-        return $this->sCode;
-    }
-
-    public function getSName(): ?string
-    {
-        return $this->sName;
-    }
-
-    public function setSName(string $sName): self
-    {
-        $this->sName = $sName;
-
-        return $this;
-    }
-
 
 }

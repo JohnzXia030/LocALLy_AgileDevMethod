@@ -22,9 +22,9 @@ class Picture
     private $pId;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="p_id_article", type="integer", nullable=false)
+     * @ORM\Column(name="p_id_article", type="integer", nullable=true)
      */
     private $pIdArticle;
 
@@ -36,90 +36,25 @@ class Picture
     private $pIdShop;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="p_id_review", type="integer", nullable=false)
+     * @ORM\Column(name="p_id_review", type="integer", nullable=true)
      */
     private $pIdReview;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="p_bin", type="blob", length=16777215, nullable=false)
+     * @ORM\Column(name="p_base64", type="text", length=16777215, nullable=false)
      */
-    private $pBin;
+    private $pBase64;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="p_type", type="string", length=10, nullable=false)
+     * @ORM\Column(name="p_type", type="string", length=10, nullable=true)
      */
     private $pType;
-
-    public function getPId(): ?int
-    {
-        return $this->pId;
-    }
-
-    public function getPIdArticle(): ?int
-    {
-        return $this->pIdArticle;
-    }
-
-    public function setPIdArticle(int $pIdArticle): self
-    {
-        $this->pIdArticle = $pIdArticle;
-
-        return $this;
-    }
-
-    public function getPIdShop(): ?int
-    {
-        return $this->pIdShop;
-    }
-
-    public function setPIdShop(int $pIdShop): self
-    {
-        $this->pIdShop = $pIdShop;
-
-        return $this;
-    }
-
-    public function getPIdReview(): ?int
-    {
-        return $this->pIdReview;
-    }
-
-    public function setPIdReview(int $pIdReview): self
-    {
-        $this->pIdReview = $pIdReview;
-
-        return $this;
-    }
-
-    public function getPBin()
-    {
-        return $this->pBin;
-    }
-
-    public function setPBin($pBin): self
-    {
-        $this->pBin = $pBin;
-
-        return $this;
-    }
-
-    public function getPType(): ?string
-    {
-        return $this->pType;
-    }
-
-    public function setPType(string $pType): self
-    {
-        $this->pType = $pType;
-
-        return $this;
-    }
 
 
 }
