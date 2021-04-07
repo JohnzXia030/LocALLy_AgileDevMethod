@@ -56,7 +56,7 @@
                 <div class="icon">
                 <i class="fas fa-exclamation-circle"></i>
                 </div>
-                <small>error message</small>
+                <small class="d-none">error message</small>
             </div>
             <div class="form-control">
                     <input type="text" id="firstName" placeholder="Prénom">
@@ -66,7 +66,7 @@
                     <div class="icon">
                     <i class="fas fa-exclamation-circle"></i>
                     </div>
-                    <small>error message</small>
+                    <small class="d-none">error message</small>
             </div>
             <div class="form-control">
                     <input type="date" id="birth" placeholder="Birth Date">
@@ -76,7 +76,7 @@
                     <div class="icon">
                     <i class="fas fa-exclamation-circle"></i>
                     </div>
-                    <small>error message</small>
+                    <small class="d-none">error message</small>
             </div>
             <div class="form-control">
                     <input type="email" id="email" placeholder="Email">
@@ -86,7 +86,7 @@
                     <div class="icon">
                     <i class="fas fa-exclamation-circle"></i>
                     </div>
-                    <small>error message</small>
+                    <small class="d-none">error message</small>
             </div>
             <div class="form-control">
                     <input type="password" id="password" placeholder="Password" minlength="8">
@@ -96,7 +96,7 @@
                     <div class="icon">
                     <i class="fas fa-exclamation-circle"></i>
                     </div>
-                    <small>error message</small>
+                    <small class="d-none">error message</small>
             </div>
             <div class="form-control">
                     <input type="tel" id="phoneNumber" placeholder="Numéro de téléphone"> <!--pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"-->
@@ -106,7 +106,7 @@
                     <div class="icon">
                     <i class="fas fa-exclamation-circle"></i>
                     </div>
-                    <small>error message</small>
+                    <small class="d-none">error message</small>
             </div>
             <div class="form-control">
                     <input type="text" id="streetNum" placeholder="Numéro de rue">
@@ -116,7 +116,7 @@
                     <div class="icon">
                     <i class="fas fa-exclamation-circle"></i>
                     </div>
-                    <small>error message</small>
+                    <small class="d-none">error message</small>
             </div>
             <div class="form-control">
                     <input type="text" id="streetName" placeholder="Nom de voie">
@@ -126,7 +126,7 @@
                     <div class="icon">
                     <i class="fas fa-exclamation-circle"></i>
                     </div>
-                    <small>error message</small>
+                    <small class="d-none">error message</small>
             </div>
             <div class="form-control">
                     <input type="text" id="city" placeholder="Ville">
@@ -136,11 +136,11 @@
                     <div class="icon">
                     <i class="fas fa-exclamation-circle"></i>
                     </div>
-                    <small>error message</small>
+                    <small class="d-none">error message</small>
             </div>
             <center>
             <div>
-                <button type="submit" class="btn b²tn-block create-account">Créer votre compte</button>
+                <button id="buttonSubmit" type="submit" class="btn b²tn-block create-account">Créer votre compte</button>
             </div>
             <div class="link_connexion">
                 <a href="login"> Avez-vous déjà un compte ? Connectez-vous ! </a>
@@ -154,6 +154,10 @@
                 <a href="#"><i class="icon-social-google" title="Google"></i></a>
                 <a href="#"><i class="icon-social-twitter" title="Twitter"></i></a>
             </div>
+        </div>
+        <div id="successful" class="d-none d-flex flex-column align-items-center py-5">
+            <span>Inscription réussie !</span>
+            <a href="login">Connectez-vous</a>
         </div>
     </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
