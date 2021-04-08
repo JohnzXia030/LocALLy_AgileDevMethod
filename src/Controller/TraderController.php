@@ -7,6 +7,7 @@ use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use App\Repository\ShopRepository;
 use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,5 +69,52 @@ class TraderController extends AbstractController
         $mNewShop = json_decode($this::$request->getContent());
         $result = $shopRepository->addShop($mNewShop);
         return new JsonResponse(['result' => $result]);
+    }
+
+    /**
+     * @Route("/update-article")
+     * @return Response
+     */
+    public function updateArticle(): Response
+    {
+        return $this->render('trader/update-article.html.twig');
+    }
+
+    /**
+     * @Route("/api/update-article/{id}")
+     * @param $id
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     * @throws Exception
+     */
+    public function apiUpdateArticle($id, ArticleRepository $articleRepository): Response
+    {
+        $mNewArticle = json_decode($this::$request->getContent(), true);
+        $articleRepository->updateArticle($mNewArticle, $id);
+        return new Response('Success', Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/api/get-article/{id}")
+     * @param $id
+     * @param ArticleRepository $articleRepository
+     * @return JsonResponse
+     */
+    public function apiArticle($id, ArticleRepository $articleRepository): JsonResponse
+    {
+        return new JsonResponse(['data' => $articleRepository->getArticle($id)]);
+    }
+
+    /**
+     * @Route("/api/delete-photo/{id}")
+     * @param $id
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     * @throws Exception
+     */
+    public function deletePhoto($id, ArticleRepository $articleRepository): Response
+    {
+        $articleRepository->deletePhoto($id);
+        return new Response('Success', Response::HTTP_OK);
     }
 }
