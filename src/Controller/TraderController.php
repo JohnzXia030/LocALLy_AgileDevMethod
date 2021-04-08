@@ -35,14 +35,6 @@ class TraderController extends AbstractController
      */
     public function addArticle(Connection $connection): Response
     {
-        /*dump($connection->fetchAll('SELECT * FROM user'));
-        $article = new Article();
-        $articleForm = $this->createForm(CatalogFormType::class, $article);
-        return $this->render('trader/add-article.html.twig', array(
-            'articleForm' => $articleForm->createView(),
-            'test' => $connection->fetchAll('SELECT * FROM user')
-
-        ));*/
         return $this->render('trader/add-article.html.twig', array());
     }
 
@@ -81,8 +73,57 @@ class TraderController extends AbstractController
     /**
      * @Route("/update-shop")
      */
-    public function update_shop(): Response
+    public function updateShop(): Response
     {
         return $this->render('trader/update-shop.html.twig');
     }
+
+    /**
+     * @Route("/update-article")
+     * @return Response
+     */
+    public function updateArticle(): Response
+    {
+        return $this->render('trader/update-article.html.twig');
+    }
+
+    /**
+     * @Route("/api/delete-photo/{id}")
+     * @param $id
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     * @throws Exception
+     */
+    public function deletePhoto($id, ArticleRepository $articleRepository): Response
+    {
+        $articleRepository->deletePhoto($id);
+        return new Response('Success', Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/api/update-article/{id}")
+     * @param $id
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     * @throws Exception
+     */
+    public function apiUpdateArticle($id, ArticleRepository $articleRepository): Response
+    {
+        $mNewArticle = json_decode($this::$request->getContent(), true);
+        $articleRepository->updateArticle($mNewArticle, $id);
+        return new Response('Success', Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/api/get-article/{id}")
+     * @param $id
+     * @param ArticleRepository $articleRepository
+     * @return JsonResponse
+     */
+    public function apiGetArticle($id, ArticleRepository $articleRepository): JsonResponse
+    {
+        return new JsonResponse(['data' => $articleRepository->getArticle($id)]);
+    }
+
+
 }

@@ -22,14 +22,17 @@ class UserRepository extends ServiceEntityRepository
          * Inserer les donnees dans 'user'
          */
 
-        $role = 1;
-        if ($request['role'] == 'Particulier') {
-            $role = 2;
+        switch ($request['role']) {
+            case 'Particulier' :
+                $role = 2;
+                break;
+            case 'Professionel' : 
+                $role = 3;
+                break;
+            default: 
+                $role = 1;
         }
-        else {
-            $role = 3;
-        }
-        error_log(json_encode(array_keys($request)));
+        
         $qb = $conn->createQueryBuilder();
         $qb ->insert('user')
             ->setValue('u_lastname', '"' . $request['lastname'] . '"')
@@ -44,6 +47,26 @@ class UserRepository extends ServiceEntityRepository
             ->setValue('u_city', '"' . $request['city'] . '"')
             ->setValue('u_role', $role)
             ->execute();
+    }
+
+    public function checkLogin($request) {
+        $conn = $this->getEntityManager()->getConnection();
+        $user = $conn->fetchAll("SELECT u_id, u_email, u_password FROM user WHERE u_email = '" . $request['email'] . "' AND u_password = '" . $request['password'] . "'");
         
+        return $user;
+    }
+
+    public function checkUserExists($request) {
+        $conn = $this->getEntityManager()->getConnection();
+        $user = $conn->fetchAll("SELECT * FROM user WHERE u_email = '" . $request['email'] . "'");
+        
+        return $user;
+    }
+
+    public function changePassword($request) {
+        $conn = $this->getEntityManager()->getConnection();
+        $user = $conn->executeStatement('UPDATE user SET u_password = ? WHERE u_email = ?', array($request['password'], $request['email']));
+        
+        return $user;
     }
 }

@@ -1,5 +1,6 @@
 /*custom font*/
 /* Style css for creation of shop*/
+@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 /*basic reset*/
@@ -17,44 +18,82 @@ body {
     opacity: 0.90;
     filter: alpha(opacity=50); /* For IE8 and earlier */
     color: black !important;
-
 }
 
+/**Container: Search**/
+#containerSearch{
+    width: 1126px;
+}
 
+/** City: Filter **/
+.btn{
+    background-color:#e6b301 ;
+}
+
+.flex-wrap select{
+    padding: 12px;
+    padding-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    width: 50%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 15px;
+  /*appearance: none;
+  outline: 0;
+  border: 1 !important;
+  box-shadow: 1px;
+  font-size: 1.2em;
+  border-radius: 2px;*/
+}
 /** Shop: Filter **/
 .shop__filter {
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     padding: 10px;
+}
+.shop__filter .radio-group{
+    padding-bottom: 30px;
+}
+
+ .radio{
+    padding-bottom: 15px;
+}
+.group-checkbox{
+    padding-bottom: 20px;
 }
 /* Shop filter: Pricing */
 .shop-filter__price {
     padding: 40px;
     margin-top : -100px;
+    margin-bottom: 10px;
 }
 .shop-filter__price [class*='col-'] {
     padding: 2px;
 }
-/* Shop filter: Colors */
-.shop-filter__color {
-    display: inline-block;
-    margin: 0 2px 2px 0;
+.headline{
+    margin-bottom: 20px;
 }
-.shop-filter__color input[type="text"] {
-    display: none;
+.slider .slider-price form{
+    margin-top: 100px;
 }
-.shop-filter__color label {
-    width: 30px;
-    height: 30px;
-    height: 30px;
-    background: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
+/** Shop: Type **/
+.shop-type .form-check{
+   margin-bottom: 15px;
+}
+
+input[type=checkbox] {
+    transform: scale(1);
     cursor: pointer;
-}
+  }
+
+.group-checkbox .form-check .form-check-input{ filter: hue-rotate(150deg)}
+
 /** Shop: Sorting **/
 .shop__sorting {
     list-style: none;
-    padding-left: 0;
+    padding-left: 300px;
     margin-bottom: 40px;
     margin-top: -1px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -72,6 +111,8 @@ body {
     -webkit-transition: all .05s linear;
     -o-transition: all .05s linear;
     transition: all .05s linear;
+    color: black !important;
+    font-family: 'Roboto', sans-serif;
 }
 .shop__sorting > li > a:hover,
 .shop__sorting > li > a:focus {
@@ -79,8 +120,8 @@ body {
     text-decoration: none;
 }
 .shop__sorting > li.active > a {
-    color: #ed3e49;
-    border-bottom-color: #ed3e49;
+    color: #e6b301;
+    border-bottom-color: #e6b301;
 }
 @media (max-width: 767px) {
     .shop__sorting {
@@ -100,18 +141,19 @@ body {
     }
 }
 
-.recherche_p{
+.recherche_p {
     border-bottom-color:#e6b301 ;
     padding-left: 0;
     margin-bottom: 40px;
     margin-top: -1px;
     border-color: black;
 }
-.recherche-input{
-    border: 0;
+.recherche-input {
+    border: 1;
     max-width: 400px;
     border-radius: 6px;
     line-height: 35px;
+    margin-left: 300px;
 }
 
 .recherche-icone{
