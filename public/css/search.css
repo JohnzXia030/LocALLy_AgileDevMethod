@@ -1,0 +1,162 @@
+/*custom font*/
+/* Style css for creation of shop*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*basic reset*/
+* { padding: 0;}
+
+html {
+    height: 100%;
+    /*Image only BG fallback*/
+
+
+}
+
+body {
+    font-family: montserrat, arial, verdana;
+    opacity: 0.90;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+    color: black !important;
+
+}
+
+
+/** Shop: Filter **/
+.shop__filter {
+    margin-bottom: 40px;
+    padding: 10px;
+}
+/* Shop filter: Pricing */
+.shop-filter__price {
+    padding: 40px;
+    margin-top : -100px;
+}
+.shop-filter__price [class*='col-'] {
+    padding: 2px;
+}
+/* Shop filter: Colors */
+.shop-filter__color {
+    display: inline-block;
+    margin: 0 2px 2px 0;
+}
+.shop-filter__color input[type="text"] {
+    display: none;
+}
+.shop-filter__color label {
+    width: 30px;
+    height: 30px;
+    height: 30px;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    cursor: pointer;
+}
+/** Shop: Sorting **/
+.shop__sorting {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 40px;
+    margin-top: -1px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: right;
+}
+.shop__sorting > li {
+    display: inline-block;
+}
+.shop__sorting > li > a {
+    display: block;
+    padding: 20px 10px;
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    color: #757575;
+    -webkit-transition: all .05s linear;
+    -o-transition: all .05s linear;
+    transition: all .05s linear;
+}
+.shop__sorting > li > a:hover,
+.shop__sorting > li > a:focus {
+    color: #333333;
+    text-decoration: none;
+}
+.shop__sorting > li.active > a {
+    color: #ed3e49;
+    border-bottom-color: #ed3e49;
+}
+@media (max-width: 767px) {
+    .shop__sorting {
+        text-align: left;
+        border-bottom: 0;
+    }
+    .shop__sorting > li {
+        display: block;
+    }
+    .shop__sorting > li > a {
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .shop__sorting > li.active > a {
+        font-weight: 600;
+    }
+}
+
+.recherche_p{
+    border-bottom-color:#e6b301 ;
+    padding-left: 0;
+    margin-bottom: 40px;
+    margin-top: -1px;
+    border-color: black;
+}
+.recherche-input{
+    border: 0;
+    max-width: 400px;
+    border-radius: 6px;
+    line-height: 35px;
+}
+
+.recherche-icone{
+    color: #e6b301;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.w-80 {
+    width: 80%;
+}
+
+/* Has error */
+.has-error .form-control {
+    border-color: #d9534f;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+.has-error .form-control:focus {
+    border-color: #b52b27;
+}
+.has-error .help-block {
+    color: #d9534f;
+}
+/* Checkboxes */
+.checkbox input[type="checkbox"] {
+    display: none;
+}
+.checkbox label {
+    padding-left: 0;
+}
+.checkbox label:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    background-color: #eee;
+    text-align: center;
+
+}
+.checkbox input[type="checkbox"]:checked + label::before {
+    content: "\f00c";
+}
