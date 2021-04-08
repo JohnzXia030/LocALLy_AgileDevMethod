@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -12,6 +10,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 /**
  * @Route("/guest")
@@ -33,14 +34,15 @@ class GuestController extends AbstractController
     {
         return $this->render('guest/signUp.html.twig');
     }
+
     /**
      * @Route("/login")
      */
     public function login(): Response
     {
-        
         return $this->render('guest/login.html.twig');
     }
+
     /**
      * @Route("/passwordForget")
      */
@@ -49,6 +51,28 @@ class GuestController extends AbstractController
         return $this->render('guest/passwordForget.html.twig');
         
     }
+
+    /**
+     * @Route("/resetPassword")
+     */
+    public function resetPassword(): Response
+    {
+        return $this->render('guest/resetPassword.html.twig');
+        
+    }
+
+    /**
+     * @Route("/api/logout")
+     * @return Response
+     */
+    public function logOut(Request $request): Response
+    {
+        $session = $request->getSession();
+        $session->set('iduser', null);
+
+        return new Response(true);
+    }
+
     /**
      * @Route("/api/add-user")
      * @param UserRepository $userRepository
@@ -57,8 +81,105 @@ class GuestController extends AbstractController
     public function addUser(UserRepository $userRepository): Response
     {
         $mNewUser = json_decode($this::$request->getContent(),true);
+        $aUser = $userRepository->checkUserExists($mNewUser);
+        
+        if (sizeof($aUser) > 0) {
+            $result = false;
+        }
+        else {
+            $result = $userRepository->addUser($mNewUser);
+        }
 
-        $result = $userRepository->addUser($mNewUser);
+        return new JsonResponse(['result' => $result]);
+    }
+    
+    /**
+     * @Route("/api/check-login")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function checkLogin(UserRepository $userRepository, Request $request): Response
+    {
+        $oUser = json_decode($this::$request->getContent(),true);
+        $result = $userRepository->checkLogin($oUser);
+        
+        if (!empty($result)) {
+            $sIdUser = $result[0]['u_id'];
+
+            $session = $request->getSession();
+            $session->set('iduser', $sIdUser);
+        }
+
+        return new JsonResponse(['result' => $result]);
+    }
+    
+    /**
+     * @Route("/api/password-forget")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function sendEmailPasswordForget(UserRepository $userRepository): Response
+    {
+        $oUser = json_decode($this::$request->getContent(),true);
+        $result = $userRepository->checkUserExists($oUser);
+
+        $response = false;
+
+        if (sizeof($result) > 0) { // envoyer l'e-mail de réinitialisation de mot de passe
+            $sEmailUser = $result[0]['u_email'];
+            $sLastNameUser = $result[0]['u_lastname'];
+            $sFirstNameUser = $result[0]['u_firstname'];
+            $sIdUser = $result[0]['u_id'];
+            
+            $mail = new PHPMailer(true);
+            $mail->setFrom('locally.gestionmessage@gmail.com');
+            $mail->addAddress('soury.magdaleine@outlook.fr');
+            
+            // Paramètres du serveur 
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                  // Activer la sortie de débogage détaillée 
+            $mail->isSMTP();                                       // Envoi en utilisant SMTP 
+            $mail->Host = 'smtp.gmail.com';                         // Définit le serveur SMTP pour qu'il envoie via 
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPAuth = true;                                 // Activer l'authentification SMTP 
+            $mail->Username = 'locally.gestionmessage@gmail.com';    // Nom d'utilisateur SMTP 
+            $mail->Password = 'locally2021#';                        // Mot de passe SMTP $ mail -> SMTPSecure = PHPMailer :: ENCRYPTION_STARTTLS ;         // Activer le cryptage TLS; `PHPMailer :: ENCRYPTION_SMTPS` encouragé 
+            $mail->Port = 587;                                       // Port TCP auquel se connecter, utilisez 465 pour `PHPMailer :: ENCRYPTION_SMTPS` ci-dessus
+
+            // Contenu
+            $mail->isHTML(true); // Définit le format de l'e-mail sur HTML
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
+            $mail->Subject ='Locally - Réinitialisation de votre mot de passe' ;
+            $mail->Body = "
+                Bonjour " . $sLastNameUser . " " . $sFirstNameUser . ", </br>
+                Vous avez demandé la réinitialisation de votre mot de passe.</br>
+                Pour terminer votre demande, cliquez sur le site si dessous :</br>
+                <a href=\"localhost/locally/public/guest/resetPassword\">Réinitialiser</a></br>";
+            $mail->send();
+
+            $response = true;
+        }
+
+        return new Response($response);
+    }
+    
+    /**
+     * @Route("/api/reset-password")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function changePassword(UserRepository $userRepository): Response
+    {
+        $oUser = json_decode($this::$request->getContent(),true);
+        $check = $userRepository->checkUserExists($oUser);
+        if (sizeof($check) > 0) {
+            $result = $userRepository->changePassword($oUser);
+        }
+        else {
+            // TODO: retourner un message d'erreur
+            $result = false;
+        }
+
         return new JsonResponse(['result' => $result]);
     }
 }

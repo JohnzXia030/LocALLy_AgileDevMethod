@@ -7,7 +7,6 @@ use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use App\Repository\ShopRepository;
 use Doctrine\DBAL\Driver\Connection;
-use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,12 +71,33 @@ class TraderController extends AbstractController
     }
 
     /**
+     * @Route("/update-shop")
+     */
+    public function updateShop(): Response
+    {
+        return $this->render('trader/update-shop.html.twig');
+    }
+
+    /**
      * @Route("/update-article")
      * @return Response
      */
     public function updateArticle(): Response
     {
         return $this->render('trader/update-article.html.twig');
+    }
+
+    /**
+     * @Route("/api/delete-photo/{id}")
+     * @param $id
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     * @throws Exception
+     */
+    public function deletePhoto($id, ArticleRepository $articleRepository): Response
+    {
+        $articleRepository->deletePhoto($id);
+        return new Response('Success', Response::HTTP_OK);
     }
 
     /**
@@ -100,21 +120,10 @@ class TraderController extends AbstractController
      * @param ArticleRepository $articleRepository
      * @return JsonResponse
      */
-    public function apiArticle($id, ArticleRepository $articleRepository): JsonResponse
+    public function apiGetArticle($id, ArticleRepository $articleRepository): JsonResponse
     {
         return new JsonResponse(['data' => $articleRepository->getArticle($id)]);
     }
 
-    /**
-     * @Route("/api/delete-photo/{id}")
-     * @param $id
-     * @param ArticleRepository $articleRepository
-     * @return Response
-     * @throws Exception
-     */
-    public function deletePhoto($id, ArticleRepository $articleRepository): Response
-    {
-        $articleRepository->deletePhoto($id);
-        return new Response('Success', Response::HTTP_OK);
-    }
+
 }
