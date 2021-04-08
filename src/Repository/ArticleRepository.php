@@ -19,50 +19,49 @@ class ArticleRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        //TODO surement inutile, à simplifier
         $name = $request['name-article'];
         $description = $request['description-article'];
-        $available = $request['available-article'];
+        // Obtenir le status en binaire
+        $availableArticle = $request['available-article'];
+        $available = ($availableArticle == "on") ? 1 : 0;
         $discount = $request['discount-article'];
         $discount_period = $request['period-discount-article'];
         $price = $request['price-article'];
         $quantity = $request['stock-article'];
         $photo = $request['photo-article'];
 
-        //requete d'insertion d'un article
-        //La premiere insertion marche, mais à partir de "SET" ca ne fonctionne pas car le LAST_INSERT_ID() ne marche pas encore)
-        $sqlArticle =
-            'INSERT INTO  article(a_name, a_description, a_price, a_discount, a_discount_period, a_available, a_quantity_stock)
-                VALUES(:name, :description, :price, :discount, :discount_period, :available, :quantity_stock);';
-            //SET @LAST_ARTICLE_ID = LAST_INSERT_ID();
-            //INSERT INTO picture (p_id_article, p_bin)
-            //VALUES (@LAST_ARTICLE_ID,:photo);
-
-        //requete d'insertion d'une photo
-        $sqlPhoto = 'INSERT INTO picture (p_base64, p_id_article, p_id_shop, p_id_review)
-            VALUES (:photo, :lastId, :idShop, :idReview);';
-        //$sqlSelectPhoto = 'SELECT * FROM picture;';
-
-
-
+        //$idArticle = 3;
+        $idShop = 4;
+        $idReview = 5;
+        $qb = $conn->createQueryBuilder();
         try {
-            $stmt = $conn->prepare($sqlArticle);
-            $stmt->execute(['name'=>$name, 'description'=>$description, 'price'=>$price,'discount'=>$discount, 'discount_period'=>$discount_period, 'available'=>$available, 'quantity_stock'=>$quantity]);
+            /**
+             * Inserer les articles
+             */
+            $qb->insert('article')
+                ->setValue('a_name', '"' . $name . '"')
+                ->setValue('a_description', '"' . $description . '"')
+                ->setValue('a_price', '"' . $price . '"')
+                ->setValue('a_id_shop', '"' . $idShop . '"')
+                ->setValue('a_discount', '"' . $discount . '"')
+                ->setValue('a_discount_period', '"' . $discount_period . '"')
+                ->setValue('a_available', '"' . $available . '"')
+                ->setValue('a_quantity_stock', '"' . $quantity . '"')
+                ->execute();
             $lastId = $conn->lastInsertId();
-            //$idArticle = 3;
-            $idShop = 4;
-            $idReview = 5;
-
-            $stmt = $conn->prepare($sqlPhoto);
-            $stmt->execute(['photo'=>$photo, 'lastId'=>$lastId, 'idShop'=>$idShop, 'idReview'=>$idReview]);
-
-            return $conn->lastInsertId();
+            /**
+             * Inserer les photos dans 'photos'
+             */
+            foreach ($photo as $line) {
+                $qb = $conn->createQueryBuilder();
+                $qb->insert('picture')
+                    ->setValue('p_base64', '"' . $line['pictureURL'] . '"')
+                    ->setValue('p_id_article', '"' . $lastId . '"')
+                    ->setValue('p_id_shop', '"' . $idShop . '"')
+                    ->execute();
+            }
         } catch (Exception $e) {
-        } catch (\Doctrine\DBAL\Driver\Exception $e) {
         }
-
-
-        // returns an array of arrays (i.e. a raw data set)
-
+        return 'success';
     }
 }

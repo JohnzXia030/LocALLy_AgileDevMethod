@@ -47,8 +47,7 @@
                 </div>
                 <div class="form-group">
                     <label>Photo d'article</label>
-                    <input id="photo-article" name="photo-article" type="file" class="form-control">
-                    <br><img id="img" src="#">
+                    <input type="file" multiple="multiple" accept="image/jpeg, image/png" class="input_file" onchange="previewImage(this)">
                 </div>
                 <button type="button" class="btn btn-primary" class="form-control" onclick="submitAddArticleForm()">
                     Submit
