@@ -35,6 +35,14 @@ class TraderController extends AbstractController
      */
     public function addArticle(Connection $connection): Response
     {
+        /*dump($connection->fetchAll('SELECT * FROM user'));
+        $article = new Article();
+        $articleForm = $this->createForm(CatalogFormType::class, $article);
+        return $this->render('trader/add-article.html.twig', array(
+            'articleForm' => $articleForm->createView(),
+            'test' => $connection->fetchAll('SELECT * FROM user')
+
+        ));*/
         return $this->render('trader/add-article.html.twig', array());
     }
 
@@ -68,5 +76,13 @@ class TraderController extends AbstractController
         $mNewShop = json_decode($this::$request->getContent());
         $result = $shopRepository->addShop($mNewShop);
         return new JsonResponse(['result' => $result]);
+    }
+
+    /**
+     * @Route("/update-shop")
+     */
+    public function update_shop(): Response
+    {
+        return $this->render('trader/update-shop.html.twig');
     }
 }
