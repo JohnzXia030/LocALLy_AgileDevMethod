@@ -1,7 +1,8 @@
 /*custom font*/
 /* Style css for creation of shop*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
-@import "compass/css3";
+/*****A revoir********/
+/*@import "compass/css3";*/ 
 
 /*basic reset*/
 * {margin: 0; padding: 0;}
@@ -21,14 +22,16 @@ body {
     opacity: 0.90;
     filter: alpha(opacity=50); /* For IE8 and earlier */
     color: white !important;
-
 }
+/***********test***********/
 /*form styles*/
 #msform {
     width: 400px;
     margin: 10px auto;
     text-align: center;
-    position: relative;
+    position: relative ;
+    min-height: 85%;
+   
 }
 #msform fieldset{
     background: white;
@@ -41,7 +44,7 @@ body {
     margin: 0 10%;
 
     /*stacking fieldsets above each other*/
-    position: relative;
+    position: relative !important;
 }
 
 #msform select{
@@ -70,8 +73,10 @@ body {
     font-size: 13px;
 }
 
+
+
 /*buttons*/
-#msform .action-button, #msform .add_field_button, #msform .input_fields_photos .add_field_button2{
+#msform .action-button, #msform .add_field_button, #msform .input_fields_photos .add_field_button2, .btn{
     width: 100px;
     background: #e6b301;
     font-weight: bold;
@@ -157,8 +162,7 @@ body {
 
 .fa {
     font-size: 25px;
-    cursor: pointer
-
+    cursor: pointer;
 }
 /* Style css for creation of articles*/
 .form-group{
