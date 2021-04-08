@@ -2,7 +2,7 @@
 /* Style css for creation of shop*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 /*****A revoir********/
-/*@import "compass/css3";*/ 
+/*@import "compass/css3";*/
 
 /*basic reset*/
 * {margin: 0; padding: 0;}
@@ -22,16 +22,17 @@ body {
     opacity: 0.90;
     filter: alpha(opacity=50); /* For IE8 and earlier */
     color: white !important;
+
 }
 /***********test***********/
 /*form styles*/
 #msform {
-    width: 400px;
+    width: 50%;
     margin: 10px auto;
     text-align: center;
     position: relative ;
     min-height: 85%;
-   
+
 }
 #msform fieldset{
     background: white;
@@ -72,8 +73,6 @@ body {
     color: #2C3E50;
     font-size: 13px;
 }
-
-
 
 /*buttons*/
 #msform .action-button, #msform .add_field_button, #msform .input_fields_photos .add_field_button2, .btn{
@@ -156,8 +155,8 @@ body {
 
 
 .container-fluid {
-    margin-top: 80px;
-    margin-bottom: 80px
+    margin-top: 30px;
+    margin-bottom: 40px
 }
 
 .fa {
