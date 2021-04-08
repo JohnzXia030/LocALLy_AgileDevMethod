@@ -59,11 +59,11 @@ class TraderController extends AbstractController
     }
 
     /**
-     * @Route("/create")
+     * @Route("/create-shop")
      */
     public function create(): Response
     {
-        return $this->render('trader/trader.html.twig');
+        return $this->render('trader/add-shop.html.twig');
     }
 
     /**
@@ -76,5 +76,13 @@ class TraderController extends AbstractController
         $mNewShop = json_decode($this::$request->getContent());
         $result = $shopRepository->addShop($mNewShop);
         return new JsonResponse(['result' => $result]);
+    }
+
+    /**
+     * @Route("/update-shop")
+     */
+    public function update_shop(): Response
+    {
+        return $this->render('trader/update-shop.html.twig');
     }
 }

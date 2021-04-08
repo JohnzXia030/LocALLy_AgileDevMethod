@@ -3,8 +3,8 @@ var current_fs, next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
-//
-var photoBase64 = '';
+// les photos des magasins
+var imageArr;
 
 $(document).ready(function () {
     var max_fields = 10; //maximum input boxes allowed
@@ -231,51 +231,24 @@ $(".submit").click(function () {
         line.reponse = reponseArray[i]['reponse'];
         faq.push(line);
     }
-    var picture = getPicturesUrl();
-    object["horaires"] = horaires;
-    object["faq"] = faq;
-    object["picture"] = picture;
-    console.log(picture);
-    const formJson = JSON.stringify(object);
-    console.log(formJson);
-    // Envoyer le contenu vers le controller
-    //submitForm(formJson);
+    // Controle de nombre des photos
+    if (imageArr.length >= 6) {
+        alert("Veuillez uniquement joindre au maximum 5 photos ");
+        return;
+    }
+    var picture = imageArr;
+    // Assurer que les photos sont bien enregistrées
+    setTimeout(function () {
+        object["horaires"] = horaires;
+        object["faq"] = faq;
+        object["picture"] = picture;
+        const formJson = JSON.stringify(object);
+        // Envoyer le contenu vers le controller
+        submitForm(formJson);
+        return false;
+    }, 2500);
     return false;
 })
-
-
-/**
- * Convertir les photos en base64
- * @param file
- */
-async function getBase64(file) {
-    return await new Promise((resolve) => {
-        let fileReader = new FileReader();
-        fileReader.onload = (e) => resolve(fileReader.result);
-        fileReader.readAsDataURL(file);
-    });
-}
-
-function getPicturesUrl(){
-    $.map($('input[name="picture"]'),function (val, index) {
-        var newObj = {};
-        //newObj.picture = val.value;
-        const file = document.querySelector('input[type="file"]').files[index];
-        //newObj["base64"] = convertImgB64(file);
-
-        let event = new Promise(function (resolve, reject) {
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-                resolve(reader.result);
-            }
-        });
-        event.then(function (result) {
-            newObj.base = result.replace(/^data:image.+;base64,/, '');
-            return newObj;
-        });
-    });
-}
 
 function submitForm(formJson) {
     $.ajax({
@@ -289,5 +262,32 @@ function submitForm(formJson) {
         contentType: false,
         processData: false
     });
+}
+
+/**
+ * Convertir les photos en base64
+ * @param imgFile
+ */
+function previewImage(imgFile) {
+    var allFile = imgFile.files;
+    imageArr = [];
+    var dataURL;
+    for(var i=0;i<allFile.length;i++){
+        var file = allFile[i];
+        var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
+        if(!rFilter.test(file.type)) {
+            alert("Veuillez inserer des photos!");
+            return;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        // Recharger les photos
+        reader.onload = function(e) {
+            var newObj = {};
+            newObj.pictureURL = e.target.result.replace(/^data:image.+;base64,/,'');
+            dataURL = e.target.result;
+            imageArr.push(newObj);
+        };
+    }
 }
 

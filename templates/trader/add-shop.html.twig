@@ -16,7 +16,8 @@
     <link href="{{ asset('css/header_footer.css') }}" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <!-- Bootstrap core JS-->
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
 </head>
 
@@ -54,10 +55,7 @@
         <textarea rows="5" cols="20" wrap="physique" name="commentaires">A Propos </textarea><br/>
         <!--<input type="button" name="next" class="add" value="Ajouter une photo" /> -->
         <div class="piece_jointe-area">
-            <input type='file' name="picture"/>
-            <div class="input_fields_photos">
-                <button class="add_field_button2">Ajouter Photo</button>
-            </div>
+            <input type="file" multiple="multiple" accept="image/jpeg, image/png" class="input_file" onchange="previewImage(this)">
         </div>
         <input type="button" name="next" class="next action-button" value="Suivant"/>
     </fieldset>

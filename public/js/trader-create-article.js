@@ -17,6 +17,8 @@
 });*/
 img = new Image()
 
+// les photos des articles
+var imageArr;
 
 // If you are loading images from a remote server, be sure to configure “Access-Control-Allow-Origin”
 // For example, the following image can be loaded from anywhere.
@@ -40,25 +42,29 @@ function convertImgB64(img) {
     return b64;
 }
 
-function submitAddArticleForm(){
+function submitAddArticleForm() {
+    setTimeout(function () {
+        // Assurer que les photos sont bien enregistrées, temps d'attente pour 1 min
+    }, 1000);
     const form = document.getElementById('form-add-article');
     const formData = new FormData(form);
     // Convertir le contenu du formulaire en json
-    if(formData.get('available-article')==null){
-        formData.set('available-article',false);
+    if (formData.get('available-article') == null) {
+        formData.set('available-article', false);
     }
     const object = {};
-    formData.forEach(function(value, key){
+    formData.forEach(function (value, key) {
         object[key] = value;
     });
-    var img = document.querySelector('img');
-    img.crossOrigin = 'Anonymous';
-    // The magic begins after the image is successfully loaded
-    object["photo-article"] = convertImgB64(img);
+    // Controle de nombre des photos
+    if (imageArr.length >= 6) {
+        alert("Veuillez uniquement joindre au maximum 5 photos ");
+        return;
+    }
+    object["photo-article"] = imageArr;
     var formJson = JSON.stringify(object);
     console.log(formJson);
     // Envoyer le contenu vers le controller
-
     $.ajax({
         url: "api/create-article",
         type: "POST",
@@ -72,15 +78,30 @@ function submitAddArticleForm(){
     });
 }
 
-window.addEventListener('load', function() {
-    document.querySelector('input[type="file"]').addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-            var img = document.querySelector('img');
-            img.onload = () => {
-                URL.revokeObjectURL(img.src);  // no longer needed, free memory
-            }
 
-            img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+/**
+ * Convertir les photos en base64
+ * @param imgFile
+ */
+function previewImage(imgFile) {
+    var allFile = imgFile.files;
+    imageArr = [];
+    var dataURL;
+    for (var i = 0; i < allFile.length; i++) {
+        var file = allFile[i];
+        var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
+        if (!rFilter.test(file.type)) {
+            alert("Veuillez inserer des photos!");
+            return;
         }
-    });
-});
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        // Recharger les photos
+        reader.onload = function (e) {
+            var newObj = {};
+            newObj.pictureURL = e.target.result.replace(/^data:image.+;base64,/, '');
+            dataURL = e.target.result;
+            imageArr.push(newObj);
+        };
+    }
+}
