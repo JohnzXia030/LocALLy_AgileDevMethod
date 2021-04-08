@@ -233,136 +233,118 @@ function getBase64(file, onLoadCallback) {
 
 // JS pour le tableau des horaires
 
-var $TABLE = $('#table');
-var $BTN = $('#export-btn');
-var $EXPORT = $('#export');
-
-$(function() {
-    $(".datepicker").timepicker({defaultTime:'00:00', minuteStep: 1, showMeridian: false,  icons: {
-            up: 'fa fa-chevron-up',
-            down: 'fa fa-chevron-down'
-        }});
-});
-
-$(function() {
-    $('.time').click(function() {
-        $(this).find('.datepicker').focus();
-    });
-});
-data = [
-    {
-        day: 'Monday',
-        amstart: "11:30",
-        amend: "12:30",
-        pmstart: "13:31",
-        pmend: "14:55"
-    },
-    {
-        day: 'Tuesday',
-        amstart: "09:30",
-        amend: "11:21",
-        pmstart: "13:35",
-        pmend: "16:55"
+function findDate(oEvent){
+    var oDebutTime     = document.getElementById("timedebut"),
+        oFin       = document.getElementById("fin"),
+        oFinTime   = document.getElementById("timefin"),
+        oDateStart = null,
+        oDateEnd   = null,
+        bDisabled  = true;
+    //valueAsNumber si vide = NaN
+    if(Number.isNaN(oDebut.valueAsNumber) == false){
+        //Calcul des dates
+        oDateStart = new Date(oDebut.valueAsNumber);
+        oDateEnd   = new Date(oDebut.valueAsNumber);
+        //Ajoute 3 jour
+        oDateEnd.setDate(oDateEnd.getDate() + 3);
+        bDisabled = false;
+    } else{
+        //Reset de valeur
+        oFin.value = "";
+        oFinTime.value = "";
+    }//esle
+    //Bloque ou debloque les champs après "au"
+    oFin.disabled = bDisabled;
+    oFinTime.disabled = bDisabled;
+    //Assigne date min et max
+    setDateMinMax(oFin, oDateStart);
+    setDateMinMax(oFin, oDateEnd, false);
 }
-];
 
-drawTable(data);
-function drawTable(data) {
 
-    for (var i = 0; i < data.length; i++) {
-        drawRow(data[i],i);
+function setDateMinMax(oCible, oDate, bMin){
+    if(typeof bMin != 'boolean' || bMin == true){
+        oCible.min = formatDate(oDate);
+    }else{
+        oCible.max = formatDate(oDate);
     }
+    return true;
 }
 
-function drawRow(rowData,i) {
-    var row = $("<tr />");
-    $("#personDataTable").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
-
-
-    row.append($('<td contenteditable="true"><select name="daySelected" class="form-control"  id='+rowData.day+'>' +
-        '<option value="Monday">Monday</option>' +
-        '<option value="Tuesday">Tuesday</option>' +
-        '<option value="Wednesday">Wednesday</option>' +
-        '<option value="Thursday">Thursday</option>' +
-        '<option value="Friday">Friday</option>' +
-        '<option value="Saturday">Saturday</option>' +
-        '<option value="Sunday">Sunday</option>' +
-        '</select>' +
-        '</td>'));
-    $("#"+rowData.day).val(rowData.day);
-    row.append($('<td contenteditable="true" class="time" ><input type="text" class="datepicker" value="'+rowData.amstart+'" type="text" /></td>'));
-    row.append($('<td contenteditable="true" class="time"><input type="text" class="datepicker" value="'+rowData.amend+'" type="text" /></td>'));
-    row.append($('<td contenteditable="true" class="time""><input type="text" class="datepicker" value="'+rowData.pmstart+'" type="text" /></td>'));
-    row.append($('<td contenteditable="true" class="time"><input type="text" class="datepicker" value="'+rowData.pmend+'" type="text" /></td>'));
-    row.append($('<td></td><td><span class="table-remove fa fa-trash fa-2x"></span>' +
-        '</td></tr></table>'));
+/**
+ 2016-6-20  ou 2016-06-2 semble ne pas fonctionner
+ getMonth() commence à 0, 0 = janvier
+ @param Date  Objet date ou null
+ @return      une chaine vide ou xxxx-xx-xx
+ */
+function formatDate(oDate){
+    var sMin = '',iMois = null,iDate = null;
+    if(oDate instanceof Date){
+        iMois = (oDate.getMonth()+1);
+        iDate = oDate.getDate();
+        sMin  = oDate.getFullYear()+'-'+(iMois<10? "0":'')+iMois+'-'+(iDate<10? "0":'')+iDate;
+    }//if
+    return sMin;
 }
 
+$(document).ready(function () {
+    var y = 1;
 
+    $('.add').click(function () {
+        y++;
+        $(".list").append(
+            '<div class="mb-2 row justify-content-between px-3">' +
+                '<select class="mb-2 mob" name="horaires">' +
+                    '<option value="lundi">Lundi</option>' +
+                    '<option value="mardi">Mardi</option>' +
+                    '<option value="mercredi">Mercredi</option>' +
+                    '<option value="jeudi">Jeudi</option>' +
+                    '<option value="vendredi">Vendredi</option>' +
+                    '<option value="samedi">Samedi</option>' +
+                    '<option value="dimanche">Dimanche</option>' +
+                    '<option value="lundi-vendredi">Lundi-Vendredi</option>' +
+                    '<option value="samedi-dimanche">Samedi-Dimanche</option>' +
+                '</select>' +
+                '<div class="mob">' +
+                    '<label class="text-grey mr-1">De</label>' +
+                    '<input class="ml-1" type="time" name="from">' +
+                '</div>' +
+                '<div class="mob mb-2">' +
+                    '<label class="text-grey mr-4">A</label>' +
+                    '<input class="ml-1" type="time" name="to">' +
+                '</div>' +
+                '<a href="#" class="cancel action-button">Supprimer</a>'+
+            '</div>');
 
-$('.table-add').click(function () {
-    var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
-    $clone.find("input.datepicker").each(function(){
-        $(this).attr("id", "").removeData().off();
-        $(this).find('.add-on').removeData().off();
-        $(this).find('input').removeData().off();
-        $(this).timepicker({defaultTime:'00:00', minuteStep: 1, showMeridian: false});
     });
 
-    $TABLE.find('table').append($clone).find("input.datepicker").addClass('datepicker');
-
-});
-
-$('.table-remove').click(function () {
-    $(this).parents('tr').detach();
-});
-
-$('.table-up').click(function () {
-    var $row = $(this).parents('tr');
-    if ($row.index() === 1) return; // Don't go above the header
-    $row.prev().before($row.get(0));
-});
-
-$('.table-down').click(function () {
-    var $row = $(this).parents('tr');
-    $row.next().after($row.get(0));
-});
-
-// A few jQuery helpers for exporting only
-jQuery.fn.pop = [].pop;
-jQuery.fn.shift = [].shift;
-
-$BTN.click(function () {
-    var $rows = $TABLE.find('tr:not(:hidden)');
-    var $tds = $TABLE.find('td:not(:hidden)');
-    var headers = [];
-    var data = [];
-
-
-    // Get the headers (add special header logic here)
-    $($rows.shift()).find('th:not(:empty)').each(function () {
-        headers.push($(this).text().toLowerCase());
+    $(".list").on('click', '.cancel', function (e) {
+        e.preventDefault();
+        $(this).parent('div').remove();
+        y--;
+        //console.log($(this));
     });
 
-    // Turn all existing rows into a loopable array
+});
 
-    $rows.each(function () {
-        var $td = $(this).find('td');
-        var $td2 = $td.find('input');
-        var $td3 = $td.find('select');
-        var h2 = {};
-        // Use the headers from earlier to name our hash keys
-        headers.forEach(function (header, i) {
+/*
+$(document).ready(function () {
+    var max_fields = 10; //maximum input boxes allowed
+    var photos = $(".input_fields_photos"); //Fields photos
+    var add_button2 = $(".add_field_button2"); //Add button ID
 
-
-            h2[header] = $td.eq(i).find('input,select').val() || $td.eq(i).text();
-            console.log(h2[header]);
-
-        });
-//check if the day exists in json here
-        data.push(h2);
+    var y = 1; //initlal photo box count
+    $(add_button2).click(function (e) { //on add input button click
+        e.preventDefault();
+        if (y < max_fields) { //max input box allowed
+            y++; //text box increment
+            $(photos).append('<div><input type="file" name="picture"/><a href="#" class="remove_field"  >Supprimer</a></div>'); //add input box
+        }
     });
 
-    // Output the result
-    $EXPORT.text(JSON.stringify(data));
-});
+    $(photos).on("click", ".remove_field", function (e) { //user click on remove text
+        e.preventDefault();
+        $(this).parent('div').remove();
+        y--;
+    })
+});*/

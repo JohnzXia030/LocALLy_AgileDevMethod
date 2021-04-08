@@ -66,6 +66,8 @@ function setSuccessFor(input) {
 }
 
 function checkInputs(){
+  $('p#errorMessage').addClass('d-none');
+
   var sRole = null;
   if ($("#demo2-a").is(':checked')) {
     sRole = 'Professionel';
@@ -129,11 +131,19 @@ function checkInputs(){
             }
           }
           else {
-            if(sValue == '' || sValue == undefined){
-              bSuccess = false;
-              setErrorFor(aChamp[i][0], '');
-            } else{
-              setSuccessFor(aChamp[i][0]);
+            if (sType == 'password') {
+              if (sValue.length < 8) {
+                bSuccess = false;
+                setErrorFor(aChamp[i][0], 'Votre mot de passe doit comporter au moins 8 caractères');
+              }
+            }
+            else {
+              if(sValue == '' || sValue == undefined){
+                bSuccess = false;
+                setErrorFor(aChamp[i][0], '');
+              } else{
+                setSuccessFor(aChamp[i][0]);
+              }
             }
           }
         }
@@ -153,21 +163,24 @@ function checkInputs(){
       object["streetName"]=$("#streetName").val();
       object["city"]=$("#city").val();
       object["role"]=sRole;
-
-      var formJson = JSON.stringify(object);
+      
       // Envoyer le contenu vers le controller
-        
-      $('div.social-media').remove();
-      $('form.form').remove();
-      $('div#successful').removeClass('d-none');
-      console.log(object);
-      console.log(formJson);
+      var formJson = JSON.stringify(object);
       $.ajax({
           url: "api/add-user",
           type: "POST",
           data: formJson,
-          success: function (msg) {
-              console.log(msg);
+          success: function (aRetour) {
+            if (aRetour['result'] == false) {
+              $('div.form-control').removeClass('error success');
+              $('div.form-control small').addClass('d-none');
+              $('p#errorMessage').removeClass('d-none');
+            }
+            else {
+              $('div.social-media').remove();
+              $('form.form').remove();
+              $('div#successful').removeClass('d-none').addClass('d-flex');
+            }
           },
           error: function(e){
               console.log(e);
@@ -176,9 +189,6 @@ function checkInputs(){
           contentType: false,
           processData: false
       });
-
-
-
     }
   }
 }

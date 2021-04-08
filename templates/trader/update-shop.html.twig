@@ -99,76 +99,78 @@
         </div>
         <input type="button" name="next" class="next action-button" value="Suivant"/>
     </fieldset>
+
     <fieldset>
-        <h2 class="fs-title">Horaires</h2>
+        <h2 class="fs-title">Mes Horaires</h2>
+        <div class="hc-grid-container">
+            <div class="Titre1">Horaire</div>
+            <div class="Horaire"><table style="height: 112px; width: 100%; border-collapse: collapse; border-style: none; margin-left: auto; margin-right: auto;" border="0" cellpadding="0">
+                    <tbody style="color:black;">
+                        <tr style="height: 21px;">
+                            <td style="width: 50%; height: 22px;">Lundi</td>
+                            <td style="width: 50%; height: 22px;">11h00-20h30</td>
+                        </tr>
+                        <tr style="height: 15px;">
+                            <td style="width: 50%; height: 15px;">Mardi</td>
+                            <td style="width: 50%; height: 15px;">11h00-20h30</td>
+                        </tr>
+                        <tr style="height: 15px;">
+                            <td style="width: 50%; height: 15px;">Mercredi</td>
+                            <td style="width: 50%; height: 15px;">11h00-20h30</td>
+                        </tr>
+                        <tr style="height: 15px;">
+                            <td style="width: 50%; height: 15px;">Jeudi</td>
+                            <td style="width: 50%; height: 15px;">11h00-20h30</td>
+                        </tr>
+                        <tr style="height: 15px;">
+                            <td style="width: 50%; height: 15px;">Vendredi</td>
+                            <td style="width: 50%; height: 15px;">11h00-20h30</td>
+                        </tr>
+                        <tr style="height: 15px;">
+                            <td style="width: 50%; height: 15px;">Samedi</td>
+                            <td style="width: 50%; height: 15px;">11h00-20h30</td>
+                        </tr>
+                        <tr style="height: 15px;">
+                            <td style="width: 50%; height: 15px;">Dimanche</td>
+                            <td style="width: 50%; height: 15px;">13h30-18h30</td>
+                        </tr>
+                    </tbody>
+                </table></div>
+        </div>
+        </div>
+
         <div class="container-fluid px-1 px-sm-4 py-5 mx-auto">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-10 col-lg-9 col-xl-8">
                     <div class="card border-0">
-                        <div class="">
-                            <div id="table" class="table-editable col-md-8 centered-vertically">
-                                <span class="table-add fa fa-plus-circle fa-2x"></span>
-
-                                <table class="table" id="personDataTable">
-                                    <tr>
-                                        <th>Day</th>
-                                        <th>1st period start</th>
-                                        <th>1st period end</th>
-                                        <th>2nd period start</th>
-                                        <th>2nd period end</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-
-                                        <td contenteditable="true"><select name="daySelected" class="form-control" id="day">
-                                                <option value="pick">Pick a day</option>
-                                                <option value="Monday">Monday</option>
-                                                <option value="Tuesday">Tuesday</option>
-                                                <option value="Wednesday">Wednesday</option>
-                                                <option value="Thursday">Thursday</option>
-                                                <option value="Friday">Friday</option>
-                                                <option value="Saturday">Saturday</option>
-                                                <option value="Sunday">Sunday</option>
-                                            </select>
-                                        </td>
-                                        <td contenteditable="true" class="time"><input type="text" class="datepicker"/></td>
-                                        <td contenteditable="true" class="time" ><input type="text" class="datepicker"/></td>
-                                        <td contenteditable="true" class="time"><input type="text" class="datepicker"/></td>
-                                        <td contenteditable="true" class="time"><input type="text" class="datepicker"/></td>
-                                        <td></td>
-                                        <td>
-                                            <span class="table-remove fa fa-trash fa-2x"></span>
-                                        </td>
-                                    </tr>
-
-                                    <!-- This is our clonable table line -->
-                                    <tr class="hide">
-                                        <td contenteditable="true">
-                                            <select name="daySelected" class="form-control" id="day">
-                                                <option value="pick">Pick a day</option>
-                                                <option value="Monday">Monday</option>
-                                                <option value="Tuesday">Tuesday</option>
-                                                <option value="Wednesday">Wednesday</option>
-                                                <option value="Thursday">Thursday</option>
-                                                <option value="Friday">Friday</option>
-                                                <option value="Saturday">Saturday</option>
-                                                <option value="Sunday">Sunday</option>
-                                            </select>
-
-                                        </td>
-                                        <td contenteditable="true" class="time"><input type="text" class="datepicker" type="text" /></td>
-                                        <td contenteditable="true" class="time"><input type="text" class="datepicker " type="text" /></td>
-                                        <td contenteditable="true" class="time"><input type="text" class="datepicker" type="text" /></td>
-                                        <td contenteditable="true" class="time"><input type="text" class="datepicker" type="text" /></td>
-                                        <td></td>
-
-                                        <td>
-                                            <span class="table-remove fa fa-trash fa-2x"></span>
-                                        </td>
-                                    </tr>
-                                </table>
+                        <div class="row px-3">
+                            <h2 class="fs-title">Modifier mes Horaires</h2>
+                            <div class="col-sm-10 list">
+                                <div class="mb-2 row justify-content-between px-3">
+                                    <select class="mb-2 mob" name="horaires">
+                                        <option value="lundi">Lundi</option>
+                                        <option value="mardi">Mardi</option>
+                                        <option value="mercredi">Mercredi</option>
+                                        <option value="jeudi">Jeudi</option>
+                                        <option value="vendredi">Vendredi</option>
+                                        <option value="samedi">Samedi</option>
+                                        <option value="dimanche">Dimanche</option>
+                                        <option value="lundi-vendredi">Lundi-Vendredi</option>
+                                        <option value="samedi-dimanche">Samedi-Dimanche</option>
+                                    </select>
+                                    <div class="mob"><label class="text-grey mr-1">De</label> <input class="ml-1"
+                                                                                                     type="time"
+                                                                                                     name="from"></div>
+                                    <div class="mob mb-2"><label class="text-grey mr-4">A</label> <input class="ml-1"
+                                                                                                         type="time"
+                                                                                                         name="to">
+                                    </div>
+                                    <div class="mt-1 cancel fa fa-times-circle text-danger"></div>
+                                </div>
                             </div>
+                        </div>
+                        <div class="row px-3 mt-3">
+                            <input type="button" name="add" class="add action-button" value="Ajouter"/>
                         </div>
                         <!--<div class="row px-3 mt-3 justify-content-center"> <button class="btn exit mr-2">Annuler</button> <button class="btn btn-success ml-2">Valider</button> </div> -->
                     </div>
@@ -179,6 +181,7 @@
         <input type="button" name="previous" class="previous action-button" value="Précédent"/>
         <input type="button" name="next" class="next action-button" value="Suivant"/>
     </fieldset>
+
     <fieldset>
         <h2 class="fs-title">FAQ</h2>
         <input type="text" name="question" placeholder="Question"/>

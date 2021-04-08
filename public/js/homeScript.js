@@ -89,7 +89,7 @@ $(document).ready(function () {
         if (!error) {
             var formJson = JSON.stringify(object);
             // Envoyer le contenu vers le controller
-            console.log("test");
+            
             $.ajax({
                 url: "api/send-message",
                 type: "POST",
