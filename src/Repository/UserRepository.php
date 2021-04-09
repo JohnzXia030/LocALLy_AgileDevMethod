@@ -49,6 +49,26 @@ class UserRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    public function updateUser($request, $sIdUser)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        /**
+         * Modifie les donnees dans 'user'
+         */
+
+        $conn = $this->getEntityManager()->getConnection();
+        $user = $conn->executeStatement('UPDATE user SET u_lastname = ?, u_firstname = ?, u_birth = ?, u_num_phone = ?, u_email = ?, u_num_street = ?, u_name_street = ?, u_city = ? WHERE u_id = ?', 
+                array($request['lastname'], $request['firstname'], $request['birth'], $request['phoneNumber'], $request['email'], $request['streetNum'], $request['streetName'], $request['city'], $sIdUser));
+        
+    }
+
+    public function getInfoUser($id) {
+        $conn = $this->getEntityManager()->getConnection();
+        $user = $conn->fetchAll("SELECT * FROM user WHERE u_id = " . $id);
+        
+        return $user;
+    }
+
     public function checkLogin($request) {
         $conn = $this->getEntityManager()->getConnection();
         $user = $conn->fetchAll("SELECT u_id, u_email, u_password FROM user WHERE u_email = '" . $request['email'] . "' AND u_password = '" . $request['password'] . "'");

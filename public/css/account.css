@@ -8,6 +8,7 @@ body{
     min-height: 80vh;
     margin: 0;
     opacity: 0.9;
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 #container{
@@ -75,6 +76,10 @@ body{
 
 .text-red{
     color: red;
+}
+
+.ml-2 {
+    margin-left: .5rem;
 }
 /****************************************/
 /*body{
@@ -242,15 +247,3 @@ input[type="radio"].demo2 {
         line-height: 70px;
     }
 }
-/*
-#error1{
-    color:red;
-}
-#error2{
-    color:red;
-}
-#error3{
-    color:red;
-}*/
-
-/*********************Nouveau formulaire*********************/
