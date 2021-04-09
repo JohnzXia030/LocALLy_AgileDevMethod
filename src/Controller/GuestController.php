@@ -62,6 +62,24 @@ class GuestController extends AbstractController
     }
 
     /**
+     * @Route("/accountNav")
+     */
+    public function accountNav(): Response
+    {
+        return $this->render('guest/accountNav.html.twig');
+        
+    }
+
+    /**
+     * @Route("/account")
+     */
+    public function account(): Response
+    {
+        return $this->render('guest/account.html.twig');
+        
+    }
+
+    /**
      * @Route("/api/logout")
      * @return Response
      */
@@ -89,6 +107,23 @@ class GuestController extends AbstractController
         else {
             $result = $userRepository->addUser($mNewUser);
         }
+
+        return new JsonResponse(['result' => $result]);
+    }
+
+    /**
+     * @Route("/api/update-user")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function updateUser(UserRepository $userRepository, Request $request): Response
+    {
+        $mUser = json_decode($this::$request->getContent(),true);
+
+        $session = $request->getSession();
+        $sIdUserSession = $session->get('iduser');
+
+        $result = $userRepository->updateUser($mUser, $sIdUserSession);
 
         return new JsonResponse(['result' => $result]);
     }
@@ -142,7 +177,7 @@ class GuestController extends AbstractController
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->SMTPAuth = true;                                 // Activer l'authentification SMTP 
             $mail->Username = 'locally.gestionmessage@gmail.com';    // Nom d'utilisateur SMTP 
-            $mail->Password = 'locally2021#';                        // Mot de passe SMTP $ mail -> SMTPSecure = PHPMailer :: ENCRYPTION_STARTTLS ;         // Activer le cryptage TLS; `PHPMailer :: ENCRYPTION_SMTPS` encouragé 
+            $mail->Password = '4S7}sY5F%J*#gGa6bv;5';                        // Mot de passe SMTP $ mail -> SMTPSecure = PHPMailer :: ENCRYPTION_STARTTLS ;         // Activer le cryptage TLS; `PHPMailer :: ENCRYPTION_SMTPS` encouragé 
             $mail->Port = 587;                                       // Port TCP auquel se connecter, utilisez 465 pour `PHPMailer :: ENCRYPTION_SMTPS` ci-dessus
 
             // Contenu
@@ -180,6 +215,33 @@ class GuestController extends AbstractController
             $result = false;
         }
 
+        return new JsonResponse(['result' => $result]);
+    }
+
+    /**
+     * @Route("/api/is-logged")
+     * @return Response
+     */
+    public function apiIsLogged(Request $request): Response
+    {
+        $session = $request->getSession();
+        $sIdUserSession = $session->get('iduser');
+
+        return new Response($sIdUserSession);
+    }
+    
+    /**
+     * @Route("/api/get-info-user")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function getInfoUser(UserRepository $userRepository, Request $request): Response
+    {
+        $session = $request->getSession();
+        $sIdUserSession = $session->get('iduser');
+
+        $result = $userRepository->getInfoUser($sIdUserSession);
+        
         return new JsonResponse(['result' => $result]);
     }
 }

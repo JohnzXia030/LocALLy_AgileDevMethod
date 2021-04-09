@@ -48,7 +48,7 @@ class ShopRepository extends ServiceEntityRepository
         foreach ($request->picture as $line){
             $qb = $conn->createQueryBuilder();
             $qb->insert('picture')
-                ->setValue('p_base64', '"' . $line->pictureURL. '"')
+                ->setValue('p_bin', '"' . $line->pictureURL. '"')
                 ->setValue('p_id_shop', '1')
                 ->execute();
         }

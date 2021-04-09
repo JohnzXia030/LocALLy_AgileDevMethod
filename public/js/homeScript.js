@@ -95,10 +95,24 @@ $(document).ready(function () {
                 type: "POST",
                 data: formJson,
                 success: function (msg) {
-                    console.log(msg);
+                    //console.log(msg);
+                    $("#contactForm #lastname").val("");
+                    $("#contactForm #firstname").val("");
+                    $("#contactForm #email").val("");
+                    $("#contactForm #phone").val("");
+                    $("#contactForm #message").val("");
+                    $("div#divSendEmail").addClass("d-none");
+                    $("div#emailSuccess").removeClass("d-none");
                 },
                 error: function(e){
                     console.log(e);
+                    $("#contactForm #lastname").val("");
+                    $("#contactForm #firstname").val("");
+                    $("#contactForm #email").val("");
+                    $("#contactForm #phone").val("");
+                    $("#contactForm #message").val("");
+                    $("div#divSendEmail").addClass("d-none");
+                    $("div#emailSuccess").removeClass("d-none");
                 },
                 cache: false,
                 contentType: false,
