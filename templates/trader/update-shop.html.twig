@@ -30,43 +30,44 @@
         <li>Horaires</li>
         <li>FAQ</li>
     </ul>
+
     <!-- fieldsets -->
     <fieldset>
         <h2 class="fs-title">Mettre à jour mon commerce</h2>
 
         <div class="info">
         <label class="uslabel" for="nenseigne">Nom de L'enseigne</label>
-        <input type="text" name="nenseigne"/>
+        <input type="text" id="nom-enseigne" name="nenseigne"/>
         </div>
 
         <div class="info">
         <label class="uslabel" for="numvoie">Numéro de Voie</label>
-        <input type="text" name="numvoie"/>
+        <input type="text"  id="numero-voie" name="numvoie"/>
         </div>
 
         <div class="info">
         <label class="uslabel" for="nomvoie">Nom de Voie</label>
-        <input type="text" name="nomvoie"/>
+        <input type="text" id="nom-voie" name="nomvoie"/>
         </div>
 
         <div class="info">
         <label class="uslabel" for="ca">Complément d'adresse</label>
-        <input type="text" name="ca"/>
+        <input type="text" id="complement-adresse" name="ca"/>
         </div>
 
         <div class="info">
         <label class="uslabel" for="nville">Ville</label>
-        <input type="text" name="nville"/>
+        <input type="text" id="nom-ville" name="nville"/>
         </div>
 
         <div class="info">
         <label class="uslabel" for="numtel">Numéro Téléphone</label>
-        <input type="tel" name="numtel"/>
+        <input type="tel" id="num-tel" name="numtel"/>
         </div>
 
         <div class="info">
         <label class="uslabel" for="tmagasin">Types</label>
-        <select name="tmagasin">
+        <select id="type-magasin" name="tmagasin">
             <option>Commerces</option>
             <option>Coiffeurs</option>
             <option>Boulangerie</option>
@@ -75,7 +76,7 @@
 
         <div class="info">
         <label class="uslabel">Options Retrait</label>
-        <select name="oretrait">
+        <select  id="option-retrait" name="oretrait">
             <option>Click&Collect</option>
             <option>Livraison</option>
         </select>
@@ -88,7 +89,7 @@
 
         <div class="info">
         <label class="uslabel">A propos</label>
-        <textarea rows="5" cols="20" wrap="physique" name="commentaires">A Propos </textarea><br/>
+        <textarea rows="5" cols="20" wrap="physique" name="commentaires" id="description"> </textarea><br/>
         </div>
         <!--<input type="button" name="next" class="add" value="Ajouter une photo" /> -->
         <div class="piece_jointe-area">
@@ -162,7 +163,7 @@
                                     <div class="mob"><label style="color: black !important;" >De</label> <input class="ml-1" type="time" name="from"></div>
                                     <div class="mob mb-2"><label style="color: black !important;" >A</label> <input class="ml-1" type="time" name="to">
                                     </div>
-                                    <div class="mt-1 cancel fa fa-times-circle text-danger"></div>
+                                    <div class="mt-1 cancel fa fa-times text-danger"></div>
                                 </div>
                             </div>
                         </div>
@@ -181,8 +182,10 @@
 
     <fieldset>
         <h2 class="fs-title">FAQ</h2>
+
         <input type="text" name="question" placeholder="Question"/>
         <input type="text" name="reponse" placeholder="Réponse"/>
+
         <div class="input_fields_wrap">
             <button class="add_field_button">Ajouter Champ</button>
         </div>
@@ -194,11 +197,6 @@
 </form>
 {% include 'footer.html.twig' %}
 </body>
-
-<script>
-    $("#header").load("{{ asset('../templates/header.html.twig') }}");
-    $("#footer").load("{{ asset('../templates/footer.html.twig') }}");
-</script>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

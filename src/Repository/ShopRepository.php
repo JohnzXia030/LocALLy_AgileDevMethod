@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Shop;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 use function Doctrine\DBAL\Query\QueryBuilder;
 
@@ -54,4 +53,40 @@ class ShopRepository extends ServiceEntityRepository
                 ->execute();
         }
     }
+
+    public function getShop($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        // Info de cet article
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+            $qb->select('*')
+                ->from('shop', 's')
+                ->where($qb->expr()->eq('sh_id', '"' . $id . '"'))
+                ->execute();
+        $shop = $stmt->fetchAssociative();
+        // Info base64 des photos
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+            $qb->select('*')
+                ->from('picture', 'p')
+                ->where($qb->expr()->eq('p_id_shop', '"' . $id . '"'))
+                ->execute();
+        $pictures = $stmt->fetchAllAssociative();
+        //Infos FAQ
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+            $qb->select('*')
+                ->from('faq', 'p')
+                ->where($qb->expr()->eq('faq_id_shop', '"' . $id . '"'))
+                ->execute();
+        $faq = $stmt->fetchAllAssociative();
+
+        return array([
+            'shop' => $shop,
+            'pictures' => $pictures,
+            'faq'=>$faq
+        ]);
+    }
 }
+

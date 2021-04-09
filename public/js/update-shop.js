@@ -348,3 +348,40 @@ $(document).ready(function () {
         x--;
     })
 });
+
+
+window.onload = function () {
+    // Obtenir l'id de shop
+    const queryString = window.location.search;
+    const urLParams = new URLSearchParams(queryString);
+    paramId = urLParams.get('id');
+    // Afficher l'info d'article
+    let apiURL = "api/get-shop/" + paramId;
+    // Obtenir l'info d'article
+    $.ajax({
+        url: apiURL,
+        type: "GET",
+        dataType: 'JSON',
+        success: function (data) {
+            faq = data.data[0]['faq'];
+            photo = data.data[0]['pictures'];
+            shop = data.data[0]['shop'];
+            console.log(data.data[0]);
+
+            document.getElementById("nom-enseigne").value = shop['sh_name'];
+            document.getElementById("numero-voie").value = shop['sh_num_street'];
+            document.getElementById("nom-voie").value = shop['sh_name_street'];
+            document.getElementById("complement-adresse").value = shop['sh_address_add'];
+            document.getElementById("nom-ville").value = shop['sh_city'];
+            document.getElementById("num-tel").value = shop['sh_num_phone'];
+            document.getElementById("type-magasin").value = shop['sh_type'];
+            document.getElementById("option-retrait").value = shop['sh_state'];
+            document.getElementById("description ").value = shop['sh_description'];
+
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+}
