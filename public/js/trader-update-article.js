@@ -43,10 +43,11 @@ window.onload = function () {
                     deletePhoto(this);
                 };
                 var img = document.createElement('img');
-                img.src = "data:image/gif;base64," + photo[i]['p_base64'];
-                a.appendChild(img);
-
-                document.getElementById('photo-list').appendChild(a);
+                img.src = "data:image/gif;base64," + photo[i]['p_bin'];
+                var div = document.createElement("div")
+                div.className = (i === 0) ? "carousel-item active" : "carousel-item"
+                div.appendChild(img);
+                document.getElementById('photo-list').append(div);
             }
         },
         cache: false,

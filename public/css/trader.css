@@ -1,6 +1,9 @@
 /*custom font*/
 /* Style css for creation of shop*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/* nothing below this point is needed*/
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,600,700,800,900&display=swap');
 /*****A revoir********/
 /*@import "compass/css3";*/
 
@@ -55,7 +58,7 @@ body {
     padding: 20px 30px;
     box-sizing: border-box;
     /*stacking fieldsets above each other*/
-    position: relative;
+    position: relative; !important;
 }
 /*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {
@@ -90,13 +93,13 @@ body {
     box-shadow: 0 0 0 2px white, 0 0 0 3px #e6b301;
 }
 /*headings*/
-.fs-title {
+.fs-title{
     font-size: 15px;
     text-transform: uppercase;
     color: #2c3e50;
     margin-bottom: 10px;
 }
-.fs-subtitle {
+.fs-subtitle{
     font-weight: normal;
     font-size: 13px;
     color: #666;
@@ -153,11 +156,58 @@ body {
     color: white;
 }
 
+/*----Css Update Shop----*/
+.container #upart{
+    width: 60%;
+    margin: 8px auto;
+    text-align: center;
+    min-height: 90%;
+    position: relative !important;
 
-.container-fluid {
-    margin-top: 30px;
-    margin-bottom: 40px
 }
+.container input{
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat, arial, verdana;
+    color: #2C3E50;
+    font-size: 10px;
+
+}
+.container .checkbox{
+    font-family: montserrat, arial, verdana;
+    padding: 15px;
+
+}
+.container .fs-title{
+    font-size: 20px;
+    text-transform: uppercase;
+    color: black;
+    margin-bottom: 30px;
+    padding: 10px;
+    font-family: montserrat, arial, verdana;
+    font-weight: bold;
+
+}
+
+.container label{
+    font-family: montserrat, arial, verdana;
+    color: black;
+
+}
+.container .form-group, .container .checkbox{
+    display: inline-block;
+}
+.container #form-article{
+    background-color: white;
+}
+
+/*---Css Update-shop End----*/
+
+
 
 .fa {
     font-size: 25px;
