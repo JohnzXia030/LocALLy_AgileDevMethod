@@ -96,7 +96,7 @@ class TraderController extends AbstractController
     public function deletePhoto($id, ArticleRepository $articleRepository): Response
     {
         $articleRepository->deletePhoto($id);
-        return new Response('Success', Response::HTTP_OK);
+        return new JsonResponse(['data' => "test"]);
     }
 
     /**

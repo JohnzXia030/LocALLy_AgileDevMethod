@@ -37,15 +37,15 @@ window.onload = function () {
             //document.getElementById("photo-article ").value = article['a_name'];
             console.log(photo.length);
             for (let i = 0; i < photo.length; i++) {
-                var a = document.createElement('a');
-                a.id =  photo[i]['p_id'];
-                a.onclick = function () {
-                    deletePhoto(this);
-                };
                 var img = document.createElement('img');
+                img.onclick = function (){
+                    deletePhoto(photo[i]);
+                };
                 img.src = "data:image/gif;base64," + photo[i]['p_bin'];
-                var div = document.createElement("div")
-                div.className = (i === 0) ? "carousel-item active" : "carousel-item"
+                var div = document.createElement("div");
+                div.className = (i === 0) ? "carousel-item active" : "carousel-item" ;
+                img.height = 500
+                img.width = 500
                 div.appendChild(img);
                 document.getElementById('photo-list').append(div);
             }
@@ -55,7 +55,6 @@ window.onload = function () {
         processData: false
     });
     console.log(article);
-
 }
 
 
@@ -101,12 +100,13 @@ function deletePhoto(e){
     if (r === false) {
         return;
     }
+    console.log("test");
     $.ajax({
-        url: "api/delete-photo/" + e.id,
+        url: "api/delete-photo/" + e.p_id,
         type: "GET",
         dataType: 'JSON',
         success: function (data) {
-            alert("Photo supprimeé!");
+            alert("Photo supprimée!");
             window.location.reload();
         },
         cache: false,
