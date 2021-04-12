@@ -54,4 +54,11 @@ class ShopRepository extends ServiceEntityRepository
                 ->execute();
         }
     }
+   
+    public function getShop($id) {
+        $conn = $this->getEntityManager()->getConnection();
+        $user = $conn->fetchAll("SELECT * FROM shop WHERE sh_id = " . $id);
+        
+        return $user;
+    }
 }
