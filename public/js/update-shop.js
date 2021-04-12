@@ -375,8 +375,9 @@ window.onload = function () {
             document.getElementById("nom-ville").value = shop['sh_city'];
             document.getElementById("num-tel").value = shop['sh_num_phone'];
             document.getElementById("type-magasin").value = shop['sh_type'];
-            document.getElementById("option-retrait").value = shop['sh_state'];
-            document.getElementById("description ").value = shop['sh_description'];
+            document.getElementById("option-retrait").value = shop['s_name'];
+            document.getElementById("description").value = shop['sh_description'];
+
 
         },
         cache: false,

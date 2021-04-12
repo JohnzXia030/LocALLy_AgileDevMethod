@@ -48,9 +48,70 @@ $(document).ready(function () {
     })
 });
 
+/*
+function setErrorFor(input, message = ''){
+    var formControl = $(input).parent();
+    var small = formControl.find('small');
+    formControl.addClass('error');
+    if (message != '') {
+        small.html(message);
+        small.removeClass('d-none');
+        console.log(message);
+    }
+}
+*/
+
+/*function setSuccessFor(input) {
+    var formControl = $(input).parent();
+    formControl.addClass('success').removeClass('error');
+    var small = formControl.find('small');
+    small.addClass('d-none');
+}*/
+
+function checkInputHours() {
+    var monday = document.getElementById("monday").value;
+    var tuesday = document.getElementById("tuesday").value;
+    var wednesday = document.getElementById("wednesday").value;
+    var thursday = document.getElementById("thursday").value;
+    var friday = document.getElementById("friday").value;
+    var saturday = document.getElementById("saturday").value;
+    var sunday = document.getElementById("sunday").value;
+    console.log("monday = " + monday);
+
+    var days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
+
+    var regex = /^[0-9]+:[0-9]+-[0-9]+:[0-9]+;[0-9]+:[0-9]+-[0-9]+:[0-9]+$/i;
+
+    var bSuccess = true;
+
+    for (let day in days) {
+        if (!(regex.test(days[day]))){
+            //setErrorFor(day, "Les horaires d'ouvertures renseignées ne sont pas valides");
+            console.log("Les horaires d'ouvertures renseignées ne sont pas valides");
+            bSuccess = false;
+            console.log(days[day]);
+        }
+        else{
+            //setSuccessFor(day);
+            console.log("Success");
+        }
+    }
+    return bSuccess;
+}
+
 $(".next").click(function () {
     if (animating) return false;
     animating = true;
+
+    var bSuccess = true;
+
+    if($(this).attr("id")=="horaires"){
+        bSuccess = checkInputHours();
+    }
+
+    if(!bSuccess){
+        return false;
+    }
 
     current_fs = $(this).parent();
     next_fs = $(this).parent().next();
