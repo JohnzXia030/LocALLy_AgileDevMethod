@@ -156,15 +156,15 @@ body {
     color: white;
 }
 
-/*----Css Update Shop----*/
+/*----Css add and Update Article----*/
 .container #upart{
     width: 60%;
     margin: 8px auto;
     text-align: center;
     min-height: 90%;
     position: relative !important;
-
 }
+
 .container input{
     padding: 15px;
     border: 1px solid #ccc;
@@ -201,12 +201,10 @@ body {
 .container .form-group, .container .checkbox{
     display: inline-block;
 }
-.container #form-article{
+.container #form-article, .container #form-add-article{
     background-color: white;
 }
-
-/*---Css Update-shop End----*/
-
+/*---Css add and Update-Article End----*/
 
 
 .fa {
