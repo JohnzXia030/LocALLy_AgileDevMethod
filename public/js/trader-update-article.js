@@ -9,7 +9,7 @@ var article;
 var photo = [];
 /**
  * Photos deposées par commerçant
-  */
+ */
 var imageArr;
 window.onload = function () {
     // Obtenir l'id d'article
@@ -36,17 +36,21 @@ window.onload = function () {
             document.getElementById("stock-article").value = article['a_quantity_stock'];
             //document.getElementById("photo-article ").value = article['a_name'];
             console.log(photo.length);
+
             for (let i = 0; i < photo.length; i++) {
                 var a = document.createElement('a');
-                a.id =  photo[i]['p_id'];
+                a.id = photo[i]['p_id'];
                 a.onclick = function () {
                     deletePhoto(this);
                 };
                 var img = document.createElement('img');
                 img.src = "data:image/gif;base64," + photo[i]['p_base64'];
+                img.className = "d-block w-100";
                 a.appendChild(img);
-
-                document.getElementById('photo-list').appendChild(a);
+                var div = document.createElement("div");
+                div.className = (i === 0) ? "carousel-item active" : "carousel-item";
+                div.append(img);
+                document.getElementById('photo-playlist').append(div);
             }
         },
         cache: false,
@@ -82,7 +86,7 @@ function submitUpdateArticleForm() {
     console.log(formJson);
     // Envoyer le contenu vers le controller
     $.ajax({
-        url: "api/update-article/" + paramId ,
+        url: "api/update-article/" + paramId,
         type: "POST",
         data: formJson,
         success: function (msg) {
@@ -95,7 +99,7 @@ function submitUpdateArticleForm() {
     });
 }
 
-function deletePhoto(e){
+function deletePhoto(e) {
     const r = confirm("Veuillez confirmer votre supression défitive!!!!");
     if (r === false) {
         return;
