@@ -4,7 +4,7 @@ var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
 // les photos des magasins
-var imageArr;
+var imageArr = [];
 
 $(document).ready(function () {
     var max_fields = 10; //maximum input boxes allowed
@@ -80,7 +80,7 @@ function checkInputHours() {
 
     var days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
 
-    var regex = /^[0-9]+:[0-9]+-[0-9]+:[0-9]+;[0-9]+:[0-9]+-[0-9]+:[0-9]+$/i;
+    var regex = /^([0-9]+:[0-9]+-[0-9]+:[0-9]+|[0-9]+:[0-9]+-[0-9]+:[0-9]+;[0-9]+:[0-9]+-[0-9]+:[0-9]+)?$/i;
 
     var bSuccess = true;
 
@@ -90,16 +90,15 @@ function checkInputHours() {
             console.log("Les horaires d'ouvertures renseignées ne sont pas valides");
             bSuccess = false;
             console.log(days[day]);
-        }
-        else{
-            //setSuccessFor(day);
-            console.log("Success");
+            return bSuccess;
         }
     }
+    console.log("Success");
     return bSuccess;
 }
 
-$(".next").click(function () {
+$(".next").click(function (event) {
+    //console.log("test");
     if (animating) return false;
     animating = true;
 
@@ -110,41 +109,46 @@ $(".next").click(function () {
     }
 
     if(!bSuccess){
-        return false;
+        console.log("erreur");
+        animating = false;
+        alert("Erreur de syntaxe. Exemples:\n 08:00-12:00 \n 08:00-12:00;14:00-18:00 \n vide");
+        return;
     }
+    else {
 
-    current_fs = $(this).parent();
-    next_fs = $(this).parent().next();
+        current_fs = $(this).parent();
+        next_fs = $(this).parent().next();
 
-    //activate next step on progressbar using the index of next_fs
-    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+        //activate next step on progressbar using the index of next_fs
+        $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
-    //show the next fieldset
-    next_fs.show();
-    //hide the current fieldset with style
-    current_fs.animate({opacity: 0}, {
-        step: function (now, mx) {
-            //as the opacity of current_fs reduces to 0 - stored in "now"
-            //1. scale current_fs down to 80%
-            scale = 1 - (1 - now) * 0.2;
-            //2. bring next_fs from the right(50%)
-            left = (now * 50) + "%";
-            //3. increase opacity of next_fs to 1 as it moves in
-            opacity = 1 - now;
-            current_fs.css({
-                'transform': 'scale(' + scale + ')',
-                'position': 'absolute'
-            });
-            next_fs.css({'left': left, 'opacity': opacity});
-        },
-        duration: 800,
-        complete: function () {
-            current_fs.hide();
-            animating = false;
-        },
-        //this comes from the custom easing plugin
-        easing: 'easeInOutBack'
-    });
+        //show the next fieldset
+        next_fs.show();
+        //hide the current fieldset with style
+        current_fs.animate({opacity: 0}, {
+            step: function (now, mx) {
+                //as the opacity of current_fs reduces to 0 - stored in "now"
+                //1. scale current_fs down to 80%
+                scale = 1 - (1 - now) * 0.2;
+                //2. bring next_fs from the right(50%)
+                left = (now * 50) + "%";
+                //3. increase opacity of next_fs to 1 as it moves in
+                opacity = 1 - now;
+                current_fs.css({
+                    'transform': 'scale(' + scale + ')',
+                    'position': 'absolute'
+                });
+                next_fs.css({'left': left, 'opacity': opacity});
+            },
+            duration: 800,
+            complete: function () {
+                current_fs.hide();
+                animating = false;
+            },
+            //this comes from the custom easing plugin
+            easing: 'easeInOutBack'
+        });
+    }
 });
 
 $(".previous").click(function () {
@@ -246,35 +250,64 @@ $(".submit").click(function () {
 
     let form = document.getElementById('msform');
     let formData = new FormData(form);
+    console.log(formData);
     // Convertir l'objet du formulaire en json
     const object = {};
     formData.forEach(function (value, key) {
         object[key] = value;
+
     });
+    var json = JSON.stringify(object);
+    console.log(json);
     // Convertir le formulaire en object
-    var horairesArray = $.map($('select[name="horaires"]'), function (val, _) {
+
+    var monday = document.getElementById("monday").value;
+    var tuesday = document.getElementById("tuesday").value;
+    var wednesday = document.getElementById("wednesday").value;
+    var thursday = document.getElementById("thursday").value;
+    var friday = document.getElementById("friday").value;
+    var saturday = document.getElementById("saturday").value;
+    var sunday = document.getElementById("sunday").value;
+    //console.log("monday = " + monday);
+
+    var jours = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
+    var days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
+    var horairesObject = {};
+    for (let i in days){
+        //console.log(horairesObject[i]);
+        //console.log(days[i]);
+        horairesObject[jours[i]] = days[i]
+
+    }
+    //console.log(horairesObject);
+    var jsonHoraires = JSON.stringify(horairesObject);
+    //console.log(jsonHoraires);
+
+    /*var jsonHoraires = [];
+    for(let i in days) {
         var newObj = {};
         newObj.horaires = val.value;
         return newObj;
-    });
-    var fromArray = $.map($('input[name="from"]'), function (val, _) {
+    };*/
+    /*var fromArray = $.map($('input[name="from"]'), function (val, _) {
         var newObj = {};
         newObj.from = val.value;
         return newObj;
-    });
+    });*/
     var toArray = $.map($('input[name="to"]'), function (val, _) {
         var newObj = {};
         newObj.to = val.value;
         return newObj;
     });
-    var horaires = [];
+    /*var horaires = [];
     for (let i = 0; i < horairesArray.length; i++) {
         let line = {};
         line.date = horairesArray[i]['horaires'];
         line.from = fromArray[i]['from'];
         line.to = toArray[i]['to'];
         horaires.push(line);
-    }
+    }*/
     var questionArray = $.map($('input[name="question"]'), function (val, _) {
         var newObj = {};
         newObj.question = val.value;
@@ -297,13 +330,20 @@ $(".submit").click(function () {
         alert("Veuillez uniquement joindre au maximum 5 photos ");
         return;
     }
-    var picture = imageArr;
+    var picture;
+    if (imageArr.length>0){
+        picture = imageArr;
+    }
+    else {
+        picture = null;
+    }
     // Assurer que les photos sont bien enregistrées
     setTimeout(function () {
-        object["horaires"] = horaires;
+        object["horaires"] = horairesObject;
         object["faq"] = faq;
         object["picture"] = picture;
         const formJson = JSON.stringify(object);
+        console.log(formJson);
         // Envoyer le contenu vers le controller
         submitForm(formJson);
         return false;
