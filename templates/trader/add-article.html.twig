@@ -13,12 +13,12 @@
     <script src="{{ asset('js/trader-create-article.js') }}"></script>
 {% endblock %}
 {% include 'header.html.twig' %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4 col-lg-4">
-        </div>
-        <div class="col-md-4 col-lg-4">
+
+<div class="container">
+    <div class="row" id="upart">
+        <div class="col-md-12 col-lg-12">
             <form role="form" id="form-add-article">
+                <h2 class="fs-title">Création Article</h2>
                 <div class="form-group">
                     <label for="name-article">Nom d'article</label>
                     <input id="name-article" name="name-article" type="text" class="form-control">
@@ -37,26 +37,26 @@
                 </div>
                 <div class="form-group">
                     <label>Durée de promotion</label>
-                    <input id="period-discount-article" name="period-discount-article" type="number" class="form-control">
+                    <input id="period-discount-article" name="period-discount-article" type="number"
+                           class="form-control">
                 </div>
                 <div class="checkbox">
-                    <label>Disponibilité</label>
+                    <label>Disponibilité:</label>
                     <input id="available-article" name="available-article" type="checkbox">
                 </div>
                 <div class="form-group">
                     <label>Quantité de stock</label>
-                    <input id="stock-article" name="stock-article" type="number"  class="form-control">
+                    <input id="stock-article" name="stock-article" type="number" class="form-control">
                 </div>
                 <div class="form-group">
                     <label>Photo d'article</label>
-                    <input type="file" multiple="multiple" accept="image/jpeg, image/png" class="input_file" onchange="previewImage(this)">
+                    <input id="photo-article " type="file" multiple="multiple" accept="image/jpeg, image/png"
+                           class="input_file" onchange="previewImage(this)">
                 </div>
-                <button type="button" class="btn" class="form-control" onclick="submitAddArticleForm()">
+                <button type="button" class="btn btn-primary" class="form-control" onclick="submitAddArticleForm()">
                     Submit
                 </button>
             </form>
-        </div>
-        <div class="col-md-4 col-lg-4">
         </div>
     </div>
 </div>

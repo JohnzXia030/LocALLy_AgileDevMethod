@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use App\Repository\ShopRepository;
 use Doctrine\DBAL\Driver\Connection;
@@ -11,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Annotation\Route; //Ne pas supprimer, malgré ce qu'il conseille. Il est bien utilisé.
 
 
 /**
@@ -97,7 +96,7 @@ class TraderController extends AbstractController
     public function deletePhoto($id, ArticleRepository $articleRepository): Response
     {
         $articleRepository->deletePhoto($id);
-        return new Response('Success', Response::HTTP_OK);
+        return new JsonResponse(['data' => "test"]);
     }
 
     /**
@@ -123,6 +122,17 @@ class TraderController extends AbstractController
     public function apiGetArticle($id, ArticleRepository $articleRepository): JsonResponse
     {
         return new JsonResponse(['data' => $articleRepository->getArticle($id)]);
+    }
+
+    /**
+     * @Route("/api/get-shop/{id}")
+     * @param $id
+     * @param ShopRepository $shopRepository
+     * @return JsonResponse
+     */
+    public function apiGetShop($id, ShopRepository $shopRepository): JsonResponse
+    {
+        return new JsonResponse(['data' => $shopRepository->getShop($id)]);
     }
 
 
