@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Repository\ArticleRepository;
 use App\Repository\ShopRepository;
 use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

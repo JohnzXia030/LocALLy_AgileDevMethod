@@ -149,7 +149,7 @@ input[type=checkbox] {
     border-color: black;
 }
 .recherche-input {
-    border: 1;
+    border: 1px;
     max-width: 400px;
     border-radius: 6px;
     line-height: 35px;
@@ -201,4 +201,28 @@ input[type=checkbox] {
 }
 .checkbox input[type="checkbox"]:checked + label::before {
     content: "\f00c";
+}
+h5  /*.pagination-div*/{
+    text-align: center ;
+}
+.card-footer{
+    text-align: center !important;
+}
+.pagination-div{
+    margin: auto;
+}
+#pagination-demo{
+    display: inline-block;
+    margin-bottom: 1.75em;
+}
+#pagination-demo li{
+    display: inline-block;
+}
+
+.page-content{
+    background: #eee;
+    display: inline-block;
+    padding: 10px;
+    width: 100%;
+    max-width: 660px;
 }
