@@ -58,7 +58,7 @@ class ShopRepository extends ServiceEntityRepository
     public function getShop($id)
     {
         $conn = $this->getEntityManager()->getConnection();
-        // Info de cet article
+        // Info de ce shop
         $qb = $conn->createQueryBuilder();
         $stmt =
             $qb->select('sh.*', 'st.s_name')

@@ -4,55 +4,31 @@
     * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-agency/blob/master/LICENSE)
     */
 $(document).ready(function () {
-    
-    // Smooth scrolling using jQuery easing
-    $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
-        if (
-            location.pathname.replace(/^\//, "") ==
-            this.pathname.replace(/^\//, "") &&
-            location.hostname == this.hostname
-        ) {
-            var target = $(this.hash);
-            target = target.length
-                ? target
-                : $("[name=" + this.hash.slice(1) + "]");
-            if (target.length) {
-                $("html, body").animate(
-                    {
-                        scrollTop: target.offset().top - 72,
-                    },
-                    1000,
-                    "easeInOutExpo"
-                );
-                return false;
+
+    $.ajax({
+        url: "../guest/api/is-logged",
+        type: "POST",
+        success: function (msg) {
+            if (msg == '') {
+                $('div#navbarResponsive ul').append('<li class="nav-item"><a class="nav-link js-scroll-trigger" href="../guest/login">Connexion / Inscription</a></li>');
             }
-        }
+            else {
+                $('div#navbarResponsive ul').append(' ' +
+                    '<li class="nav-item">' +
+                        '<a id="" class="linkAccount nav-link js-scroll-trigger" href="../guest/accountNav">Mon compte</a>' +
+                    '</li>' +
+                    '<li class="nav-item">' +
+                        '<a id="" class="linkLogout nav-link js-scroll-trigger" onclick="logOut()">Déconnexion</a>' +
+                    '</li>');
+            }
+        },
+        error: function(e){
+            console.log(e);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
     });
-
-    // Closes responsive menu when a scroll trigger link is clicked
-    $(".js-scroll-trigger").click(function () {
-        $(".navbar-collapse").collapse("hide");
-    });
-
-    // Activate scrollspy to add active class to navbar items on scroll
-    $("body").scrollspy({
-        target: "#mainNav",
-        offset: 74,
-    });
-
-    // Collapse Navbar
-    var navbarCollapse = function () {
-        //console.log($("#mainNav"));
-        if ($("#mainNav").offset().top > 100) {
-            $("#mainNav").addClass("navbar-shrink");
-        } else {
-            $("#mainNav").removeClass("navbar-shrink");
-        }
-    };
-    // Collapse now if page is not at top
-    navbarCollapse();
-    // Collapse the navbar when page is scrolled
-    $(window).scroll(navbarCollapse);
 
     //SendMessage
     $("#sendMessageButton").click(function () {
@@ -121,7 +97,72 @@ $(document).ready(function () {
         }
         
     });
+
     
+    // Smooth scrolling using jQuery easing
+    $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
+        if (
+            location.pathname.replace(/^\//, "") ==
+            this.pathname.replace(/^\//, "") &&
+            location.hostname == this.hostname
+        ) {
+            var target = $(this.hash);
+            target = target.length
+                ? target
+                : $("[name=" + this.hash.slice(1) + "]");
+            if (target.length) {
+                $("html, body").animate(
+                    {
+                        scrollTop: target.offset().top - 72,
+                    },
+                    1000,
+                    "easeInOutExpo"
+                );
+                return false;
+            }
+        }
+    });
+
+    // Closes responsive menu when a scroll trigger link is clicked
+    $(".js-scroll-trigger").click(function () {
+        $(".navbar-collapse").collapse("hide");
+    });
+
+    // Activate scrollspy to add active class to navbar items on scroll
+    $("body").scrollspy({
+        target: "#mainNav",
+        offset: 74,
+    });
+
+    // Collapse Navbar
+    var navbarCollapse = function () {
+        //console.log($("#mainNav"));
+        if ($("#mainNav").offset().top > 100) {
+            $("#mainNav").addClass("navbar-shrink");
+        } else {
+            $("#mainNav").removeClass("navbar-shrink");
+        }
+    };
+    // Collapse now if page is not at top
+    navbarCollapse();
+    // Collapse the navbar when page is scrolled
+    $(window).scroll(navbarCollapse);
 
 }); // End of use strict
 
+
+function logOut() {
+    $.ajax({
+        url: "../guest/api/logout",
+        type: "POST",
+        success: function (msg) {
+            window.location.reload();
+        },
+        error: function(e){
+            console.log(e);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+}
