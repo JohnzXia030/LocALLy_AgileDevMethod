@@ -9,7 +9,7 @@ var article;
 var photo = [];
 /**
  * Photos deposées par commerçant
- */
+  */
 var imageArr;
 window.onload = function () {
     // Obtenir l'id d'article
@@ -36,21 +36,18 @@ window.onload = function () {
             document.getElementById("stock-article").value = article['a_quantity_stock'];
             //document.getElementById("photo-article ").value = article['a_name'];
             console.log(photo.length);
-
             for (let i = 0; i < photo.length; i++) {
-                var a = document.createElement('a');
-                a.id = photo[i]['p_id'];
-                a.onclick = function () {
-                    deletePhoto(this);
-                };
                 var img = document.createElement('img');
-                img.src = "data:image/gif;base64," + photo[i]['p_base64'];
-                img.className = "d-block w-100";
-                a.appendChild(img);
+                img.onclick = function (){
+                    deletePhoto(photo[i]);
+                };
+                img.src = "data:image/gif;base64," + photo[i]['p_bin'];
                 var div = document.createElement("div");
-                div.className = (i === 0) ? "carousel-item active" : "carousel-item";
-                div.append(img);
-                document.getElementById('photo-playlist').append(div);
+                div.className = (i === 0) ? "carousel-item active" : "carousel-item" ;
+                img.height = 500
+                img.width = 500
+                div.appendChild(img);
+                document.getElementById('photo-list').append(div);
             }
         },
         cache: false,
@@ -58,7 +55,6 @@ window.onload = function () {
         processData: false
     });
     console.log(article);
-
 }
 
 
@@ -86,7 +82,7 @@ function submitUpdateArticleForm() {
     console.log(formJson);
     // Envoyer le contenu vers le controller
     $.ajax({
-        url: "api/update-article/" + paramId,
+        url: "api/update-article/" + paramId ,
         type: "POST",
         data: formJson,
         success: function (msg) {
@@ -99,17 +95,18 @@ function submitUpdateArticleForm() {
     });
 }
 
-function deletePhoto(e) {
+function deletePhoto(e){
     const r = confirm("Veuillez confirmer votre supression défitive!!!!");
     if (r === false) {
         return;
     }
+    console.log("test");
     $.ajax({
-        url: "api/delete-photo/" + e.id,
+        url: "api/delete-photo/" + e.p_id,
         type: "GET",
         dataType: 'JSON',
         success: function (data) {
-            alert("Photo supprimeé!");
+            alert("Photo supprimée!");
             window.location.reload();
         },
         cache: false,

@@ -9,9 +9,52 @@
             <ul class="navbar-nav text-uppercase ml-auto">
                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#magasins">Magasins</a></li>
                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#produits">Produits</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#connexion">Connexion / Inscription</a>
-                </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+    $.ajax({
+        url: "../guest/api/is-logged",
+        type: "POST",
+        success: function (msg) {
+            if (msg == '') {
+                $('div#navbarResponsive ul').append('<li class="nav-item"><a class="nav-link js-scroll-trigger" href="../guest/login">Connexion / Inscription</a></li>');
+            }
+            else {
+                $('div#navbarResponsive ul').append(' ' +
+                    '<li class="nav-item">' +
+                        '<a id="" class="linkAccount nav-link js-scroll-trigger" href="../guest/accountNav">Mon compte</a>' +
+                    '</li>' +
+                    '<li class="nav-item">' +
+                        '<a id="" class="linkLogout nav-link js-scroll-trigger" onclick="logOut()">Déconnexion</a>' +
+                    '</li>');
+            }
+        },
+        error: function(e){
+            console.log(e);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    function logOut() {
+        $.ajax({
+            url: "../guest/api/logout",
+            type: "POST",
+            success: function (msg) {
+                window.location.reload();
+            },
+            error: function(e){
+                console.log(e);
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+
+</script>

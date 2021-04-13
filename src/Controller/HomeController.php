@@ -43,7 +43,6 @@ class HomeController extends AbstractController{
      */
     public function apiAddMessage(): Response
     {
-        
         $mNewMessage = json_decode($this::$request->getContent(),true);
         $lastname = $mNewMessage['lastname'];
         $firstname = $mNewMessage['firstname'];
@@ -61,7 +60,7 @@ class HomeController extends AbstractController{
         $mail->SMTPSecure=PHPMailer::ENCRYPTION_STARTTLS;
         $mail-> SMTPAuth= true;                                   // Activer l'authentification SMTP 
         $mail-> Username='locally.gestionmessage@gmail.com';                     // Nom d'utilisateur SMTP 
-        $mail-> Password='locally2021#';                               // Mot de passe SMTP $ mail -> SMTPSecure = PHPMailer :: ENCRYPTION_STARTTLS ;         // Activer le cryptage TLS; `PHPMailer :: ENCRYPTION_SMTPS` encouragé 
+        $mail-> Password='4S7}sY5F%J*#gGa6bv;5';                               // Mot de passe SMTP $ mail -> SMTPSecure = PHPMailer :: ENCRYPTION_STARTTLS ;         // Activer le cryptage TLS; `PHPMailer :: ENCRYPTION_SMTPS` encouragé 
         $mail-> Port=587;                                    // Port TCP auquel se connecter, utilisez 465 pour `PHPMailer :: ENCRYPTION_SMTPS` ci-dessus
 
         // Contenu 

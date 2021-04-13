@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head >
+    <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <title>LocAlly</title>
@@ -29,7 +29,6 @@
                     </a>
                     <div class="collapse navbar-collapse my-3" id="navbarResponsive">
                         <ul class="navbar-nav text-uppercase ml-auto">
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#connexion">Connexion / Inscription</a></li>
                         </ul>
                     </div>
                 </div>
@@ -121,7 +120,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center">
+                        <div id="emailSuccess" class="text-center mb-3 d-none">
+                            <span>Message envoyé avec succès</span>
+                        </div>
+                        <div id="divSendEmail" class="text-center">
                             <button class="btn btn-primary btn-xl text-uppercase" id="sendMessageButton" type="button">Envoyer le message</button>
                         </div>
                     </form>
