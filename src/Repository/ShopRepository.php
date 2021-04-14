@@ -18,6 +18,7 @@ class ShopRepository extends ServiceEntityRepository
     public function addShop($request)
     {
         $conn = $this->getEntityManager()->getConnection();
+        $horairesString = json_encode($request->horaires);
         /**
          * Inserer les donnees dans 'shop'
          */
@@ -31,7 +32,9 @@ class ShopRepository extends ServiceEntityRepository
             ->setValue('sh_description', '"' . $request->commentaires . '"')
             ->setValue('sh_id_trader', '1')
             ->setValue('sh_num_phone', $request->numtel)
+            ->setValue("sh_open_hours", "'" . $horairesString . "'")
             ->execute();
+        $lastId = $conn->lastInsertId();
         /**
          * Inserer les donnees dans 'faq'
          */
@@ -40,25 +43,27 @@ class ShopRepository extends ServiceEntityRepository
             $qb->insert('faq')
                 ->setValue('faq_question', '"' . $line->question . '"')
                 ->setValue('faq_reply', '"' . $line->reponse . '"')
-                ->setValue('faq_id_shop', '1')
+                ->setValue('faq_id_shop', $lastId)
                 ->execute();
         }
         /**
          * Inserer les photos dans 'photos'
          */
-        foreach ($request->picture as $line) {
-            $qb = $conn->createQueryBuilder();
-            $qb->insert('picture')
-                ->setValue('p_bin', '"' . $line->pictureURL . '"')
-                ->setValue('p_id_shop', '1')
-                ->execute();
+        if ($request->picture != null) {
+            foreach ($request->picture as $line) {
+                $qb = $conn->createQueryBuilder();
+                $qb->insert('picture')
+                    ->setValue('p_base64', '"' . $line->pictureURL . '"')
+                    ->setValue('p_id_shop', '"' . $lastId . '"')
+                    ->execute();
+            }
         }
     }
 
     public function getShop($id)
     {
         $conn = $this->getEntityManager()->getConnection();
-        // Info de cet article
+        // Info de ce shop
         $qb = $conn->createQueryBuilder();
         $stmt =
             $qb->select('sh.*', 'st.s_name')

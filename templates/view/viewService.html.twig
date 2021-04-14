@@ -33,32 +33,23 @@
     <!---->
         <div id="pageContent" class="d-flex flex-column align-items-start">
             <div class="row w-100 mt-5">
-                <div class="col">
-                    <!-- les images de produit -->
-                    <div class="container">
-                        <ul class="thumbnails"></ul>
-                        <ul class="slides"></ul>
-                    </div>
-                </div>
-
-                <div class="col size-20 ">
+                <div class="col size-20 px-5">
                     <div class="text-yellow font-bold size-30" id="name-product" ></div>
                     <div class="mt-3">
-                       <a href="#" id="name-shop"></a>
-                    </div>
-                    <div class="mt-3">
-                         <div>Quantité</div>
-                        <fieldset  data-quantity></fieldset>
+                       <a href="#" id="name-shop">  </a>
                     </div>
                     <div class="d-flex">
                         <div class="mt-3 font-bold mr-2" id="price-product"></div>
                         <div class="mt-3 font-bold d-none" id="discount-price"></div>
                     </div>
                     <div class="mt-3 d-none" id="discount"></div>
-                    <div class="mt-3 size-14" id="available-product"></div>
                     <div class="mt-3"> 
-                        <button class="btn button" id="add-product"> Ajouter au panier </button>
+                        <button class="btn button" id=""> Prendre un rendez-vous </button>
                     </div>
+                </div>
+                <div class="col">
+                    <!-- TODO:  MODIFIER POUR AFFICHER LES RENDEZ-VOUS DISPONIBLES, une fois que la gestion des rendez-voius sera faite -->
+                    <img class="calendar" src="https://icalendrier.fr/media/imprimer/generique/hebdomadaire/semainier-generique-lun-dim-6-22.png"/>
                 </div>
             </div>
             
@@ -68,13 +59,8 @@
                 <ul>
                     <li>
                         <input type="checkbox" id="list-item-1">
-                        <label for="list-item-1" class="first">Caracteristiques du produit</label>
+                        <label for="list-item-1" class="first">Caracteristiques du service</label>
                        <div id="about-product"></div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="list-item-2">
-                        <label for="list-item-2" class="last">Details de livraison</label>
-                        <div id="delivery-product"></div>
                     </li>
                 </ul>
                 </div>
@@ -84,6 +70,6 @@
         {% include 'footer.html.twig' %}
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
-        <script type="module" src="../js/view-product.js"></script>
+        <script src="../js/view-service.js"></script>
     </body>
 </html>
