@@ -91,16 +91,19 @@ input[type=checkbox] {
 .group-checkbox .form-check .form-check-input{ filter: hue-rotate(150deg)}
 
 /** Shop: Sorting **/
+#shop_sorting_div{
+    padding-left: 200px;
+}
 .shop__sorting {
     list-style: none;
-    padding-left: 300px;
     margin-bottom: 40px;
     margin-top: -1px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    text-align: right;
+    text-align: center;
 }
 .shop__sorting > li {
     display: inline-block;
+    padding-left: 30px;
 }
 .shop__sorting > li > a {
     display: block;
@@ -123,6 +126,18 @@ input[type=checkbox] {
     color: #e6b301;
     border-bottom-color: #e6b301;
 }
+
+/*.shop__sorting > li > a:before{
+    background: #e6b301;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .4s linear; 
+}
+.shop__sorting > li > a:hover:before{
+    transform: scaleX(1);
+    transform-origin: left;
+}*/
+
 @media (max-width: 767px) {
     .shop__sorting {
         text-align: left;
@@ -140,7 +155,7 @@ input[type=checkbox] {
         font-weight: 600;
     }
 }
-
+/****** barre de recherche************/
 .recherche_p {
     border-bottom-color:#e6b301 ;
     padding-left: 0;

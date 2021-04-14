@@ -3,12 +3,44 @@ var currentPage;
 var numArticle;
 var articleArr;
 $(document).ready(function () {
+    var sortArticle='';
+
     $('.shop-type-option').select2({
         theme: "classic",
         width: "resolve"
     });
+
+    $("#ascending").click(function(){
+        sortArticle="Up";
+        articleSort(sortArticle);
+    });
+
+    $("#descending").click(function(){
+        sortArticle="Down";
+        articleSort(sortArticle);
+    });
 });
 
+function articleSort(sortArticle) {
+    //articleArr
+    if(sortArticle=="Up"){
+        articleArr.sort(function(a, b){
+            //return $(a).data(sort) - $(b).data(sort);
+            return a.a_price - b.a_price;
+        });
+    }else{
+        //return a.a_price
+    }
+    console.log(articleArr);
+}
+/*function articleSort(sort) {
+    var sort = ($(this), $(this).find("li"), $(this).attr("value"));
+    if(sort="Up"){
+        alert("Yay");
+    }else{
+        alert("YAHOU");
+    }
+}*/
 
 /**
  * Appliquer les filters et obtenir les resultats sur la page
@@ -61,8 +93,6 @@ function applyFilters() {
                     });
                 }
             }
-
-
         },
         cache: false,
         contentType: false,
