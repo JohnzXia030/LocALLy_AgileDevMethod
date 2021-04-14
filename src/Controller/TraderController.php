@@ -136,5 +136,14 @@ class TraderController extends AbstractController
         return new JsonResponse(['data' => $shopRepository->getShop($id)]);
     }
 
+    /**
+     * @Route("/api/get-cities")
+     * @param ShopRepository $shopRepository
+     * @return JsonResponse
+     */
+    public function apiGetCities(ShopRepository $shopRepository): JsonResponse
+    {
+        return new JsonResponse(['data' => $shopRepository->getCities()]);
+    }
 
 }

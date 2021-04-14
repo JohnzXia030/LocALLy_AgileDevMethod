@@ -15,6 +15,9 @@ class ShopRepository extends ServiceEntityRepository
         parent::__construct($registry, Shop::class);
     }
 
+    /**
+     * Ajouter un shop
+     */
     public function addShop($request)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -28,11 +31,13 @@ class ShopRepository extends ServiceEntityRepository
             ->setValue('sh_num_street', '"' . $request->numvoie . '"')
             ->setValue('sh_name_street', '"' . $request->nomvoie . '"')
             ->setValue('sh_address_add', '"' . $request->ca . '"')
-            ->setValue('sh_city', '33000')
+            ->setValue('sh_city', '"' . $request->nville . '"')
             ->setValue('sh_description', '"' . $request->commentaires . '"')
-            ->setValue('sh_id_trader', '1')
-            ->setValue('sh_num_phone', $request->numtel)
+            ->setValue('sh_id_trader', '"' . '1' . '"')
+            ->setValue('sh_num_phone', '"' . $request->numtel . '"')
             ->setValue("sh_open_hours", "'" . $horairesString . "'")
+            ->setValue("sh_pick", "'" . $request->oretrait . "'")
+            ->setValue("sh_type", "'" . $request->tmagasin . "'")
             ->execute();
         $lastId = $conn->lastInsertId();
         /**
@@ -43,7 +48,7 @@ class ShopRepository extends ServiceEntityRepository
             $qb->insert('faq')
                 ->setValue('faq_question', '"' . $line->question . '"')
                 ->setValue('faq_reply', '"' . $line->reponse . '"')
-                ->setValue('faq_id_shop', $lastId)
+                ->setValue('faq_id_shop', '"' . $lastId . '"')
                 ->execute();
         }
         /**
@@ -60,6 +65,9 @@ class ShopRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Récupérer un shop en fonction de son id
+     */
     public function getShop($id)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -94,5 +102,20 @@ class ShopRepository extends ServiceEntityRepository
             'pictures' => $pictures,
             'faq' => $faq
         ]);
+    }
+
+    /**
+     * Récupérer toutes les villes dans la BDD
+     */
+    public function getCities(){
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        //get all shops
+        $stmt =
+            $qb->select('*')
+                ->from('city')
+                ->execute();
+        $cities = $stmt->fetchAllAssociative();
+    return $cities;
     }
 }

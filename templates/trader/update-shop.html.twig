@@ -57,7 +57,8 @@
 
         <div class="info">
         <label class="uslabel" for="nville">Ville</label>
-        <input type="text" id="nom-ville" name="nville"/>
+            <select name="nville" placeholder="Ville" id="nville">
+            </select>
         </div>
 
         <div class="info">
@@ -103,76 +104,55 @@
             <div class="Horaire">
                 <table style="height: 112px; width: 100%; border-collapse: collapse; border-style: none; margin-left: auto; margin-right: auto;" border="0" cellpadding="0">
                     <tbody style="color:black;">
-                        <tr style="height: 21px;">
-                            <td style="width: 50%; height: 22px;">Lundi</td>
-                            <td style="width: 50%; height: 22px;">11h00-20h30</td>
-                        </tr>
-                        <tr style="height: 15px;">
-                            <td style="width: 50%; height: 15px;">Mardi</td>
-                            <td style="width: 50%; height: 15px;">11h00-20h30</td>
-                        </tr>
-                        <tr style="height: 15px;">
-                            <td style="width: 50%; height: 15px;">Mercredi</td>
-                            <td style="width: 50%; height: 15px;">11h00-20h30</td>
-                        </tr>
-                        <tr style="height: 15px;">
-                            <td style="width: 50%; height: 15px;">Jeudi</td>
-                            <td style="width: 50%; height: 15px;">11h00-20h30</td>
-                        </tr>
-                        <tr style="height: 15px;">
-                            <td style="width: 50%; height: 15px;">Vendredi</td>
-                            <td style="width: 50%; height: 15px;">11h00-20h30</td>
-                        </tr>
-                        <tr style="height: 15px;">
-                            <td style="width: 50%; height: 15px;">Samedi</td>
-                            <td style="width: 50%; height: 15px;">11h00-20h30</td>
-                        </tr>
-                        <tr style="height: 15px;">
-                            <td style="width: 50%; height: 15px;">Dimanche</td>
-                            <td style="width: 50%; height: 15px;">13h30-18h30</td>
-                        </tr>
+                    <tr style="height: 21px;">
+                        <td style="width: 50%; height: 22px;">Lundi</td>
+                        <td>
+                            <input id="monday" type="text" value="08:00-12:00;14:00-18:00">
+                        </td>
+                    </tr>
+                    <tr style="height: 15px;">
+                        <td style="width: 50%; height: 15px;">Mardi</td>
+                        <td style="width: 50%; height: 15px;">
+                            <input id="tuesday" type="text" value="08:00-12:00;14:00-18:00">
+                        </td>
+                    </tr>
+                    <tr style="height: 15px;">
+                        <td style="width: 50%; height: 15px;">Mercredi</td>
+                        <td style="width: 50%; height: 15px;">
+                            <input id="wednesday" type="text" value="08:00-12:00;14:00-18:00">
+                        </td>
+                    </tr>
+                    <tr style="height: 15px;">
+                        <td style="width: 50%; height: 15px;">Jeudi</td>
+                        <td style="width: 50%; height: 15px;">
+                            <input id="thursday" type="text" value="08:00-12:00;14:00-18:00">
+                        </td>
+                    </tr>
+                    <tr style="height: 15px;">
+                        <td style="width: 50%; height: 15px;">Vendredi</td>
+                        <td style="width: 50%; height: 15px;">
+                            <input id="friday" type="text" value="08:00-12:00;14:00-18:00">
+                        </td>
+                    </tr>
+                    <tr style="height: 15px;">
+                        <td style="width: 50%; height: 15px;">Samedi</td>
+                        <td style="width: 50%; height: 15px;">
+                            <input id="saturday" type="text" value="08:00-12:00;14:00-18:00">
+                        </td>
+                    </tr>
+                    <tr style="height: 15px;">
+                        <td style="width: 50%; height: 15px;">Dimanche</td>
+                        <td style="width: 50%; height: 15px;">
+                            <input id="sunday" type="text" value="08:00-12:00;14:00-18:00">
+                        </td>
+                    </tr>
                     </tbody>
                 </table></div>
         </div>
         </div>
 
-        <div class="container-fluid px-1  py-5 mx-auto">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-10 col-lg-9 col-xl-8">
-
-                        <div>
-                            <h2 class="fs-title">Modifier mes Horaires</h2>
-                            <div class="col-sm-10 list">
-                                <div class="mb-2 row justify-content-between px-3">
-                                    <select class="mb-2 mob" name="horaires">
-                                        <option value="lundi">Lundi</option>
-                                        <option value="mardi">Mardi</option>
-                                        <option value="mercredi">Mercredi</option>
-                                        <option value="jeudi">Jeudi</option>
-                                        <option value="vendredi">Vendredi</option>
-                                        <option value="samedi">Samedi</option>
-                                        <option value="dimanche">Dimanche</option>
-                                        <option value="lundi-vendredi">Lundi-Vendredi</option>
-                                        <option value="samedi-dimanche">Samedi-Dimanche</option>
-                                    </select>
-                                    <div class="mob"><label style="color: black !important;" >De</label> <input class="ml-1" type="time" name="from"></div>
-                                    <div class="mob mb-2"><label style="color: black !important;" >A</label> <input class="ml-1" type="time" name="to">
-                                    </div>
-                                    <div class="mt-1 cancel fa fa-times text-danger"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row px-3 mt-3">
-                            <input type="button" name="add" class="add action-button" value="Ajouter"/>
-                        </div>
-                        <!--<div class="row px-3 mt-3 justify-content-center"> <button class="btn exit mr-2">Annuler</button> <button class="btn btn-success ml-2">Valider</button> </div> -->
-
-                </div>
-            </div>
-        </div>
-
         <input type="button" name="previous" class="previous action-button" value="Précédent"/>
-        <input type="button" name="next" class="next action-button" value="Suivant"/>
+        <input type="button" name="next" class="next action-button" id="horaires" value="Suivant"/>
     </fieldset>
 
     <fieldset>
