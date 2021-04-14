@@ -71,7 +71,7 @@ class UserRepository extends ServiceEntityRepository
 
     public function checkLogin($request) {
         $conn = $this->getEntityManager()->getConnection();
-        $user = $conn->fetchAll("SELECT u_id, u_email, u_password FROM user WHERE u_email = '" . $request['email'] . "' AND u_password = '" . $request['password'] . "'");
+        $user = $conn->fetchAll("SELECT u_id, u_email, u_password, u_role FROM user WHERE u_email = '" . $request['email'] . "' AND u_password = '" . $request['password'] . "'");
         
         return $user;
     }
