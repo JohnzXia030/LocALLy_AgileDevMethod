@@ -32,8 +32,12 @@
                 <ul class="navbar-nav text-uppercase ml-auto">
                     {% if idUser == null %}
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="../guest/login">Connexion / Inscription</a></li>
-                    {% else %}
+                    {% elseif idRole == 2 %}
                         <li class="nav-item"><a id="" class="linkAccount nav-link js-scroll-trigger" href="../guest/accountNav">Mon compte</a></li>
+                        <li class="nav-item"><a id="" class="linkLogout nav-link js-scroll-trigger" onclick="logOut()">Déconnexion</a>
+                        </li>
+                    {% elseif idRole == 3 %}
+                        <li class="nav-item"><a id="" class="linkAccount nav-link js-scroll-trigger" href="../trader/traderAccountNav">Mon compte</a></li>
                         <li class="nav-item"><a id="" class="linkLogout nav-link js-scroll-trigger" onclick="logOut()">Déconnexion</a>
                         </li>
                     {% endif %}

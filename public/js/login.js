@@ -76,7 +76,7 @@ function checkInputs(){
               $('p#errorMessage').removeClass('d-none');
             }
             else { // Authentification réussie
-              window.location.replace('/locally/public/home/');
+                window.location.replace('/locally/public/home/');
             }
         },
         error: function(e){
@@ -86,10 +86,5 @@ function checkInputs(){
         contentType: false,
         processData: false
     });
-    
-
-
-
   }
-  
 }
