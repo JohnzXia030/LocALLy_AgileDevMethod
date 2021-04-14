@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Repository\ArticleRepository;
 use App\Repository\ShopRepository;
+use App\Service\ToolService;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,11 +22,16 @@ class TraderController extends AbstractController
 {
     //TODO instancier ArticleRepository pour éviter la duplication de code
     public static $request;
+    /**
+     * @var ToolService
+     */
+    private static $tool;
 
     public function __construct()
     {
         $request = new Request();
         $this::$request = $request;
+        $this::$tool = new ToolService();
     }
 
     /**
@@ -148,14 +154,31 @@ class TraderController extends AbstractController
     }
 
     /**
+     * Rechercher l'article par son id
      * @Route("/api/get-article/{id}")
-     * @param $id
+     * @param $id : id d'un article
      * @param ArticleRepository $articleRepository
      * @return JsonResponse
      */
     public function apiGetArticle($id, ArticleRepository $articleRepository): JsonResponse
     {
         return new JsonResponse(['data' => $articleRepository->getArticle($id)]);
+    }
+
+    /**
+     * Rechercher tous les articles d'un magasin
+     * @Route("/api/get-article-from-shop")
+     * @param Request $request
+     * @param ArticleRepository $articleRepository
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function apiGetArticleFromShop(Request $request,ArticleRepository $articleRepository): JsonResponse
+    {
+        $session = $request->getSession();
+        $mIdUser= $session->get('iduser');
+        $mArticlesConcerned = self::$tool->unique_multi_array($articleRepository->getArticleFromShop($mIdUser),'a_id');
+        return new JsonResponse(['data' => $articleRepository->getArticleFromShop($mIdUser)]);
     }
 
     /**

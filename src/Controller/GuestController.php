@@ -224,19 +224,21 @@ class GuestController extends AbstractController
 
     /**
      * @Route("/api/is-logged")
+     * @param Request $request
      * @return Response
      */
     public function apiIsLogged(Request $request): Response
     {
         $session = $request->getSession();
         $sIdUserSession = $session->get('iduser');
-
-        return new Response($sIdUserSession);
+        $sIdRole = $session->get('idRole');
+        return new JsonResponse(['idUser' => $sIdUserSession, 'idRole' => $sIdRole]);
     }
-    
+
     /**
      * @Route("/api/get-info-user")
      * @param UserRepository $userRepository
+     * @param Request $request
      * @return Response
      */
     public function getInfoUser(UserRepository $userRepository, Request $request): Response

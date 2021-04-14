@@ -72,7 +72,11 @@ class ArticleRepository extends ServiceEntityRepository
         return 'success';
     }
 
-
+    /**
+     * @param $id : id d'un article
+     * @return array[]
+     * @throws Exception
+     */
     public function getArticle($id)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -96,6 +100,31 @@ class ArticleRepository extends ServiceEntityRepository
             'article' => $article,
             'pictures' => $pictures
         ]);
+    }
+
+    /**
+     * @param $idTrader
+     * @return mixed
+     * @throws Exception
+     */
+    public function getArticleFromShop($idTrader)
+    {
+        $qb = $this::$conn->createQueryBuilder();
+        // Obtenir l'id du magasin que le commercant possede
+        $stmt =
+            $qb ->select('sh_id')
+                ->from('shop', 's')
+                ->where($qb->expr()->eq('sh_id_trader', '"' . $idTrader . '"'))
+                ->execute();
+        $idShop = $stmt->fetchAssociative()["sh_id"];
+        $qb = $this::$conn->createQueryBuilder();
+        $stmt =
+            $qb ->select('*')
+                ->from('article', 'a')
+                ->leftJoin('a','picture','p', 'a.a_id = p.p_id_article')
+                ->where($qb->expr()->eq('a_id_shop', '"' . $idShop . '"'))
+                ->execute();
+        return $stmt->fetchAllAssociative();
     }
 
     /**
@@ -157,6 +186,7 @@ class ArticleRepository extends ServiceEntityRepository
                 ->where($qb->expr()->eq('p_id', '"' . $id . '"'))
                 ->execute();
     }
+
 
     public function getFilteredArticles($request)
     {
