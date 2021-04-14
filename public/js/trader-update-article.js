@@ -41,7 +41,7 @@ window.onload = function () {
                 img.onclick = function (){
                     deletePhoto(photo[i]);
                 };
-                img.src = "data:image/gif;base64," + photo[i]['p_bin'];
+                img.src = "data:image/gif;base64," + photo[i]['p_base64'];
                 var div = document.createElement("div");
                 div.className = (i === 0) ? "carousel-item active" : "carousel-item" ;
                 img.height = 500

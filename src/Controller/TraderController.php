@@ -37,7 +37,40 @@ class TraderController extends AbstractController
     {
         return $this->render('trader/add-article.html.twig', array());
     }
+    
+    /**
+     * @Route("/traderAccountNav")
+     */
+    public function traderAccountNav(): Response
+    {
+        return $this->render('trader/traderAccountNav.html.twig'); 
+    }
 
+     /**
+     * @Route("/traderAccountShop")
+     */
+    public function traderAccountShop(): Response
+    {
+        return $this->render('trader/traderAccountShop.html.twig');
+    }
+
+    /**
+     * @Route("/updateDeleteArticle")
+     */
+    public function traderUpdateDeleteArticle(): Response
+    {
+        return $this->render('trader/viewArticle-update-delete.html.twig');
+    }
+
+    /**
+     * @Route("/viewArticles")
+     */
+    public function viewArticle(): Response
+    {
+        return $this->render('trader/viewArticles.html.twig');
+    }
+    
+    
     /**
      * @Route("/api/create-article")
      * @param ArticleRepository $articleRepository

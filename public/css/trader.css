@@ -61,7 +61,7 @@ body {
     padding: 20px 30px;
     box-sizing: border-box;
     /*stacking fieldsets above each other*/
-    position: relative; !important;
+    position: relative !important;
 }
 /*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -17,7 +16,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-        <link href="{{ asset('css/view.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/accountNav.css') }}" rel="stylesheet">
         <!-- Core theme JS-->
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> <!-- jQuery est inclus ! -->
@@ -25,58 +24,32 @@
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         
     </head>
-   
-   
     <body>
     <!-- Header -->
     {% include 'header.html.twig' %}
     <!---->
-        <div id="pageContent" class="d-flex flex-column align-items-start">
-            <div class="row w-100 mt-5">
-                <div class="col">
-                    <!-- les images de produit -->
-                    <div class="container">
-                        <ul class="thumbnails"></ul>
-                        <ul class="slides"></ul>
-                    </div>
-                </div>
-
-                <div class="col size-20 ">
-                    <div class="text-yellow font-bold size-30" id="name-product" ></div>
-                    <div class="mt-3">
-                       <a href="#" id="name-shop"></a>
-                    </div>
-                    <div class="mt-3">
-                         <div>Quantité</div>
-                        <fieldset  data-quantity></fieldset>
-                    </div>
-                    <div class="d-flex">
-                        <div class="mt-3 font-bold mr-2" id="price-product"></div>
-                        <div class="mt-3 font-bold d-none" id="discount-price"></div>
-                    </div>
-                    <div class="mt-3 d-none" id="discount"></div>
-                    <div class="mt-3 size-14" id="available-product"></div>
-                    <div class="mt-3"> 
-                        <button class="btn button" id="add-product"> Ajouter au panier </button>
-                    </div>
-                </div>
+        <div id="pageContent" class="d-flex flex-column align-items-center">
+            <div class="my-5 px-4 py-2 divTitle">
+                <span class="m-0 h1">Gestion magasin</span>
             </div>
-            
-            <!-- caracteristique + livraison -->
-            <div class="row w-80 m-0 my-4 ml-4">
-               <div class="wrapper">
-                <ul>
-                    <li>
-                        <input type="checkbox" id="list-item-1">
-                        <label for="list-item-1" class="first">Caracteristiques du produit</label>
-                       <div id="about-product"></div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="list-item-2">
-                        <label for="list-item-2" class="last">Details de livraison</label>
-                        <div id="delivery-product"></div>
-                    </li>
-                </ul>
+            <div class="row mt-5 mx-5">
+                <div id="navAddArticle" class="m-3 col box p-4 py-5 d-flex justify-content-center">
+                    <div class="box-icon d-flex align-items-center justify-content-center">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <span class="m-0 text-center text h5">Ajouter un article</span>
+                </div>
+                <div id="navUpdateArticle" class="m-3 col box p-4 py-5 d-flex justify-content-center">
+                    <div class="box-icon d-flex align-items-center justify-content-center">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <span class="m-0 text-center text h5">Modifier/ Supprimer un article</span>
+                </div>
+                <div id="navViewArticles" class="m-3 col box p-4 py-5 d-flex justify-content-center">
+                    <div class="box-icon d-flex align-items-center justify-content-center">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <span class="m-0 text-center text h5">Afficher les articles</span>
                 </div>
             </div>
         </div>
@@ -84,6 +57,6 @@
         {% include 'footer.html.twig' %}
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
-        <script type="module" src="../js/view-product.js"></script>
+        <script src="../js/traderAccountNav.js"></script>
     </body>
 </html>
