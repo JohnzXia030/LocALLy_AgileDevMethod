@@ -18,7 +18,6 @@ class ShopRepository extends ServiceEntityRepository
     public function addShop($request)
     {
         $conn = $this->getEntityManager()->getConnection();
-        $horairesString = json_encode($request->horaires);
         /**
          * Inserer les donnees dans 'shop'
          */
@@ -32,9 +31,7 @@ class ShopRepository extends ServiceEntityRepository
             ->setValue('sh_description', '"' . $request->commentaires . '"')
             ->setValue('sh_id_trader', '1')
             ->setValue('sh_num_phone', $request->numtel)
-            ->setValue("sh_open_hours", "'" . $horairesString . "'")
             ->execute();
-        $lastId = $conn->lastInsertId();
         /**
          * Inserer les donnees dans 'faq'
          */
@@ -43,20 +40,18 @@ class ShopRepository extends ServiceEntityRepository
             $qb->insert('faq')
                 ->setValue('faq_question', '"' . $line->question . '"')
                 ->setValue('faq_reply', '"' . $line->reponse . '"')
-                ->setValue('faq_id_shop', $lastId)
+                ->setValue('faq_id_shop', '1')
                 ->execute();
         }
         /**
          * Inserer les photos dans 'photos'
          */
-        if ($request->picture != null) {
-            foreach ($request->picture as $line) {
-                $qb = $conn->createQueryBuilder();
-                $qb->insert('picture')
-                    ->setValue('p_base64', '"' . $line->pictureURL . '"')
-                    ->setValue('p_id_shop', '"' . $lastId . '"')
-                    ->execute();
-            }
+        foreach ($request->picture as $line) {
+            $qb = $conn->createQueryBuilder();
+            $qb->insert('picture')
+                ->setValue('p_bin', '"' . $line->pictureURL . '"')
+                ->setValue('p_id_shop', '1')
+                ->execute();
         }
     }
 
@@ -94,5 +89,36 @@ class ShopRepository extends ServiceEntityRepository
             'pictures' => $pictures,
             'faq' => $faq
         ]);
+    }
+
+    public function getCity($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        // Info de la ville
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+            $qb->select('c.*')
+                ->from('city', 'c')
+                ->where($qb->expr()->eq('c.c_id', '"' . $id . '"'))
+                ->execute();
+        $city = $stmt->fetchAssociative();
+        
+        return $city;
+    }
+
+    public function getArticles($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        // Info de la ville
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+        $qb->select('a.*', 'p.p_base64')
+            ->from('article', 'a')
+            ->join('a', 'picture', 'p', 'a.a_id = p.p_id_article')
+            ->where($qb->expr()->eq('a.a_id_shop', '"' . $id . '"'))
+            ->execute();
+        $articles = $stmt->fetchAllAssociative();
+
+        return $articles;
     }
 }

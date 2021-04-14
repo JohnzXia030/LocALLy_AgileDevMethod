@@ -15,14 +15,14 @@ $(document).ready(function () {
           var shop = data.shop[0]['shop'];
 
           $("#name-product").html(article['a_name']);
-          $("#name-shop").html(shop["sh_name"]);
+          $("#name-shop").html(shop["sh_name"]).attr('data-idshop', shop["sh_id"]);
           $("#price-product").html(article['a_price'] + " €  " );
 
           /* DISCOUNT */
           if (article['a_discount'] != 0  ){
               $("#discount").html(article['a_discount'] + " % de remise").removeClass("d-none");
               $("#price-product").addClass("line");
-              var discount=article['a_price'] * article['a_discount'] / 100 ;
+              var discount = article['a_price'] * article['a_discount'] / 100 ;
               var discountPrice = article['a_price'] - discount;
               $("#discount-price").html(discountPrice + " €").removeClass("d-none");
           }
@@ -36,5 +36,11 @@ $(document).ready(function () {
       cache: false,
       contentType: false,
       processData: false
+  });
+
+  $('a#name-shop').click(function(e) {
+    e.preventDefault();
+    var idShop = $(this).attr('data-idshop');
+    window.location.assign('view-shop?id=' + idShop);
   });
 });

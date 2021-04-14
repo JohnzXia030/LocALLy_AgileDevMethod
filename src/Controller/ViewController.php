@@ -83,8 +83,14 @@ class ViewController extends AbstractController{
     public function getInfoShop($id, ShopRepository $shopRepository): Response
     {   
         $shop = $shopRepository->getShop($id);
+
+        $idCity = $shop[0]['shop']['sh_city'];
+        $city = $shopRepository->getcity($idCity);
+
+        $idShop = $shop[0]['shop']['sh_id'];
+        $articles = $shopRepository->getArticles($idShop);
         
-        return new JsonResponse(['shop' => $shop]);
+        return new JsonResponse(['shop' => $shop, 'city' => $city, 'articles' => $articles]);
     }
 
 }
