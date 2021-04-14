@@ -174,7 +174,7 @@ class ArticleRepository extends ServiceEntityRepository
             // Option retrait
             ->where($qb->expr()->eq('sh_pick', '"' . $pick . '"'));
         // Villes
-        if (!is_null($city)) {
+        if ($city !== "") {
             $qb->andwhere($qb->expr()->eq('c_name', '"' . $city . '"'));
         }
         // Prix et promotion
