@@ -20,53 +20,25 @@
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         <link href="{{ asset('css/view.css') }}" rel="stylesheet">
-
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        
-
-
     </head>
-   
    
     <body>
     <!-- Header -->
     {% include 'header.html.twig' %}
     <!---->
         <div id="pageContent" class="d-flex flex-column align-items-start">
-            <div class="row w-100 m-0 mt-5">
-                <div class="col-md-12 d-flex justify-content-around">
+            <div class="row w-100 m-0 my-5">
+                <div class="col d-flex flex-column px-4">
+                    <div class="text-yellow font-bold size-30" id="name-shop"></div>
+                    <div class="size-20" id="type_shop"></div>
+                    <div class="size-20 my-3" id="address_shop"></div>
+                    <div class="size-20" id="phone_shop"></div>
+                </div>
+                <div class="col-xl-7 col-lg-7 col-md-12 d-flex justify-content-around">
                     <div class="carousel slide multi-item-carousel" id="theCarousel">
-                        <div class="carousel-inner">
-                            <!--
-                            <div class="item active">
-                                <div class="col-xs-4"><a href="#1"><img src="https://source.unsplash.com/300x300/?perth,australia" class="img-responsive"></a></div>
-                            </div>
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="https://source.unsplash.com/300x300/?fremantle,australia" class="img-responsive"></a></div>
-                            </div>
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="https://source.unsplash.com/300x300/?west-australia" class="img-responsive"></a></div>
-                            </div>
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="https://source.unsplash.com/300x300/?perth" class="img-responsive"></a></div>
-                            </div>
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="https://source.unsplash.com/300x300/?quokka,perth" class="img-responsive"></a></div>
-                            </div>
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="https://source.unsplash.com/300x300/?margaretriver,australia" class="img-responsive"></a></div>
-                            </div>
-                            -->
-                            <!-- add  more items here -->
-                            <!-- Example item start:  -->
-                            <!--
-                            <div class="item">
-                                <div class="col-xs-4"><a href="#1"><img src="https://source.unsplash.com/300x300/?perth,australia&r=7" class="img-responsive"></a></div>
-                            </div>
-                            -->
-                            <!--  Example item end -->
-                        </div>
+                        <div class="carousel-inner"> </div>
                         <a class="left carousel-control d-flex justify-content-center align-items-center" href="#theCarousel" data-slide="prev">
                             <img src="{{ asset('img/double-left.svg') }}"></img>
                         </a>
@@ -77,36 +49,28 @@
                 </div>
             </div>
             
-            <div class="row w-100 mt-5">
-                <div class="col size-20 px-5">
-                    <div class="text-yellow font-bold size-30" id="name-product" ></div>
-                    <div class="mt-3">
-                       <a href="#" id="name-shop">  </a>
-                    </div>
-                    <div class="d-flex">
-                        <div class="mt-3 font-bold mr-2" id="price-product"></div>
-                        <div class="mt-3 font-bold d-none" id="discount-price"></div>
-                    </div>
-                    <div class="mt-3 d-none" id="discount"></div>
-                    <div class="mt-3"> 
-                        
-                    </div>
-                </div>
-                <div class="col">
-                    
-                </div>
-            </div>
-            
-            <!-- caracteristique + livraison -->
+            <!-- description + horaires -->
             <div class="row w-80 m-0 my-4 ml-4">
-               <div class="wrapper">
-                <ul>
-                    <li>
-                        <input type="checkbox" id="list-item-1">
-                        <label for="list-item-1" class="first">Caracteristiques du service</label>
-                       <div id="about-product"></div>
-                    </li>
-                </ul>
+                <div class="wrapper">
+                    <ul>
+                        <li>
+                            <input type="checkbox" id="list-item-1">
+                            <label for="list-item-1" class="first">Description du commerce</label>
+                            <div id="about-shop"></div>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="list-item-2">
+                            <label for="list-item-2" class="">Horaires d'ouverture</label>
+                            <div id="open-hours"></div>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="list-item-3">
+                            <label for="list-item-3" class="last">Catalogue</label>
+                            <div>
+                                <div id="articles" class="row m-0 center d-flex justify-content-center"> </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
