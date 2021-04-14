@@ -138,7 +138,7 @@ class ArticleRepository extends ServiceEntityRepository
         foreach ($photo as $line) {
             $qb = $conn->createQueryBuilder();
             $qb->insert('picture')
-                ->setValue('p_bin', '"' . $line['pictureURL'] . '"')
+                ->setValue('p_base64', '"' . $line['pictureURL'] . '"')
                 ->setValue('p_id_article', '"' . $idArticle . '"')
                 ->setValue('p_id_shop', '"' . $idShop . '"')
                 ->execute();
