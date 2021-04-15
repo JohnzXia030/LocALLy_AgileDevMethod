@@ -373,10 +373,11 @@ window.onload = function () {
             document.getElementById("numero-voie").value = shop['sh_num_street'];
             document.getElementById("nom-voie").value = shop['sh_name_street'];
             document.getElementById("complement-adresse").value = shop['sh_address_add'];
-            document.getElementById("nville").value = shop['sh_city'];
+            //document.getElementById("nville").value = shop['c_name'];
+            document.getElementById("nville").defaultSelected =shop['c_name'];
             document.getElementById("num-tel").value = shop['sh_num_phone'];
-            document.getElementById("type-magasin").value = shop['sh_type'];
-            document.getElementById("option-retrait").value = shop['sh_pick'];
+            document.getElementById("type-magasin").value = shop['sh_type']; // marche pas
+            document.getElementById("option-retrait").value = shop['sh_pick']; //marche pas
             document.getElementById("description").value = shop['sh_description'];
 
 

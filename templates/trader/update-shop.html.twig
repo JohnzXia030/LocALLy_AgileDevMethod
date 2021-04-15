@@ -57,7 +57,7 @@
 
         <div class="info">
         <label class="uslabel" for="nville">Ville</label>
-            <select name="nville" placeholder="Ville" id="nville">
+            <select name="nville" placeholder="Ville" id="nville" tag>
             </select>
         </div>
 
@@ -69,18 +69,26 @@
         <div class="info">
         <label class="uslabel" for="tmagasin">Types</label>
         <select id="type-magasin" name="tmagasin">
-            <option>Commerces</option>
-            <option>Coiffeurs</option>
-            <option>Boulangerie</option>
+            <option value="Commerces">Commerces</option>
+            <option value="Coiffeurs">Coiffeurs</option>
+            <option value="Boulangerie">Boulangerie</option>
         </select>
         </div>
 
         <div class="info">
         <label class="uslabel">Options Retrait</label>
         <select  id="option-retrait" name="oretrait">
-            <option>Click&Collect</option>
-            <option>Livraison</option>
+            <option value="Click">Click&Collect</option>
+            <option value="Livraison">Livraison</option>
         </select>
+        </div>
+
+        <div class="info">
+            <label class="uslabel">Disponibilité</label>
+            <select  id="disponibilité" name="disponibilité">
+                <option value="Ouvert">Ouvert</option>
+                <option value="Fermé">Fermé</option>
+            </select>
         </div>
 
         <div class="info">
