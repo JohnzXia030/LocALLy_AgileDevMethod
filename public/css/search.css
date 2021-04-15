@@ -226,11 +226,11 @@ h5  /*.pagination-div*/{
 .pagination-div{
     margin: auto;
 }
-#pagination-demo{
+#pagination{
     display: inline-block;
     margin-bottom: 1.75em;
 }
-#pagination-demo li{
+#pagination li{
     display: inline-block;
 }
 

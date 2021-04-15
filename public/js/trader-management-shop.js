@@ -172,7 +172,7 @@ function showCurrentPageArticles(startIndex, endIndex) {
         modifyButton.innerText = "Modifier";
         deleteButton.innerHTML = "<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>";
         modifyButton.href = "../trader/update-article/?id=" + articleArr[i]['a_id'];
-        modifyButton.onclick = function () {
+        deleteButton.onclick = function () {
             deleteArticle(articleArr[i]['a_id']);
         };
 
@@ -193,5 +193,14 @@ function showCurrentPageArticles(startIndex, endIndex) {
 }
 
 function deleteArticle(idArticle){
-
+    $.ajax({
+        url: "api/delete-article/" + idArticle,
+        type: "POST",
+        success: function (data) {
+            console.log(data);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 }
