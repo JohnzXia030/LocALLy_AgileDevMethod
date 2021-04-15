@@ -256,8 +256,7 @@ $(".submit").click(function () {
         object[key] = value;
 
     });
-    var json = JSON.stringify(object);
-    console.log(json);
+
     // Convertir le formulaire en object
 
     var monday = document.getElementById("monday").value;
@@ -276,19 +275,6 @@ $(".submit").click(function () {
         horairesObject[jours[i]] = days[i]
     }
 
-    var toArray = $.map($('input[name="to"]'), function (val, _) {
-        var newObj = {};
-        newObj.to = val.value;
-        return newObj;
-    });
-    /*var horaires = [];
-    for (let i = 0; i < horairesArray.length; i++) {
-        let line = {};
-        line.date = horairesArray[i]['horaires'];
-        line.from = fromArray[i]['from'];
-        line.to = toArray[i]['to'];
-        horaires.push(line);
-    }*/
     var questionArray = $.map($('input[name="question"]'), function (val, _) {
         var newObj = {};
         newObj.question = val.value;
