@@ -1,0 +1,48 @@
+/********Articles***********/
+#articles-container{
+    margin-bottom: 50px;
+    background-color: #dee2e6;
+    padding-bottom: 30px;
+    border-radius: 20px;
+}
+
+/***********Pagination***********/
+.pagePagination ul{
+    margin-left: 295px;
+}
+
+.pagePagination ul li a{
+    color: gray !important;
+    border-radius: 10px;
+    border: 2px solid;
+    border-color: #343a40;
+}
+
+/**************card******************/
+.btn{
+    background-color: #343a40 !important ;
+    width: 60px;
+}
+
+.row .col a {
+    color: white !important;
+    border: none;
+    display: inline; /* the default for span */
+    width: 4
+    0px;
+    height: 25px;
+    padding: 5px;
+}
+
+.card .card-footer small{
+    
+    margin-bottom: 35px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.card-footer .smallDiv {
+    background-color: white;
+    margin: 10px;
+    text-align: center;
+}
