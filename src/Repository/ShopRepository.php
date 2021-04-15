@@ -15,9 +15,13 @@ class ShopRepository extends ServiceEntityRepository
         parent::__construct($registry, Shop::class);
     }
 
+    /**
+     * Ajouter un shop
+     */
     public function addShop($request)
     {
         $conn = $this->getEntityManager()->getConnection();
+        $horairesString = json_encode($request->horaires);
         /**
          * Inserer les donnees dans 'shop'
          */
@@ -27,11 +31,15 @@ class ShopRepository extends ServiceEntityRepository
             ->setValue('sh_num_street', '"' . $request->numvoie . '"')
             ->setValue('sh_name_street', '"' . $request->nomvoie . '"')
             ->setValue('sh_address_add', '"' . $request->ca . '"')
-            ->setValue('sh_city', '33000')
+            ->setValue('sh_city', '"' . $request->nville . '"')
             ->setValue('sh_description', '"' . $request->commentaires . '"')
-            ->setValue('sh_id_trader', '1')
-            ->setValue('sh_num_phone', $request->numtel)
+            ->setValue('sh_id_trader', '"' . '1' . '"')
+            ->setValue('sh_num_phone', '"' . $request->numtel . '"')
+            ->setValue("sh_open_hours", "'" . $horairesString . "'")
+            ->setValue("sh_pick", "'" . $request->oretrait . "'")
+            ->setValue("sh_type", "'" . $request->tmagasin . "'")
             ->execute();
+        $lastId = $conn->lastInsertId();
         /**
          * Inserer les donnees dans 'faq'
          */
@@ -40,31 +48,38 @@ class ShopRepository extends ServiceEntityRepository
             $qb->insert('faq')
                 ->setValue('faq_question', '"' . $line->question . '"')
                 ->setValue('faq_reply', '"' . $line->reponse . '"')
-                ->setValue('faq_id_shop', '1')
+                ->setValue('faq_id_shop', '"' . $lastId . '"')
                 ->execute();
         }
         /**
          * Inserer les photos dans 'photos'
          */
-        foreach ($request->picture as $line) {
-            $qb = $conn->createQueryBuilder();
-            $qb->insert('picture')
-                ->setValue('p_bin', '"' . $line->pictureURL . '"')
-                ->setValue('p_id_shop', '1')
-                ->execute();
+        if ($request->picture != null) {
+            foreach ($request->picture as $line) {
+                $qb = $conn->createQueryBuilder();
+                $qb->insert('picture')
+                    ->setValue('p_base64', '"' . $line->pictureURL . '"')
+                    ->setValue('p_id_shop', '"' . $lastId . '"')
+                    ->execute();
+            }
         }
     }
 
+    /**
+     * Récupérer un shop en fonction de son id
+     */
     public function getShop($id)
     {
         $conn = $this->getEntityManager()->getConnection();
         // Info de ce shop
         $qb = $conn->createQueryBuilder();
         $stmt =
-            $qb->select('sh.*', 'st.s_name')
-                ->from('shop', 'sh')
-                ->join('sh', 'state', 'st', 'sh.sh_state = st.s_code')
+            $qb->select('sh.*', 'c.c_name')
+                ->from('shop', "sh")
+                ->join('sh', 'city', 'c', 'sh.sh_city = c.c_id')
                 ->where($qb->expr()->eq('sh.sh_id', '"' . $id . '"'))
+                /*->join('sh', 'state', 'st', 'sh.sh_state = st.s_code')
+                ->where($qb->expr()->eq('sh.sh_id', '"' . $id . '"')) A effacer lors de la décision de transformation du champ state du shop en boolean */
                 ->execute();
         $shop = $stmt->fetchAssociative();
         // Info base64 des photos
@@ -91,6 +106,21 @@ class ShopRepository extends ServiceEntityRepository
         ]);
     }
 
+    /**
+     * Récupérer toutes les villes dans la BDD
+     */
+    public function getCities(){
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        //get all shops
+        $stmt =
+            $qb->select('*')
+                ->from('city')
+                ->execute();
+        $cities = $stmt->fetchAllAssociative();
+    return $cities;
+    }
+
     public function getCity($id)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -102,7 +132,7 @@ class ShopRepository extends ServiceEntityRepository
                 ->where($qb->expr()->eq('c.c_id', '"' . $id . '"'))
                 ->execute();
         $city = $stmt->fetchAssociative();
-        
+
         return $city;
     }
 

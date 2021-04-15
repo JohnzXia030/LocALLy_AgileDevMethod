@@ -111,7 +111,7 @@ $(".next").click(function (event) {
     if(!bSuccess){
         console.log("erreur");
         animating = false;
-        alert("Erreur de syntaxe. Exemples:\n 08:00-12:00 \n 08:00-12:00;14:00-18:00 \n vide");
+        alert("Erreur de syntaxe. Suivez l'un des xemples:\n 08:00-12:00 \n 08:00-12:00;14:00-18:00 \n vide");
         return;
     }
     else {
@@ -268,33 +268,15 @@ $(".submit").click(function () {
     var friday = document.getElementById("friday").value;
     var saturday = document.getElementById("saturday").value;
     var sunday = document.getElementById("sunday").value;
-    //console.log("monday = " + monday);
 
     var jours = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
     var days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
     var horairesObject = {};
     for (let i in days){
-        //console.log(horairesObject[i]);
-        //console.log(days[i]);
         horairesObject[jours[i]] = days[i]
-
     }
-    //console.log(horairesObject);
-    var jsonHoraires = JSON.stringify(horairesObject);
-    //console.log(jsonHoraires);
 
-    /*var jsonHoraires = [];
-    for(let i in days) {
-        var newObj = {};
-        newObj.horaires = val.value;
-        return newObj;
-    };*/
-    /*var fromArray = $.map($('input[name="from"]'), function (val, _) {
-        var newObj = {};
-        newObj.from = val.value;
-        return newObj;
-    });*/
     var toArray = $.map($('input[name="to"]'), function (val, _) {
         var newObj = {};
         newObj.to = val.value;
@@ -390,5 +372,32 @@ function previewImage(imgFile) {
             imageArr.push(newObj);
         };
     }
+}
+
+window.onload = function () {
+
+    let apiURL = "api/get-cities";
+    // Obtenir toutes les villes
+    $.ajax({
+        url: apiURL,
+        type: "GET",
+        dataType: 'JSON',
+        success: function (data) {
+            cities = data.data;
+            console.log(data.data);
+            console.log(data.data[0]);
+
+            // Ajouter des options dans le "select" du html avec la valeur de l'id de la ville, et y afficher le nom de la ville.
+            data.data.forEach(function (city) {
+                $('#nville').append(`<option value="${city.c_id}">
+                                       ${city.c_name}
+                                  </option>`);
+            });
+
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 }
 

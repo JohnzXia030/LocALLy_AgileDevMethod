@@ -351,13 +351,14 @@ $(document).ready(function () {
 
 
 window.onload = function () {
+
+    //Requete pour obtenir les infos du magasin avec son id
     // Obtenir l'id de shop
     const queryString = window.location.search;
     const urLParams = new URLSearchParams(queryString);
     paramId = urLParams.get('id');
-    // Afficher l'info d'article
     let apiURL = "api/get-shop/" + paramId;
-    // Obtenir l'info d'article
+    // Obtenir l'info du magasin
     $.ajax({
         url: apiURL,
         type: "GET",
@@ -372,13 +373,38 @@ window.onload = function () {
             document.getElementById("numero-voie").value = shop['sh_num_street'];
             document.getElementById("nom-voie").value = shop['sh_name_street'];
             document.getElementById("complement-adresse").value = shop['sh_address_add'];
-            document.getElementById("nom-ville").value = shop['sh_city'];
+            //document.getElementById("nville").value = shop['c_name'];
+            document.getElementById("nville").defaultSelected =shop['c_name'];
             document.getElementById("num-tel").value = shop['sh_num_phone'];
-            document.getElementById("type-magasin").value = shop['sh_type'];
-            document.getElementById("option-retrait").value = shop['s_name'];
+            document.getElementById("type-magasin").value = shop['sh_type']; // marche pas
+            document.getElementById("option-retrait").value = shop['sh_pick']; //marche pas
             document.getElementById("description").value = shop['sh_description'];
 
 
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    //Requete pour obtenir les villes
+    let apiURLCities = "api/get-cities";
+    // Obtenir toutes les villes
+    $.ajax({
+        url: apiURLCities,
+        type: "GET",
+        dataType: 'JSON',
+        success: function (data) {
+            cities = data.data;
+            console.log(data.data);
+            console.log(data.data[0]);
+
+            // Ajouter des options dans le "select" du html avec la valeur de l'id de la ville, et y afficher le nom de la ville.
+            data.data.forEach(function (city) {
+                $('#nville').append(`<option value="${city.c_id}">
+                                       ${city.c_name}
+                                  </option>`);
+            });
         },
         cache: false,
         contentType: false,
