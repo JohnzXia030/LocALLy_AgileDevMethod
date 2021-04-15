@@ -154,6 +154,20 @@ class TraderController extends AbstractController
     }
 
     /**
+     * @Route("/api/update-shop/{id}")
+     * @param $id
+     * @param ShopRepository $shoprepository
+     * @return Response
+     * @throws Exception
+     */
+    public function apiUpdateShop($id, ShopRepository $shopRepository): Response
+    {
+        $mNewShop = json_decode($this::$request->getContent(), true);
+        //$shopRepository->updateShop($mNewShop, $id);
+        return new Response('Success', Response::HTTP_OK);
+    }
+
+    /**
      * Rechercher l'article par son id
      * @Route("/api/get-article/{id}")
      * @param $id : id d'un article

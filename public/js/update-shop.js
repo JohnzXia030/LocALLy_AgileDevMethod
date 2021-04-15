@@ -3,11 +3,22 @@ var current_fs, next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
+/**
+ * Param de URL: id d'article
+ */
+var paramId;
+
 //
 var photoUrl = '';
 
-
-
+/**
+ * Photos de la BDD
+ */
+var photo = [];
+/**
+ * Photos deposées par commerçant
+ */
+var imageArr;
 
 
 $(document).ready(function () {
@@ -128,31 +139,28 @@ $("#piece").change(function () {
 
 
 $(".submit").click(function () {
+    setTimeout(function () {
+        // Assurer que les photos sont bien enregistrées, temps d'attente pour 1 min
+    }, 1000);
     let form = document.getElementById('msform');
     let formData = new FormData(form);
-    var horairesArray = $.map($('select[name="horaires"]'), function (val, _) {
-        var newObj = {};
-        newObj.horaires = val.value;
-        return newObj;
-    });
-    var fromArray = $.map($('input[name="from"]'), function (val, _) {
-        var newObj = {};
-        newObj.from = val.value;
-        return newObj;
-    });
-    var toArray = $.map($('input[name="to"]'), function (val, _) {
-        var newObj = {};
-        newObj.to = val.value;
-        return newObj;
-    });
-    var horaires = [];
-    for (let i = 0; i < horairesArray.length; i++) {
-        let line = {};
-        line.date = horairesArray[i]['horaires'];
-        line.from = fromArray[i]['from'];
-        line.to = toArray[i]['to'];
-        horaires.push(line);
+
+    var monday = document.getElementById("monday").value;
+    var tuesday = document.getElementById("tuesday").value;
+    var wednesday = document.getElementById("wednesday").value;
+    var thursday = document.getElementById("thursday").value;
+    var friday = document.getElementById("friday").value;
+    var saturday = document.getElementById("saturday").value;
+    var sunday = document.getElementById("sunday").value;
+
+    var jours = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
+    var days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
+    var horairesObject = {};
+    for (let i in days){
+        horairesObject[jours[i]] = days[i]
     }
+
     var questionArray = $.map($('input[name="question"]'), function (val, _) {
         var newObj = {};
         newObj.question= val.value;
@@ -170,7 +178,14 @@ $(".submit").click(function () {
         line.reponse = reponseArray[i]['reponse'];
         faq.push(line);
     }
-    var picture = $.map($('input[name="picture"]'), function (val, index) {
+
+    // Controle de nombre des photos
+    if (imageArr.length >= 6) {
+        alert("Veuillez uniquement joindre au maximum 5 photos ");
+        return;
+    }
+
+    /*var picture = $.map($('input[name="picture"]'), function (val, index) {
         var newObj = {};
         newObj.picture = val.value;
         const file = document.querySelector('input[type="file"]').files[index];
@@ -183,28 +198,43 @@ $(".submit").click(function () {
             //newObj.base64 = String(e.target.result);
         });
         //newObj.base64 = ;
-        /*console.log(photoUrl);
-        newObj.base64 = photoUrl;*/
+        /!*console.log(photoUrl);
+        newObj.base64 = photoUrl;*!/
         return newObj;
-    });
+    });*/
     // Convertir le formulaire en json
     const object = {};
     formData.forEach(function(value, key){
         object[key] = value;
     });
-    object['horaires'] = horaires;
-    object['faq'] = faq;
-    object['picture'] = picture;
 
-    console.log(formData.get('horaires'));
-    const formJson = JSON.stringify(object);
+    var pictures;
+    if (imageArr.length>0){
+        pictures = imageArr;
+    }
+    else{
+        pictures = null;
+    }
+
+        object['horaires'] = horaires;
+        object['faq'] = faq;
+        object['photos-magasin'] = pictures
+        console.log(formData.get('horaires'));
+        const formJson = JSON.stringify(object);
+
     // Envoyer le contenu vers le controller
+    const queryString = window.location.search;
+    const urLParams = new URLSearchParams(queryString);
+    paramId = urLParams.get('id');
+    // Afficher l'info d'article
+    let apiURL = "api/update-shop/" + paramId;
     $.ajax({
-        url: "api/create-shop",
+        url: apiURL,
         type: "POST",
         data: formJson,
         success: function (msg) {
             console.log(JSON.stringify(msg));
+            window.location.reload();
         },
         cache: false,
         contentType: false,
@@ -216,76 +246,20 @@ $(".submit").click(function () {
     return false;
 })
 
-function getBase64(file, onLoadCallback) {
+/*function getBase64(file, onLoadCallback) {
     var reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = onLoadCallback;/*function () {
+    reader.onload = onLoadCallback;/!*function () {
         console.log(reader.result);
         photoUrl = reader.result;
-    }*/
+    }*!/
     reader.onerror = function (error) {
         console.log('Error: ', error);
     };
 
-}
+}*/
 
 
-
-// JS pour le tableau des horaires
-
-function findDate(oEvent){
-    var oDebutTime     = document.getElementById("timedebut"),
-        oFin       = document.getElementById("fin"),
-        oFinTime   = document.getElementById("timefin"),
-        oDateStart = null,
-        oDateEnd   = null,
-        bDisabled  = true;
-    //valueAsNumber si vide = NaN
-    if(Number.isNaN(oDebut.valueAsNumber) == false){
-        //Calcul des dates
-        oDateStart = new Date(oDebut.valueAsNumber);
-        oDateEnd   = new Date(oDebut.valueAsNumber);
-        //Ajoute 3 jour
-        oDateEnd.setDate(oDateEnd.getDate() + 3);
-        bDisabled = false;
-    } else{
-        //Reset de valeur
-        oFin.value = "";
-        oFinTime.value = "";
-    }//esle
-    //Bloque ou debloque les champs après "au"
-    oFin.disabled = bDisabled;
-    oFinTime.disabled = bDisabled;
-    //Assigne date min et max
-    setDateMinMax(oFin, oDateStart);
-    setDateMinMax(oFin, oDateEnd, false);
-}
-
-
-function setDateMinMax(oCible, oDate, bMin){
-    if(typeof bMin != 'boolean' || bMin == true){
-        oCible.min = formatDate(oDate);
-    }else{
-        oCible.max = formatDate(oDate);
-    }
-    return true;
-}
-
-/**
- 2016-6-20  ou 2016-06-2 semble ne pas fonctionner
- getMonth() commence à 0, 0 = janvier
- @param Date  Objet date ou null
- @return      une chaine vide ou xxxx-xx-xx
- */
-function formatDate(oDate){
-    var sMin = '',iMois = null,iDate = null;
-    if(oDate instanceof Date){
-        iMois = (oDate.getMonth()+1);
-        iDate = oDate.getDate();
-        sMin  = oDate.getFullYear()+'-'+(iMois<10? "0":'')+iMois+'-'+(iDate<10? "0":'')+iDate;
-    }//if
-    return sMin;
-}
 
 $(document).ready(function () {
     var y = 1;
@@ -352,41 +326,6 @@ $(document).ready(function () {
 
 window.onload = function () {
 
-    //Requete pour obtenir les infos du magasin avec son id
-    // Obtenir l'id de shop
-    const queryString = window.location.search;
-    const urLParams = new URLSearchParams(queryString);
-    paramId = urLParams.get('id');
-    let apiURL = "api/get-shop/" + paramId;
-    // Obtenir l'info du magasin
-    $.ajax({
-        url: apiURL,
-        type: "GET",
-        dataType: 'JSON',
-        success: function (data) {
-            faq = data.data[0]['faq'];
-            photo = data.data[0]['pictures'];
-            shop = data.data[0]['shop'];
-            console.log(data.data[0]);
-
-            document.getElementById("nom-enseigne").value = shop['sh_name'];
-            document.getElementById("numero-voie").value = shop['sh_num_street'];
-            document.getElementById("nom-voie").value = shop['sh_name_street'];
-            document.getElementById("complement-adresse").value = shop['sh_address_add'];
-            //document.getElementById("nville").value = shop['c_name'];
-            document.getElementById("nville").defaultSelected =shop['c_name'];
-            document.getElementById("num-tel").value = shop['sh_num_phone'];
-            document.getElementById("type-magasin").value = shop['sh_type']; // marche pas
-            document.getElementById("option-retrait").value = shop['sh_pick']; //marche pas
-            document.getElementById("description").value = shop['sh_description'];
-
-
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-
     //Requete pour obtenir les villes
     let apiURLCities = "api/get-cities";
     // Obtenir toutes les villes
@@ -411,4 +350,103 @@ window.onload = function () {
         processData: false
     });
 
+    //Requete pour obtenir les infos du magasin avec son id
+    // Obtenir l'id de shop
+    const queryString = window.location.search;
+    const urLParams = new URLSearchParams(queryString);
+    paramId = urLParams.get('id');
+    let apiURL = "api/get-shop/" + paramId;
+    // Obtenir l'info du magasin
+    $.ajax({
+        url: apiURL,
+        type: "GET",
+        dataType: 'JSON',
+        success: function (data) {
+            faq = data.data[0]['faq'];
+            photo = data.data[0]['pictures'];
+            shop = data.data[0]['shop'];
+            console.log(data.data[0]);
+
+            // Initialisation des valeurs du premier FieldSet
+            var villeId = shop['sh_city'];
+            var shop_type = shop['sh_type'];
+            var option_retrait = shop['sh_pick'];
+            document.getElementById("nom-enseigne").value = shop['sh_name'];
+            document.getElementById("numero-voie").value = shop['sh_num_street'];
+            document.getElementById("nom-voie").value = shop['sh_name_street'];
+            document.getElementById("complement-adresse").value = shop['sh_address_add'];
+            //document.getElementById("nville").value = shop['c_name'];
+            $("#nville").val(villeId).change();
+            document.getElementById("num-tel").value = shop['sh_num_phone'];
+            $("#type-magasin").val(shop_type).change();
+            $("#option-retrait").val(option_retrait).change();
+            document.getElementById("description").value = shop['sh_description'];
+
+            // // Initialisation des valeurs du deuxieme FieldSet
+            var horaires = shop["sh_open_hours"];
+            var jsonHoraires = JSON.parse(horaires);
+            document.getElementById("monday").value = jsonHoraires['monday'];
+            document.getElementById("tuesday").value = jsonHoraires['tuesday'];
+            document.getElementById("wednesday").value = jsonHoraires['wednesday'];
+            document.getElementById("thursday").value = jsonHoraires['thursday'];
+            document.getElementById("friday").value = jsonHoraires['friday'];
+            document.getElementById("saturday").value = jsonHoraires['saturday'];
+            document.getElementById("sunday").value = jsonHoraires['sunday'];
+
+            for (var i = 0 ; i < faq.length ; i++) {
+                $('.faq-div').append('<div>' +
+                    '<input type="text" name="question" value="'+faq[i]["faq_question"]+'" placeholder="Question"/>\n' +
+                    '<input type="text" name="reponse" value="'+faq[i]["faq_reply"]+'" placeholder="Réponse"/>' +
+                    '<a href="#" class="remove_field" >Supprimer</a>' +
+                    '</div>'
+                );
+                }
+            // Charger et afficher les images sur la page
+            for (let i = 0; i < photo.length; i++) {
+                var img = document.createElement('img');
+                img.onclick = function (){
+                    deletePhoto(photo[i]);
+                };
+                img.src = "data:image/gif;base64," + photo[i]['p_base64'];
+                var div = document.createElement("div");
+                div.className = (i === 0) ? "carousel-item active" : "carousel-item" ;
+                img.height = 500
+                img.width = 500
+                div.appendChild(img);
+                document.getElementById('photo-list').append(div);
+            }
+
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+}
+
+/**
+ * Convertir les photos en base64
+ * @param imgFile
+ */
+function previewImage(imgFile) {
+    var allFile = imgFile.files;
+    imageArr = [];
+    var dataURL;
+    for (var i = 0; i < allFile.length; i++) {
+        var file = allFile[i];
+        var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
+        if (!rFilter.test(file.type)) {
+            alert("Veuillez inserer des photos!");
+            return;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        // Recharger les photos
+        reader.onload = function (e) {
+            var newObj = {};
+            newObj.pictureURL = e.target.result.replace(/^data:image.+;base64,/, '');
+            dataURL = e.target.result;
+            imageArr.push(newObj);
+        };
+    }
 }

@@ -151,4 +151,51 @@ class ShopRepository extends ServiceEntityRepository
 
         return $articles;
     }
+
+    /*/**
+     * @param $request
+     * @param $idShop
+     * @throws Exception
+     */
+    /*public function updateShop($request, $idShop)
+    {
+        $name = $request['name-article'];
+        $description = $request['description-article'];
+        // Obtenir le status en binaire
+        $availableArticle = $request['available-article'];
+        $available = ($availableArticle == "on") ? 1 : 0;
+        $discount = $request['discount-article'];
+        $discount_period = $request['period-discount-article'];
+        $price = $request['price-article'];
+        $quantity = $request['stock-article'];
+        $photo = $request['photo-article'];
+        $idShop = '10';
+
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $qb->update('article', 'a')
+            ->set('a_name', '"' . $name . '"')
+            ->set('a_description', '"' . $description . '"')
+            ->set('a_price', '"' . $price . '"')
+            ->set('a_id_shop', '"' . $idShop . '"')
+            ->set('a_discount', '"' . $discount . '"')
+            ->set('a_discount_period', '"' . $discount_period . '"')
+            ->set('a_available', '"' . $available . '"')
+            ->set('a_quantity_stock', '"' . $quantity . '"')
+            ->where($qb->expr()->eq('a_id', '"' . $idArticle . '"'))
+            ->execute();
+
+        $qb = $conn->createQueryBuilder();
+        /**
+         * Inserer les photos dans 'photos'
+         */
+        /*foreach ($photo as $line) {
+            $qb = $conn->createQueryBuilder();
+            $qb->insert('picture')
+                ->setValue('p_base64', '"' . $line['pictureURL'] . '"')
+                ->setValue('p_id_article', '"' . $idArticle . '"')
+                ->setValue('p_id_shop', '"' . $idShop . '"')
+                ->execute();
+        }
+    }*/
 }
