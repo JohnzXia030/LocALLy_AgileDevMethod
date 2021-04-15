@@ -1,46 +1,59 @@
-var totalPage;
-var currentPage;
-var numArticle;
 var articleArr;
+
+window.onload = function () {
+    $.ajax({
+        url: "../trader/api/get-article-from-shop",
+        type: "GET",
+        success: function (data) {
+            articleArr = data.data;
+            console.log(articleArr);
+            let articlesContainer = document.getElementById('articles-container');
+            while (articlesContainer.lastElementChild) {
+                articlesContainer.removeChild(articlesContainer.lastElementChild);
+            }
+            $('#pagination').twbsPagination('destroy');
+            // Nombre total des articles
+            numArticle = articleArr.length;
+            if (numArticle !== 0) {
+                // Page
+                totalPage = Math.ceil(numArticle / 9);
+                if (totalPage === 1) {
+                    showCurrentPageArticles(0, numArticle - 1);
+                } else {
+                    $('#pagination').twbsPagination({
+                        totalPages: totalPage,
+                        visiblePages: 1,
+                        next: 'Next',
+                        prev: 'Prev',
+                        onPageClick: function (event, page) {
+                            //fetch content and render here
+                            console.log('no items');
+                            while (articlesContainer.lastElementChild) {
+                                articlesContainer.removeChild(articlesContainer.lastElementChild);
+                            }
+                            let startIndex = (page - 1) * 9;
+                            let endIndex = (page === totalPage) ? numArticle - 1 : page * 9 - 1;
+                            showCurrentPageArticles(startIndex, endIndex);
+                            //$('#page-content').text('Page ' + page) + ' content here';
+                        }
+                    });
+                }
+            }
+
+
+        },
+        error: function (e) {
+            console.log(e);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+};
+
 $(document).ready(function () {
-    var sortArticle='';
-
-    $('.shop-type-option').select2({
-        theme: "classic",
-        width: "resolve"
-    });
-
-    $("#ascending").click(function(){
-        sortArticle="Up";
-        articleSort(sortArticle);
-    });
-
-    $("#descending").click(function(){
-        sortArticle="Down";
-        articleSort(sortArticle);
-    });
 });
 
-function articleSort(sortArticle) {
-    //articleArr
-    if(sortArticle=="Up"){
-        articleArr.sort(function(a, b){
-            //return $(a).data(sort) - $(b).data(sort);
-            return a.a_price - b.a_price;
-        });
-    }else{
-        //return a.a_price
-    }
-    console.log(articleArr);
-}
-/*function articleSort(sort) {
-    var sort = ($(this), $(this).find("li"), $(this).attr("value"));
-    if(sort="Up"){
-        alert("Yay");
-    }else{
-        alert("YAHOU");
-    }
-}*/
 
 /**
  * Appliquer les filters et obtenir les resultats sur la page
@@ -93,6 +106,8 @@ function applyFilters() {
                     });
                 }
             }
+
+
         },
         cache: false,
         contentType: false,
@@ -143,12 +158,40 @@ function showCurrentPageArticles(startIndex, endIndex) {
             smallPriceDiscount.innerText = discountPrice + "€";
             cardFooterDiv.appendChild(smallPriceDiscount);
         }
+        // La ligne qui contient les deux boutons
+        let buttonRow = document.createElement('div');
+        buttonRow.className = 'row';
+        let buttondivModi = document.createElement('div');
+        let buttondivDele = document.createElement('div');
+        buttondivModi.className = 'col';
+        buttondivDele.className = 'col';
+        let modifyButton = document.createElement('a');
+        let deleteButton = document.createElement('a');
+        modifyButton.className = 'btn btn-primary';
+        deleteButton.className = 'btn btn-primary';
+        modifyButton.innerText = "Modifier";
+        deleteButton.innerHTML = "<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>";
+        modifyButton.href = "../trader/update-article/?id=" + articleArr[i]['a_id'];
+        modifyButton.onclick = function () {
+            deleteArticle(articleArr[i]['a_id']);
+        };
+
+        buttondivModi.appendChild(modifyButton);
+        buttondivDele.appendChild(deleteButton);
+        buttonRow.appendChild(buttondivModi);
+        buttonRow.appendChild(buttondivDele);
+
         cardBodyDiv.appendChild(cardTitleH5);
         cardFooterDiv.appendChild(smallPriceInitial);
+        cardFooterDiv.appendChild(buttonRow);
         cardDiv.appendChild(cardImg);
         cardDiv.appendChild(cardBodyDiv);
         cardDiv.appendChild(cardFooterDiv);
         colDiv.appendChild(cardDiv);
         articlesContainer.append(colDiv);
     }
+}
+
+function deleteArticle(idArticle){
+
 }

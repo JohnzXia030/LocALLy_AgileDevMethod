@@ -120,4 +120,35 @@ class ShopRepository extends ServiceEntityRepository
         $cities = $stmt->fetchAllAssociative();
     return $cities;
     }
+
+    public function getCity($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        // Info de la ville
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+            $qb->select('c.*')
+                ->from('city', 'c')
+                ->where($qb->expr()->eq('c.c_id', '"' . $id . '"'))
+                ->execute();
+        $city = $stmt->fetchAssociative();
+
+        return $city;
+    }
+
+    public function getArticles($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        // Info de la ville
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+        $qb->select('a.*', 'p.p_base64')
+            ->from('article', 'a')
+            ->join('a', 'picture', 'p', 'a.a_id = p.p_id_article')
+            ->where($qb->expr()->eq('a.a_id_shop', '"' . $id . '"'))
+            ->execute();
+        $articles = $stmt->fetchAllAssociative();
+
+        return $articles;
+    }
 }

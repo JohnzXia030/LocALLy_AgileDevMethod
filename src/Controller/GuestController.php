@@ -81,6 +81,7 @@ class GuestController extends AbstractController
 
     /**
      * @Route("/api/logout")
+     * @param Request $request
      * @return Response
      */
     public function logOut(Request $request): Response
@@ -127,10 +128,11 @@ class GuestController extends AbstractController
 
         return new JsonResponse(['result' => $result]);
     }
-    
+
     /**
      * @Route("/api/check-login")
      * @param UserRepository $userRepository
+     * @param Request $request
      * @return Response
      */
     public function checkLogin(UserRepository $userRepository, Request $request): Response
@@ -140,15 +142,17 @@ class GuestController extends AbstractController
         
         if (!empty($result)) {
             $sIdUser = $result[0]['u_id'];
-
+            $sIdRole = $result[0]['u_role'];
             $session = $request->getSession();
             $session->set('iduser', $sIdUser);
-        }
+            $session->set('idRole', $sIdRole);
 
+        }
         return new JsonResponse(['result' => $result]);
     }
-    
+
     /**
+
      * @Route("/api/password-forget")
      * @param UserRepository $userRepository
      * @return Response
@@ -220,19 +224,21 @@ class GuestController extends AbstractController
 
     /**
      * @Route("/api/is-logged")
+     * @param Request $request
      * @return Response
      */
     public function apiIsLogged(Request $request): Response
     {
         $session = $request->getSession();
         $sIdUserSession = $session->get('iduser');
-
-        return new Response($sIdUserSession);
+        $sIdRole = $session->get('idRole');
+        return new JsonResponse(['idUser' => $sIdUserSession, 'idRole' => $sIdRole]);
     }
-    
+
     /**
      * @Route("/api/get-info-user")
      * @param UserRepository $userRepository
+     * @param Request $request
      * @return Response
      */
     public function getInfoUser(UserRepository $userRepository, Request $request): Response

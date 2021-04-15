@@ -15,9 +15,9 @@ $(document).ready(function () {
           var article = data.data[0]['article'];
           var photos = data.data[0]['pictures'];
           var shop = data.shop[0]['shop'];
-
+          
           $("#name-product").html(article['a_name']);
-          $("#name-shop").html(shop["sh_name"]);
+          $("#name-shop").html(shop["sh_name"]).attr('data-idshop', shop["sh_id"]);
           $("#price-product").html(article['a_price'] + " €  " );
 
           /* DISCOUNT */
@@ -39,7 +39,7 @@ $(document).ready(function () {
 
           /* DESCRIPTION ET TYPE DE LIVRAISON */
           $("#about-product").html(article['a_description']);
-          $("#delivery-product").html(shop["sh_type"]);
+          $("#delivery-product").html(shop["sh_pick"]);
 
           /* PHOTOS */
           if (photos.length == 0) {
@@ -67,6 +67,12 @@ $(document).ready(function () {
       cache: false,
       contentType: false,
       processData: false
+  });
+
+  $('a#name-shop').click(function(e) {
+    e.preventDefault();
+    var idShop = $(this).attr('data-idshop');
+    window.location.assign('view-shop?id=' + idShop);
   });
 
   // Bouton Quantité

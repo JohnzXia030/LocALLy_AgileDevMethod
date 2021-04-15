@@ -6,6 +6,12 @@ namespace App\Service;
 
 class ToolService
 {
+    /**
+     * Supprimer les doublons d'une liste d'apres une colonne
+     * @param $array
+     * @param $key
+     * @return array
+     */
     function unique_multi_array($array, $key) {
         $temp_array = array();
         $i = 0;

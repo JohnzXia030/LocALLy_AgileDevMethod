@@ -156,7 +156,7 @@ function logOut() {
         url: "../guest/api/logout",
         type: "POST",
         success: function (msg) {
-            window.location.reload();
+            window.location.replace('../home');
         },
         error: function(e){
             console.log(e);
