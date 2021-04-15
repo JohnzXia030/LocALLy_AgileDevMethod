@@ -49,7 +49,7 @@ img#loading {
     font-size: 30px;
 }
 
-.button{
+.button {
     border-radius: 30px;
     padding: 10px 20px;
     font-size: 18px;
@@ -57,6 +57,20 @@ img#loading {
     background-color: #FED136;
     border: none;
     color: white;
+}
+
+div#pageContent .button-sm {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    border-radius: 2rem;
+    font-weight: bold;
+    background-color: #FED136 !important;
+    border: none;
+    color: white !important;
+}
+
+div#pageContent .button-sm:hover {
+  text-decoration: none !important;
 }
 
 .font-bold{
@@ -434,23 +448,78 @@ img.calendar {
   cursor:pointer;
 }
 
+/* MODAL */
 
-/* Optional
+/*$opacity-transition: opacity $speed ease-in-out;*/
 
-.property-image-title
-{
-text-align:center;
-position:Relative;
-top:30%;
-opacity:0;
-transition:all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s;
-color:black;
-font-size:1.2em;
+.modal-header {
+	align-items: baseline;
+	display: flex;
+	justify-content: space-between;
+  padding: 0;
 }
 
-.property-card:hover .property-image-title
-{
-opacity:1;
+.close {
+	background: none;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	height: 16px;
+	text-decoration: none;
+	width: 16px;
 }
 
-*/
+.close svg {
+  width: 16px;
+}
+
+.modal-wrapper {
+	align-items: center;
+	background: rgba(0, 0, 0, 0.7);
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
+#modal {
+	opacity: 0;
+	transition: opacity ease-in-out;
+	visibility: hidden;
+}
+
+#modal:target {
+  opacity: 1;
+  visibility: visible;
+}
+
+#modal:target .modal-body {
+  opacity: 1;
+  transform: translateY(1);
+}
+
+#modal .modal-body {
+  max-width: 500px;
+  opacity: 0;
+  transform: translateY(-100px);
+  transition: opacity ease-in-out;
+  width: 100%;
+  z-index: 1;
+}
+
+
+.outside-trigger {
+	bottom: 0;
+	cursor: default;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
+.button__link {
+	text-decoration: none;
+}
