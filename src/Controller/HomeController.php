@@ -37,7 +37,7 @@ class HomeController extends AbstractController
     public function homeFunction(Request $request): Response
     {
         $session = $request->getSession();
-        $sIdUserSession = $session->get('iduser');
+        $sIdUserSession = $session->get('idUser');
         $sIdRole = $session->get('idRole');
         return $this->render('home/home.html.twig', ['idUser' => $sIdUserSession, 'idRole' => $sIdRole]);
     }

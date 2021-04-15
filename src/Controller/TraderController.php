@@ -99,14 +99,28 @@ class TraderController extends AbstractController
 
     /**
      * @Route("/api/create-shop")
+     * @param Request $request
      * @param ShopRepository $shopRepository
      * @return Response
+     * @throws Exception
      */
-    public function apiAddShop(ShopRepository $shopRepository): Response
+    public function apiAddShop(Request $request,ShopRepository $shopRepository): Response
     {
-        $mNewShop = json_decode($this::$request->getContent());
-        $result = $shopRepository->addShop($mNewShop);
-        return new JsonResponse(['result' => $result]);
+        $mNewShop = json_decode($request->getContent());
+        // Si le commercant possede deja un magasin
+        $session = $request ->getSession();
+        $mIdUser = $session->get("idUser");
+        /**
+         * Magasin existe: Info de son magasin
+         * Magasin n'existe pas encore: false
+         */
+        $ifHasShop = $shopRepository->ifHasShop($mIdUser);
+        if ($ifHasShop!= false){
+            return new Response('Votre compte possède déja un magasin', Response::HTTP_BAD_REQUEST);
+        }else {
+            $shopRepository->addShop($mNewShop, $mIdUser);
+            return new Response('Magasin créé', Response::HTTP_OK);
+        }
     }
 
     /**
@@ -176,7 +190,7 @@ class TraderController extends AbstractController
     public function apiGetArticleFromShop(Request $request,ArticleRepository $articleRepository): JsonResponse
     {
         $session = $request->getSession();
-        $mIdUser= $session->get('iduser');
+        $mIdUser= $session->get('idUser');
         $mArticlesConcerned = self::$tool->unique_multi_array($articleRepository->getArticleFromShop($mIdUser),'a_id');
         return new JsonResponse(['data' => $articleRepository->getArticleFromShop($mIdUser)]);
     }

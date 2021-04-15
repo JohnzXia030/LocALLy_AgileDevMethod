@@ -93,7 +93,6 @@ function checkInputHours() {
             return bSuccess;
         }
     }
-    console.log("Success");
     return bSuccess;
 }
 
@@ -338,8 +337,11 @@ function submitForm(formJson) {
         url: "api/create-shop",
         type: "POST",
         data: formJson,
-        success: function (msg) {
-            console.log(JSON.stringify(msg));
+        success: function (response) {
+            alert(response.responseText);
+        },
+        error: function (response) {
+            alert(response.responseText);
         },
         cache: false,
         contentType: false,

@@ -14,9 +14,9 @@ jQuery(document).ready(function(){
       window.location.assign("updateDeleteArticle");      /* update-article */
     });
 
-    $('div#navViewArticles').click(function(e) {
+    $('div#createShop').click(function(e) {
       e.preventDefault();
-      window.location.assign("viewArticles");
+      window.location.assign("create-shop");
     });
 
   });

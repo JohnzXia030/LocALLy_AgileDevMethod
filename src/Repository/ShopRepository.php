@@ -17,8 +17,10 @@ class ShopRepository extends ServiceEntityRepository
 
     /**
      * Ajouter un shop
+     * @param $request
+     * @throws Exception
      */
-    public function addShop($request)
+    public function addShop($request, $idTrader)
     {
         $conn = $this->getEntityManager()->getConnection();
         $horairesString = json_encode($request->horaires);
@@ -33,7 +35,7 @@ class ShopRepository extends ServiceEntityRepository
             ->setValue('sh_address_add', '"' . $request->ca . '"')
             ->setValue('sh_city', '"' . $request->nville . '"')
             ->setValue('sh_description', '"' . $request->commentaires . '"')
-            ->setValue('sh_id_trader', '"' . '1' . '"')
+            ->setValue('sh_id_trader', '"' . $idTrader . '"')
             ->setValue('sh_num_phone', '"' . $request->numtel . '"')
             ->setValue("sh_open_hours", "'" . $horairesString . "'")
             ->setValue("sh_pick", "'" . $request->oretrait . "'")
@@ -63,6 +65,22 @@ class ShopRepository extends ServiceEntityRepository
                     ->execute();
             }
         }
+    }
+
+    /**
+     * Si un commercant a deja un magasin
+     * @param $idTrader
+     * @return \Doctrine\DBAL\Driver\ResultStatement|int
+     */
+    public function ifHasShop($idTrader)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $qb ->select('*')
+            ->from('shop')
+            ->where($qb->expr()->eq('sh_id_trader', '"' . $idTrader . '"'));
+        return $qb->execute()->fetchAssociative();;
+
     }
 
     /**

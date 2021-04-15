@@ -122,7 +122,7 @@ class GuestController extends AbstractController
         $mUser = json_decode($this::$request->getContent(),true);
 
         $session = $request->getSession();
-        $sIdUserSession = $session->get('iduser');
+        $sIdUserSession = $session->get('idUser');
 
         $result = $userRepository->updateUser($mUser, $sIdUserSession);
 
@@ -144,7 +144,7 @@ class GuestController extends AbstractController
             $sIdUser = $result[0]['u_id'];
             $sIdRole = $result[0]['u_role'];
             $session = $request->getSession();
-            $session->set('iduser', $sIdUser);
+            $session->set('idUser', $sIdUser);
             $session->set('idRole', $sIdRole);
 
         }
@@ -230,7 +230,7 @@ class GuestController extends AbstractController
     public function apiIsLogged(Request $request): Response
     {
         $session = $request->getSession();
-        $sIdUserSession = $session->get('iduser');
+        $sIdUserSession = $session->get('idUser');
         $sIdRole = $session->get('idRole');
         return new JsonResponse(['idUser' => $sIdUserSession, 'idRole' => $sIdRole]);
     }
@@ -244,7 +244,7 @@ class GuestController extends AbstractController
     public function getInfoUser(UserRepository $userRepository, Request $request): Response
     {
         $session = $request->getSession();
-        $sIdUserSession = $session->get('iduser');
+        $sIdUserSession = $session->get('idUser');
 
         $result = $userRepository->getInfoUser($sIdUserSession);
         
