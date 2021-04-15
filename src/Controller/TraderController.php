@@ -216,4 +216,14 @@ class TraderController extends AbstractController
         return new JsonResponse(['data' => $shopRepository->getCities()]);
     }
 
+    /**
+     * @Route("/api/delete-article/{idArticle}")
+     * @param $idArticle
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     */
+    public function apiDeleteArticle($idArticle, ArticleRepository $articleRepository): Response{
+        $articleRepository->deleteArticle($idArticle);
+        return new Response('Success', Response::HTTP_OK);
+    }
 }

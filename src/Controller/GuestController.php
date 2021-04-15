@@ -87,7 +87,7 @@ class GuestController extends AbstractController
     public function logOut(Request $request): Response
     {
         $session = $request->getSession();
-        $session->set('iduser', null);
+        $session->clear();
 
         return new Response(true);
     }

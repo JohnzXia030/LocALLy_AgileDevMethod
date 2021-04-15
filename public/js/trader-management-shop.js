@@ -128,7 +128,9 @@ function showCurrentPageArticles(startIndex, endIndex) {
         additional content. This content is a little bit longer.</p>
         </div>
         <div class="card-footer">
+        <div class="smallDiv">
             <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
         </div>
         </div>
         </div>*/
@@ -146,43 +148,53 @@ function showCurrentPageArticles(startIndex, endIndex) {
         cardTitleH5.innerText = articleArr[i]['a_name'];
         let cardFooterDiv = document.createElement('div');
         cardFooterDiv.className = "card-footer";
+        let smallDiv = document.createElement('div');
+        smallDiv.className = "smallDiv";
         let smallPriceInitial = document.createElement('small');
         let smallPriceDiscount = document.createElement('small');
-        smallPriceInitial.className = "text-muted";
-        smallPriceDiscount.className = "text-muted";
+        /*smallPriceInitial.className = "text-muted";
+        smallPriceDiscount.className = "text-muted";*/
         smallPriceInitial.style = "text-decoration:line-through;";
         smallPriceInitial.innerText = articleArr[i]['a_price'] + "€ ";
         if (articleArr[i]['a_discount'] !== 0) {
             let discount = articleArr[i]['a_price'] * articleArr[i]['a_discount'] / 100;
             let discountPrice = articleArr[i]['a_price'] - discount;
             smallPriceDiscount.innerText = discountPrice + "€";
-            cardFooterDiv.appendChild(smallPriceDiscount);
+            smallDiv.appendChild(smallPriceDiscount);
+            //cardFooterDiv.appendChild(smallPriceDiscount);
         }
         // La ligne qui contient les deux boutons
         let buttonRow = document.createElement('div');
         buttonRow.className = 'row';
         let buttondivModi = document.createElement('div');
         let buttondivDele = document.createElement('div');
+        let buttondivCons = document.createElement('div');
         buttondivModi.className = 'col';
         buttondivDele.className = 'col';
+        buttondivCons.className ='col';
         let modifyButton = document.createElement('a');
         let deleteButton = document.createElement('a');
+        let consultButton = document.createElement('a');
         modifyButton.className = 'btn btn-primary';
         deleteButton.className = 'btn btn-primary';
-        modifyButton.innerText = "Modifier";
+        consultButton.className = 'btn btn-primary';
+        modifyButton.innerHTML = "<i class=\"fas fa-edit\"></i>";
         deleteButton.innerHTML = "<i class=\"fa fa-trash\" aria-hidden=\"true\"></i>";
+        consultButton.innerHTML = "<i class=\"fas fa-search\"></i>";
         modifyButton.href = "../trader/update-article/?id=" + articleArr[i]['a_id'];
-        modifyButton.onclick = function () {
+        deleteButton.onclick = function () {
             deleteArticle(articleArr[i]['a_id']);
         };
 
         buttondivModi.appendChild(modifyButton);
         buttondivDele.appendChild(deleteButton);
+        buttondivCons.appendChild(consultButton);
         buttonRow.appendChild(buttondivModi);
         buttonRow.appendChild(buttondivDele);
-
+        buttonRow.appendChild(buttondivCons);
         cardBodyDiv.appendChild(cardTitleH5);
-        cardFooterDiv.appendChild(smallPriceInitial);
+        smallDiv.appendChild(smallPriceInitial);
+        cardFooterDiv.appendChild(smallDiv);
         cardFooterDiv.appendChild(buttonRow);
         cardDiv.appendChild(cardImg);
         cardDiv.appendChild(cardBodyDiv);
@@ -193,5 +205,14 @@ function showCurrentPageArticles(startIndex, endIndex) {
 }
 
 function deleteArticle(idArticle){
-
+    $.ajax({
+        url: "api/delete-article/" + idArticle,
+        type: "POST",
+        success: function (data) {
+            console.log(data);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 }

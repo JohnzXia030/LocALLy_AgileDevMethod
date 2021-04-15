@@ -112,16 +112,16 @@ class ArticleRepository extends ServiceEntityRepository
         $qb = $this::$conn->createQueryBuilder();
         // Obtenir l'id du magasin que le commercant possede
         $stmt =
-            $qb ->select('sh_id')
+            $qb->select('sh_id')
                 ->from('shop', 's')
                 ->where($qb->expr()->eq('sh_id_trader', '"' . $idTrader . '"'))
                 ->execute();
         $idShop = $stmt->fetchAssociative()["sh_id"];
         $qb = $this::$conn->createQueryBuilder();
         $stmt =
-            $qb ->select('*')
+            $qb->select('*')
                 ->from('article', 'a')
-                ->leftJoin('a','picture','p', 'a.a_id = p.p_id_article')
+                ->leftJoin('a', 'picture', 'p', 'a.a_id = p.p_id_article')
                 ->where($qb->expr()->eq('a_id_shop', '"' . $idShop . '"'))
                 ->execute();
         return $stmt->fetchAllAssociative();
@@ -223,6 +223,18 @@ class ArticleRepository extends ServiceEntityRepository
         return $stmt->fetchAllAssociative();
     }
 
+    /**
+     * @param $idArticle
+     */
+    public function deleteArticle(int $idArticle)
+    {
+        $qb = $this::$conn->createQueryBuilder();
+        $qb->delete('article')
+            ->where($qb->expr()->eq('a_id', '"' . $idArticle . '"'))
+            ->execute();
+    }
+
+
     public function priceComparisonSQL(QueryBuilder $qb, $price)
     {
         switch ($price) {
@@ -259,7 +271,8 @@ class ArticleRepository extends ServiceEntityRepository
         }
     }
 
-    public function discountComparisonSQL(QueryBuilder $qb, $discount)
+    public
+    function discountComparisonSQL(QueryBuilder $qb, $discount)
     {
         switch ($discount) {
             case 0:
