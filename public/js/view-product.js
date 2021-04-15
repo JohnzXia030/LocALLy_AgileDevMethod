@@ -6,9 +6,9 @@ $(document).ready(function () {
   var urLParams = new URLSearchParams(queryString);
   var paramId = urLParams.get('id');
   // Afficher l'info d'article
-  let apiURL = "api/get-info-article/" + paramId;
+  var apiURLInfoArticle = "api/get-info-article/" + paramId;
   $.ajax({
-      url: apiURL,
+      url: apiURLInfoArticle,
       type: "GET",
       dataType: 'JSON',
       success: function (data){
@@ -69,10 +69,42 @@ $(document).ready(function () {
       processData: false
   });
 
+  $('a#viewCart').click(function(e) {
+    window.location.assign('../cart/view-cart');
+  });
+
+  $('a#closeModal').click(function(e) {
+    window.location="#!";
+  });
+
   $('a#name-shop').click(function(e) {
     e.preventDefault();
     var idShop = $(this).attr('data-idshop');
     window.location.assign('view-shop?id=' + idShop);
+  });
+
+  $('button#add-product').click(function(e) {
+    var quantity = $('input[name=quantity]').val();
+    var apiURLAddArticle = "../cart/api/add/" + paramId + "/" + quantity;
+
+    $.ajax({
+      url: apiURLAddArticle,
+      type: "GET",
+      dataType: 'JSON',
+      success: function (data){
+        console.log(data);
+        window.location=$('a#modalLink').attr('href');
+      },
+      erreur: function (data){
+        console.log(data);       
+      },
+      cache: false,
+      contentType: false,
+      processData: false
+  });
+    
+    /*var idShop = $(this).attr('data-idshop');
+    window.location.assign('view-shop?id=' + idShop);*/
   });
 
   // Bouton Quantité
