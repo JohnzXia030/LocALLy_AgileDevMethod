@@ -22,7 +22,7 @@ class ArticleRepository extends ServiceEntityRepository
         $this::$conn = $this->getEntityManager()->getConnection();
     }
 
-    public function addArticle($request)
+    public function addArticle($request, $mIdShop)
     {
         $conn = $this->getEntityManager()->getConnection();
 
@@ -38,7 +38,7 @@ class ArticleRepository extends ServiceEntityRepository
         $photo = $request['photo-article'];
 
         //$idArticle = 3;
-        $idShop = 4;
+        $idShop = $mIdShop;
         $idReview = 5;
         $qb = $conn->createQueryBuilder();
         try {
@@ -144,7 +144,6 @@ class ArticleRepository extends ServiceEntityRepository
         $price = $request['price-article'];
         $quantity = $request['stock-article'];
         $photo = $request['photo-article'];
-        $idShop = '10';
 
         $conn = $this->getEntityManager()->getConnection();
         $qb = $conn->createQueryBuilder();
@@ -152,7 +151,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->set('a_name', '"' . $name . '"')
             ->set('a_description', '"' . $description . '"')
             ->set('a_price', '"' . $price . '"')
-            ->set('a_id_shop', '"' . $idShop . '"')
+            //->set('a_id_shop', '"' . $idShop . '"')
             ->set('a_discount', '"' . $discount . '"')
             ->set('a_discount_period', '"' . $discount_period . '"')
             ->set('a_available', '"' . $available . '"')

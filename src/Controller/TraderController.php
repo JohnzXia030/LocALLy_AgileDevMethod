@@ -75,17 +75,27 @@ class TraderController extends AbstractController
     {
         return $this->render('trader/viewArticles.html.twig');
     }
-    
-    
+
+
     /**
      * @Route("/api/create-article")
+     * @param Request $request
      * @param ArticleRepository $articleRepository
+     * @param ShopRepository $shopRepository
      * @return Response
      */
-    public function apiAddArticle(ArticleRepository $articleRepository): Response
+    public function apiAddArticle(Request $request,ArticleRepository $articleRepository, ShopRepository $shopRepository): Response
     {
         $mNewArticle = json_decode($this::$request->getContent(), true);
-        $result = $articleRepository->addArticle($mNewArticle);
+        $session = $request ->getSession();
+        $mIdUser = $session->get("idUser");
+        $mIfHasShop = $shopRepository->ifHasShop($mIdUser);
+        if ($mIfHasShop == 'false'){
+            return new Response('Vous n\'avez pas encore un magasin', Response::HTTP_BAD_REQUEST);
+        }else{
+            $mIdShop = $mIfHasShop["sh_id"];
+        }
+        $result = $articleRepository->addArticle($mNewArticle, $mIdShop);
         return new JsonResponse(['result' => $result]);
     }
 
