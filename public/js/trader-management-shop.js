@@ -178,7 +178,7 @@ function showCurrentPageArticles(startIndex, endIndex) {
             stateSmall.innerText = "stock : " + articleArr[i]['a_quantity_stock'];
             stateSmall.style = "color:green;";
         } else if (articleArr[i]['a_available'] === "0") {
-            stateSmall.innerText = "(Article désactivé)";
+            stateSmall.innerText = "Article désactivé";
             stateSmall.style = "color:red;";
         }
         // La ligne qui contient les deux boutons
