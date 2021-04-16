@@ -10,19 +10,20 @@ $(document).ready(function () {
       type: "GET",
       dataType: 'JSON',
       success: function (data){
-            var article = data.data[0]['article']; console.log(data);
-            var typeArticle = article['a_type'];
-/*
-            // Redirection vers la bonne page en fonction du type d'article
-            if (typeArticle == 'product') {
-                window.location.replace('view-product?id=' + paramId);
-            }
-            else {
-                window.location.replace('view-service?id=' + paramId);
-            }*/
+        var article = data.data[0]['article']; console.log(data);
+        //var typeArticle = article['a_type'];
+        var typeArticle = 'product';
+        
+        // Redirection vers la bonne page en fonction du type d'article
+        if (typeArticle == 'product') {
+            window.location.replace('view-product?id=' + paramId);
+        }
+        else {
+            window.location.replace('view-service?id=' + paramId);
+        }
       },
       erreur: function (data){
-          console.log(data);       
+        console.log(data);
       },
       cache: false,
       contentType: false,
