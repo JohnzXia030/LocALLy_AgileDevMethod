@@ -50,13 +50,14 @@ class CartController extends AbstractController{
      */
     public function getCart(CartService $cartService, SessionInterface $session)
     {
-        dd(array(
+        /*dd(array(
             "articles" => $cartService->getFullCart(),
             "total" => $cartService->getTotal()
-        ));
-        return array(
-            "articles" => $cartService->getFullCart(),
-            "total" => $cartService->getTotal()
-        );
+        ));*/
+
+        return new JsonResponse([
+            'articles' => $cartService->getFullCart(),
+            'total' => $cartService->getTotal()
+        ]);
     }
 }
