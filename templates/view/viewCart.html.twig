@@ -33,11 +33,15 @@
                 <h1>Mon panier</h1>
                 <a href="#" class="continue btn">Poursuivre les achats</a>
             </div>
-            <div class="cart w-100">
-                <ul class="cartWrap w-100">
+            <div id="loading" class="d-flex justify-content-center w-100 py-5">
+                <img src="{{ asset('img/loading.gif') }}"/>
+            </div>
+            <div class="cart w-100 d-none">
+                <span id="emptyCart" class="px-5 d-none">Votre panier est vide</span>
+                
+                <ul class="cartWrap w-100 d-none">
 
-
-
+                    <!--
                     <li class="items odd">
                         <div class="infoWrap"> 
                             <div class="cartSection">
@@ -57,56 +61,12 @@
                             </div>
                         </div>
                     </li>
+                    -->
 
-
-
-
-                    
-                    <li class="items even">
-                        <div class="infoWrap"> 
-                            <div class="cartSection">
-                                <img src="http://lorempixel.com/output/technics-q-c-300-300-4.jpg" alt="" class="itemImg" />
-                                <h3>Item Name 1</h3>
-                                <div class="d-flex align-items-center">
-                                    <fieldset  data-quantity></fieldset>
-                                    <span class="mx-2"> x $5.00 </span>
-                                    <span class="stockStatus mx-2"> In Stock</span>
-                                </div>
-                            </div>  
-                            <div class="prodTotal cartSection">
-                                <span>$15.00</span>
-                            </div>
-                                <div class="cartSection removeWrap">
-                                <a href="#" class="remove">x</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    
-                    <li class="items odd">
-                        <div class="infoWrap"> 
-                            <div class="cartSection">
-                                <img src="http://lorempixel.com/output/technics-q-c-300-300-4.jpg" alt="" class="itemImg" />
-                                <h3>Item Name 1</h3>
-                                <div class="d-flex align-items-center">
-                                    <fieldset  data-quantity></fieldset>
-                                    <span class="mx-2"> x $5.00 </span>
-                                    <span class="stockStatus mx-2"> In Stock</span>
-                                </div>
-                            </div>  
-                            <div class="prodTotal cartSection">
-                                <span>$15.00</span>
-                            </div>
-                                <div class="cartSection removeWrap">
-                                <a href="#" class="remove">x</a>
-                            </div>
-                        </div>
-                    </li>
-                    
                 </ul>
             </div>
             
-            <div class="row m-0 w-100">
+            <div class="code_delivery row m-0 w-100 d-none">
                 <div class="col promoCode">
                     <label for="promo">Vous avez un code promo ?</label>
                     <input type="text" name="promo" placholder="Entrez votre code" />
@@ -116,26 +76,26 @@
                 <!-- Ajouter des boutons radios pour savoir le mode de livraison choisi (en fonction des types de livraison du shop) -->
                 <div id="delivery" class="col">
                     <label class="" for="">Mode de livraison</label>
-                    <select name="tmagasin">
+                    <select id="deliverySelect" name="tmagasin">
                         <option>Click & Collect</option>
                         <option>Livraison à domicile</option>
                     </select>
                 </div>
             </div>
 
-            <div class="subtotal cf d-flex justify-content-end">
+            <div class="subtotal cf justify-content-end d-none">
                 <ul>
                     <li class="totalRow">
                         <span class="label">Sous-total</span>
-                        <span class="value">$35.00</span>
+                        <span id="subtotalPrice" class="value"></span>
                     </li>
                     <li class="totalRow">
                         <span class="label">Livraison</span>
-                        <span class="value">$5.00</span>
+                        <span id="deliveryPrice" class="value"> 0 €</span>
                     </li>
                     <li class="totalRow final">
                         <span class="label">Total</span>
-                        <span class="value">$44.00</span>
+                        <span id="totalPrice" class="value"></span>
                     </li>
                     <li class="totalRow">
                         <a href="#" class="btn continue">Valider la commande</a>

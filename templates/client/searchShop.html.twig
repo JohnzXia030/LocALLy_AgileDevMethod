@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /> -->
+    <title>LocAlly</title>
+    <link rel="icon" type="image/x-icon" href="../img/homeImg/logo.png"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <!-- jQuery est inclus ! -->
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <!-- Core theme JS-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <!-- jQuery est inclus ! -->
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+
+    <link href='../css/search.css' rel="stylesheet"/>
+</head>
+
+<body>
+{% include 'header.html.twig' %}
+<div class="container-fluid" id="containerSearch">
+
+    <div class="row">
+        <div class="recherche_p mt-4 mx-4">
+            <form class="form-inline my-3 my-lg-3">
+                <div class="recherche-barr d-flex w-100">
+                    <input class="recherche-input w-80 mr-2 px-2" type="search" placeholder=" Rechercher">
+                    <a href="#" class="recherche-icone">
+                        <i class="fas fa-search fa-2x"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12 col-md-5">
+            <h3 class="headline">
+                <span>Filtrer par ville</span>
+            </h3>
+            <div class="d-flex flex-wrap">
+                <div class="select-outline position-relative w-100">
+                    <select id="city" class="mdb-select md-outline md-form" searchable="Rechercher Ville">
+                        <option value=""  selected>Choisir ville</option>
+                        <option value="bordeaux">Bordeaux</option>
+                        <option value="pessac">Pessac</option>
+                        <option value="talence">Talence</option>
+                        <option value="merignac">Mérignac</option>
+                    </select>
+                </div>
+            </div>
+            <form class="shop__filter">
+               
+                <div class="shop-type">
+                    <!-- Checkboxes -->
+                    <h3 class="headline">
+                        <span>Types</span>
+                    </h3>
+
+                    <div class="group-checkbox">
+                        <select class="shop-type-option" id="shop-type-option" name="type[]" multiple="multiple">
+                            <option value="coiffeurs">Coiffeurs</option>
+                            <option value="boulangerie">Boulangerie</option>
+                            <option value="commerces">Commerces</option>
+                            <option value="bijouterie">Bijouterie</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="delivry">
+                    <!-- Radios -->
+                    <h3 class="headline">
+                        <span>Option Retrait</span>
+                    </h3>
+                    <div class="radio">
+                        <input type="radio" name="shop-filter-pick" id="shop-filter-radio_1" value="delivery"
+                               checked="">
+                        <label for="shop-filter-radio_1">Livraison</label>
+                    </div>
+                    <div class="radio">
+                        <input type="radio" name="shop-filter-pick" id="shop-filter-radio_2" value="click-collect">
+                        <label for="shop-filter-radio_2">Click&Collect</label>
+                    </div>
+                </div>
+                <button type="button" class="btn-save btn btn-sm mt-2" onclick="applyFilters()">Valider</button>
+            </form>
+        </div>
+        <div class="col-12 col-md-7">
+            <div class="row row-cols-1 row-cols-md-3 g-4" id="shop-container">
+                {#// Magasins ici#}
+
+            </div>
+
+        </div>
+
+    </div> <!-- / .row -->
+    <div class="row pagination-div m-5">
+        <div class="col-12 col-md-3">
+        </div>
+        <div class="col-12 col-md-6">
+            <ul id="pagination" class="pagination-sm "></ul>
+        </div>
+        <div class="col-12 col-md-3">
+        </div>
+    </div>
+</div>
+{% include 'footer.html.twig' %}
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Core theme JS-->
+{% include 'extern-library.html.twig' %}
+<!-- Code CSS Js for the page-->
+<script src="../js/search-shop.js"></script>
+</html>
+
+
