@@ -13,6 +13,7 @@ $(document).ready(function () {
     $("#ascending").click(function(){
         sortArticle="Up";
         articleSort(sortArticle);
+        console.log("UP");
     });
 
     $("#descending").click(function(){
@@ -22,25 +23,57 @@ $(document).ready(function () {
 });
 
 function articleSort(sortArticle) {
-    //articleArr
     if(sortArticle=="Up"){
+            articleArr.sort(function(a, b){
+            return a.a_price - b.a_price;});
+            console.log(articleArr);
+            
+    }else if(sortArticle=="Down") {
         articleArr.sort(function(a, b){
-            //return $(a).data(sort) - $(b).data(sort);
-            return a.a_price - b.a_price;
-        });
-    }else{
-        //return a.a_price
+            return b.a_price - a.a_price ;});
+            console.log(articleArr);
     }
-    console.log(articleArr);
+    showArticleSorted(articleArr);
 }
-/*function articleSort(sort) {
-    var sort = ($(this), $(this).find("li"), $(this).attr("value"));
-    if(sort="Up"){
-        alert("Yay");
-    }else{
-        alert("YAHOU");
+
+function showArticleSorted(articleArr){
+    
+    console.log(articleArr);
+    let articlesContainer = document.getElementById('articles-container');
+    while (articlesContainer.lastElementChild) {
+        articlesContainer.removeChild(articlesContainer.lastElementChild);
     }
-}*/
+    $('#pagination').twbsPagination('destroy');
+    // Nombre total des articles
+    numArticle = articleArr.length;
+    if (numArticle !== 0) {
+        // Page
+        totalPage = Math.ceil(numArticle / 9);
+        if (totalPage === 1) {
+            showCurrentPageArticles(0, numArticle - 1);
+        } else {
+            $('#pagination').twbsPagination({
+                totalPages: totalPage,
+                visiblePages: 1,
+                next: 'Next',
+                prev: 'Prev',
+                onPageClick: function (event, page) {
+                    //fetch content and render here
+                    console.log('no items');
+                    while (articlesContainer.lastElementChild) {
+                        articlesContainer.removeChild(articlesContainer.lastElementChild);
+                    }
+                    let startIndex = (page - 1) * 9;
+                    let endIndex = (page === totalPage) ? numArticle - 1 : page * 9 - 1;
+                    showCurrentPageArticles(startIndex, endIndex);
+                    //$('#page-content').text('Page ' + page) + ' content here';
+                }
+            });
+        }
+    }
+    return false;
+}
+
 
 /**
  * Appliquer les filters et obtenir les resultats sur la page
@@ -103,20 +136,7 @@ function applyFilters() {
 
 function showCurrentPageArticles(startIndex, endIndex) {
     for (let i = startIndex; i <= endIndex; i++) {
-        // Modules d'affichage des articles a ajouter dans le div avec id "articles-container"
-        /*<div class="col">
-            <div class="card h-100">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-        additional content. This content is a little bit longer.</p>
-        </div>
-        <div class="card-footer">
-            <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
-        </div>
-        </div>*/
+       
         let articlesContainer = document.getElementById('articles-container');
         let colDiv = document.createElement('div');
         colDiv.className = "col";
