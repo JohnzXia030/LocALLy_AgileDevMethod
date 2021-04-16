@@ -1,15 +1,11 @@
 /********Articles***********/
 #articles-container{
     margin-bottom: 50px;
-    
     padding-bottom: 30px;
     border-radius: 20px;
-    
 }
 
 .col .card{
-    /*filter: drop-shadow(0 0 0.4rem );*/
-    /*filter: drop-shadow(0 -6mm 4mm #fed136 );*/
     box-shadow: 5px 2px 2px rgb(254, 209, 54, 0.5);
 }
 /***********Pagination***********/
@@ -24,12 +20,24 @@
     border-color: #343a40;
 }
 
+.pagePagination #pagination li .disabled{
+    color: rgba(207, 179, 78) !important;
+    background-color: lightcoral;
+}
 /**************card******************/
+.card-body h5{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: x-large;
+    font-weight: bold;
+}
 .btn{
     background-color: #343a40 !important ;
     width: 60px;
 }
 
+.row{
+    margin-left: 10px;
+}
 .row .col a {
     color: white !important;
     border: none;
@@ -51,4 +59,16 @@
     background-color: white;
     margin: 10px;
     text-align: center;
+}
+
+.card-footer .stateDiv{
+    text-align: center;
+    margin: 10px;
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.col .card-img-top:hover{
+    -ms-transform: scale(0.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(0.5); 
 }

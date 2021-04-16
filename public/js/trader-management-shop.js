@@ -160,7 +160,7 @@ function showCurrentPageArticles(startIndex, endIndex) {
         let smallPriceDiscount = document.createElement('small');
         /*smallPriceInitial.className = "text-muted";
         smallPriceDiscount.className = "text-muted";*/
-        smallPriceInitial.style = "text-decoration:line-through;";
+        smallPriceInitial.style = "text-decoration:line-through; color:red;";
         smallPriceInitial.innerText = articleArr[i]['a_price'] + "€ ";
         // La ligne des prix
         if (articleArr[i]['a_discount'] !== 0) {
@@ -172,12 +172,14 @@ function showCurrentPageArticles(startIndex, endIndex) {
         }
         // La ligne etat
         let stateDiv = document.createElement('div');
-        stateDiv.className = "smallDiv";
+        stateDiv.className = "stateDiv";
         let stateSmall = document.createElement('small');
         if (articleArr[i]['a_available'] === "1") {
-            stateSmall.innerText = "(stock:" + articleArr[i]['a_quantity_stock'] + ")";
+            stateSmall.innerText = "stock : " + articleArr[i]['a_quantity_stock'];
+            stateSmall.style = "color:green;";
         } else if (articleArr[i]['a_available'] === "0") {
             stateSmall.innerText = "(Article désactivé)";
+            stateSmall.style = "color:red;";
         }
         // La ligne qui contient les deux boutons
         let buttonRow = document.createElement('div');
