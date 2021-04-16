@@ -249,4 +249,35 @@ class ShopRepository extends ServiceEntityRepository
                 ->execute();
         }
     }*/
+    public function getFilteredShop($request)
+    {
+
+        $city = $request['city'];
+        $pick = $request['pick'];
+        $type = $request['type'];
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $qb->select('*')
+            ->from('shop', 'sh')
+            ->leftJoin('sh', 'city', 'c', 'c.c_id = sh.sh_city')
+            ->leftJoin('sh', 'picture', 'p', ' sh.sh_id =p.p_id_article')
+            // Option retrait
+            ->where($qb->expr()->eq('sh_pick', '"' . $pick . '"'));
+        // Villes
+        if ($city !== "") {
+            $qb->andwhere($qb->expr()->eq('c_name', '"' . $city . '"'));
+        }
+
+        // Ajout de filtres pour le type des commerces (obsolète)
+        if (!empty($type)) {
+            $orx = $qb->expr()->orX();
+            foreach ($type as $typeCommerce) {
+                $orx->add($qb->expr()->eq('sh_type', '"' . $typeCommerce . '"'));
+            }
+            $qb->andWhere($orx);
+        }
+
+        $stmt = $qb->execute();
+        return $stmt->fetchAllAssociative();
+    }
 }

@@ -146,6 +146,12 @@ function showCurrentPageArticles(startIndex, endIndex) {
         cardBodyDiv.className = "card-body";
         let cardTitleH5 = document.createElement('h5');
         cardTitleH5.innerText = articleArr[i]['a_name'];
+        /*if (articleArr[i]['a_available'] === "1") {
+            cardTitleH5.innerText = articleArr[i]['a_name'] + "- stock:" + articleArr[i]['a_quantity_stock'];
+        } else if (articleArr[i]['a_available'] === "0") {
+            cardTitleH5.innerText = articleArr[i]['a_name'] + "(- Désactivé)";
+        }*/
+
         let cardFooterDiv = document.createElement('div');
         cardFooterDiv.className = "card-footer";
         let smallDiv = document.createElement('div');
@@ -156,12 +162,22 @@ function showCurrentPageArticles(startIndex, endIndex) {
         smallPriceDiscount.className = "text-muted";*/
         smallPriceInitial.style = "text-decoration:line-through;";
         smallPriceInitial.innerText = articleArr[i]['a_price'] + "€ ";
+        // La ligne des prix
         if (articleArr[i]['a_discount'] !== 0) {
             let discount = articleArr[i]['a_price'] * articleArr[i]['a_discount'] / 100;
             let discountPrice = articleArr[i]['a_price'] - discount;
             smallPriceDiscount.innerText = discountPrice + "€";
             smallDiv.appendChild(smallPriceDiscount);
             //cardFooterDiv.appendChild(smallPriceDiscount);
+        }
+        // La ligne etat
+        let stateDiv = document.createElement('div');
+        stateDiv.className = "smallDiv";
+        let stateSmall = document.createElement('small');
+        if (articleArr[i]['a_available'] === "1") {
+            stateSmall.innerText = "(stock:" + articleArr[i]['a_quantity_stock'] + ")";
+        } else if (articleArr[i]['a_available'] === "0") {
+            stateSmall.innerText = "(Article désactivé)";
         }
         // La ligne qui contient les deux boutons
         let buttonRow = document.createElement('div');
@@ -171,7 +187,7 @@ function showCurrentPageArticles(startIndex, endIndex) {
         let buttondivCons = document.createElement('div');
         buttondivModi.className = 'col';
         buttondivDele.className = 'col';
-        buttondivCons.className ='col';
+        buttondivCons.className = 'col';
         let modifyButton = document.createElement('a');
         let deleteButton = document.createElement('a');
         let consultButton = document.createElement('a');
@@ -194,7 +210,9 @@ function showCurrentPageArticles(startIndex, endIndex) {
         buttonRow.appendChild(buttondivCons);
         cardBodyDiv.appendChild(cardTitleH5);
         smallDiv.appendChild(smallPriceInitial);
+        stateDiv.appendChild(stateSmall);
         cardFooterDiv.appendChild(smallDiv);
+        cardFooterDiv.appendChild(stateDiv);
         cardFooterDiv.appendChild(buttonRow);
         cardDiv.appendChild(cardImg);
         cardDiv.appendChild(cardBodyDiv);
@@ -204,12 +222,13 @@ function showCurrentPageArticles(startIndex, endIndex) {
     }
 }
 
-function deleteArticle(idArticle){
+function deleteArticle(idArticle) {
     $.ajax({
         url: "api/delete-article/" + idArticle,
         type: "POST",
         success: function (data) {
             console.log(data);
+            window.location.reload();
         },
         cache: false,
         contentType: false,
