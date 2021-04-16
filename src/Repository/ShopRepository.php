@@ -69,6 +69,8 @@ class ShopRepository extends ServiceEntityRepository
 
     /**
      * Si un commercant a deja un magasin
+     * Magasin existe: Info de son magasin
+     * Magasin n'existe pas encore: false
      * @param $idTrader
      * @return \Doctrine\DBAL\Driver\ResultStatement|int
      */
