@@ -75,17 +75,27 @@ class TraderController extends AbstractController
     {
         return $this->render('trader/viewArticles.html.twig');
     }
-    
-    
+
+
     /**
      * @Route("/api/create-article")
+     * @param Request $request
      * @param ArticleRepository $articleRepository
+     * @param ShopRepository $shopRepository
      * @return Response
      */
-    public function apiAddArticle(ArticleRepository $articleRepository): Response
+    public function apiAddArticle(Request $request,ArticleRepository $articleRepository, ShopRepository $shopRepository): Response
     {
         $mNewArticle = json_decode($this::$request->getContent(), true);
-        $result = $articleRepository->addArticle($mNewArticle);
+        $session = $request ->getSession();
+        $mIdUser = $session->get("idUser");
+        $mIfHasShop = $shopRepository->ifHasShop($mIdUser);
+        if ($mIfHasShop == 'false'){
+            return new Response('Vous n\'avez pas encore un magasin', Response::HTTP_BAD_REQUEST);
+        }else{
+            $mIdShop = $mIfHasShop["sh_id"];
+        }
+        $result = $articleRepository->addArticle($mNewArticle, $mIdShop);
         return new JsonResponse(['result' => $result]);
     }
 
@@ -170,14 +180,16 @@ class TraderController extends AbstractController
     /**
      * @Route("/api/update-shop/{id}")
      * @param $id
-     * @param ShopRepository $shoprepository
+     * @param ShopRepository $shopRepository
      * @return Response
      * @throws Exception
      */
     public function apiUpdateShop($id, ShopRepository $shopRepository): Response
     {
         $mNewShop = json_decode($this::$request->getContent(), true);
-        //$shopRepository->updateShop($mNewShop, $id);
+        /*$session = $request ->getSession();
+        $mIdUser = $session->get("idUser");*/
+        $shopRepository->updateShop($mNewShop, $id/*, $mIdUser*/);
         return new Response('Success', Response::HTTP_OK);
     }
 

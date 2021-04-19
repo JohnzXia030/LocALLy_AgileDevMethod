@@ -10,7 +10,7 @@ var photo = [];
 /**
  * Photos deposées par commerçant
   */
-var imageArr;
+var imageArr = [];
 window.onload = function () {
     // Obtenir l'id d'article
     const queryString = window.location.search;
@@ -42,12 +42,17 @@ window.onload = function () {
                     deletePhoto(photo[i]);
                 };
                 img.src = "data:image/gif;base64," + photo[i]['p_base64'];
-                var div = document.createElement("div");
-                div.className = (i === 0) ? "carousel-item active" : "carousel-item" ;
+                var divCarouselItem = document.createElement("div");
+                var button = document.createElement("button");
+                button.setAttribute("data-bs-target","#carouselExampleIndicators");
+                button.setAttribute("data-bs-slide-to", i.toString());
+                button.className = (i === 0) ? "active" : ""
+                divCarouselItem.className = (i === 0) ? "carousel-item active" : "carousel-item" ;
                 img.height = 500
                 img.width = 500
-                div.appendChild(img);
-                document.getElementById('photo-list').append(div);
+                divCarouselItem.appendChild(img);
+                document.getElementById('button-list').append(button);
+                document.getElementById('photo-list').append(divCarouselItem);
             }
         },
         cache: false,
@@ -73,8 +78,8 @@ function submitUpdateArticleForm() {
         object[key] = value;
     });
     // Controle de nombre des photos
-    if (imageArr.length >= 6) {
-        alert("Veuillez uniquement joindre au maximum 5 photos ");
+    if (imageArr.length + photo.length >= 6) {
+        alert("Un article ne peut que uniquement avoir 5 photos maximum");
         return;
     }
     object["photo-article"] = imageArr;
