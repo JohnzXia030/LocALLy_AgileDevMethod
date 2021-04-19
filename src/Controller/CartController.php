@@ -25,6 +25,15 @@ class CartController extends AbstractController{
     }
 
     /**
+     * @Route("/cart-payment")
+     */
+    public function cartPayment(SessionInterface $session)
+    {
+        //dd($session->get('cart'));
+        return $this->render('view/viewCartpayment.html.twig');
+    }
+
+    /**
      * @Route("/api/add/{id}/{quantity}")
      */
     public function add($id, $quantity, CartService $cartService, SessionInterface $session) : Response
