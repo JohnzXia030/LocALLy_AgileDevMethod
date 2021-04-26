@@ -220,27 +220,31 @@ class ShopRepository extends ServiceEntityRepository
             /**
              * Update les donnees dans 'faq'
              */
-            if ($line['id']!=0) {
+            echo "id = " .  $line['id'] . "\n";
+
+            if (!empty($line['id'])) {
                 $qb = $conn->createQueryBuilder();
                 $qb->update('faq')
                     ->set('faq_question', '"' . $line['question'] . '"')
                     ->set('faq_reply', '"' . $line['reponse'] . '"')
                     ->where($qb->expr()->eq('faq_id', '"' . $line['id'] . '"'))
                     ->execute();
+                echo "non null";
             }
             /**
              * Inserer les donnees dans 'faq'
              */
-            elseif ($line['id']=null)
+            elseif (empty($line['id'])) {
                 $qb = $conn->createQueryBuilder();
                 $qb->insert('faq')
                 ->setValue('faq_question', '"' . $line['question'] . '"')
                 ->setValue('faq_reply', '"' . $line['reponse'] . '"')
                 ->setValue('faq_id_shop', '"' . $idShop . '"')
                 ->execute();
+                echo "null";
+            }
         }
 
-        $qb = $conn->createQueryBuilder();
         /**
          * Inserer les photos dans 'photos'
          */
@@ -283,6 +287,17 @@ class ShopRepository extends ServiceEntityRepository
 
         $stmt = $qb->execute();
         return $stmt->fetchAllAssociative();
+    }
+
+    public function deleteFaq($id){
+        echo $id;
+        /*$id  = 331;
+        echo $id;*/
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $qb->delete('faq')
+                ->where($qb->expr()->eq('faq_id', '"' . $id . '"'));
+        $stmt = $qb->execute();
     }
 
 }

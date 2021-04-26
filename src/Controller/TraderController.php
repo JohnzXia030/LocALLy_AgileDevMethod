@@ -164,6 +164,21 @@ class TraderController extends AbstractController
     }
 
     /**
+     * @Route("/api/delete-faq/{id}")
+     * @param $id
+     * @param ShopRepository $shopRepository
+     * @return Response
+     * @throws Exception
+     */
+    public function deleteFaq($id, ShopRepository $shopRepository): Response
+    {
+        echo $id;
+        $shopRepository->deleteFaq($id);
+        echo $id;
+        return new JsonResponse(['data' => "Success"]);
+    }
+
+    /**
      * @Route("/api/update-article/{id}")
      * @param $id
      * @param ArticleRepository $articleRepository
