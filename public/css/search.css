@@ -163,12 +163,34 @@ input[type=checkbox] {
     margin-top: -1px;
     border-color: black;
 }
-.recherche-input {
+.rechercheInput {
     border: 1px;
     max-width: 400px;
     border-radius: 6px;
     line-height: 35px;
     margin-left: 300px;
+}
+
+.suggestions{
+    
+    border: 1px;
+    max-width: 400px;
+    border-radius: 6px;
+    line-height: 35px;
+    margin-left: 300px;
+
+}
+.suggestions:hover{
+    Width: 80%;
+    border-radius: 6px;
+    line-height: 35px;
+    margin-left: 300px;
+    background: #e6b301;
+    border-radius: 5px;
+    position: relative;
+    top: 5px;
+    border: 1px solid black;
+
 }
 
 .recherche-icone{

@@ -9,7 +9,25 @@ $(document).ready(function () {
     });
 });
 
+/* recherInput */
+const searchinput2 = document.getElementById('searchInput2');
+searchinput2.addEventListener('keyup', function() {
+    const rechercheInput = searchinput2.value;
+    const result = shopArr.filter(item => item.sh_name.toLocaleLowerCase().includes(rechercheInput.toLocaleLowerCase()));
 
+    let suggestions ='';
+
+    if(rechercheInput !=''){
+        result.forEach(resultItem => 
+            suggestions += `
+            <div class="suggestions"> ${resultItem.sh_name}</div>
+            `
+            )
+        }
+        document.getElementById('suggestions').innerHTML = suggestions;
+
+    })
+/* END */
 /**
  * Appliquer les filters et obtenir les resultats sur la page
  * @returns {boolean}

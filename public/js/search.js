@@ -2,6 +2,27 @@ var totalPage;
 var currentPage;
 var numArticle;
 var articleArr;
+
+/* recherInput */
+const searchinput1 = document.getElementById('searchInput1');
+searchinput1.addEventListener('keyup', function() {
+    const rechercheInput = searchinput1.value;
+    const result = articleArr.filter(item => item.a_name.toLocaleLowerCase().includes(rechercheInput.toLocaleLowerCase()));
+
+    let suggestions ='';
+
+    if(rechercheInput !=''){
+        result.forEach(resultItem => 
+            suggestions += `
+            <div class="suggestions"> ${resultItem.a_name}</div>
+            `
+            )
+        }
+        document.getElementById('suggestions').innerHTML = suggestions;
+
+    })
+/* END */
+
 $(document).ready(function () {
     var sortArticle='';
 
