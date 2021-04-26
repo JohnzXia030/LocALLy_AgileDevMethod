@@ -1,5 +1,97 @@
 $(document).ready(function () {
 
+  $.ajax({
+    url: "api/get-cart",
+    type: "GET",
+    dataType: 'JSON',
+    success: function (data){
+      if (data['articles'].length == 0) {
+        $('#loading').addClass('d-none').removeClass('d-flex');
+        $('.cart, #emptyCart').removeClass('d-none');
+      }
+      else {
+        var subTotalPrice = 0;
+        for (var i = 0 ; i < data['articles'].length ; i++) {
+          var base64PhotoArticle = data['articles'][i]['product'][0]['pictures'][0]['p_base64'];
+          var idArticle = data['articles'][i]['product'][0]['article']['a_id'];
+          var nameArticle = data['articles'][i]['product'][0]['article']['a_name'];
+          var quantityArticle = data['articles'][i]['quantity'];
+          var priceArticle = data['articles'][i]['product'][0]['article']['a_price'];
+          var totalArticle = priceArticle * quantityArticle;
+          var discountArticle = data['articles'][i]['product'][0]['article']['a_discount'];
+          /* DISCOUNT */
+          var discount = null;
+          var discountPrice = null;
+          var totalDiscountPrice = null;
+          if (discountArticle != 0){
+            discount = priceArticle * discountArticle / 100 ;
+            discountPrice = priceArticle - discount;
+            totalDiscountPrice = discountPrice * quantityArticle;
+            subTotalPrice += totalDiscountPrice;
+          }
+          else {
+            subTotalPrice += totalArticle;
+          }
+          
+          $('.cartWrap').append(
+            '<li class="items odd" data-idarticle=' + idArticle + '>' +
+              '<div class="infoWrap">' +
+                '<div class="cartSection">' +
+                  '<img src="'+'data:image/png;base64,' + base64PhotoArticle + '" class="itemImg" />' +
+                  '<h3>' + nameArticle + '</h3>' +
+                  '<div class="d-flex align-items-center">' +
+                  //  '<fieldset  data-quantity></fieldset>' +
+                    '<span> ' + quantityArticle + ' x </span>' +
+                    '<span class="mx-2 price">' + priceArticle + ' € </span>' +
+                    '<span class="stockStatus mx-2"> En Stock</span>' +
+                  '</div>' +
+                '</div>' +
+                '<div class="prodTotal cartSection">' +
+                    '<span class="mx-2 totalPrice">' + totalArticle + ' € </span>' +
+                '</div>' +
+                '<div class="cartSection removeWrap d-none">' +
+                    '<a href="#" class="remove">x</a>' +
+                '</div>' +
+              '</div>' +
+            '</li>'
+          );
+          if (discount != null) {
+            $('li.items[data-idarticle=' + idArticle + '] span.price')
+              .addClass('line')
+              .after('<span> ' + discountPrice + ' €  </span>');
+            $('li.items[data-idarticle=' + idArticle + '] span.totalPrice')
+              .addClass('line')
+              .after('<span> ' + totalDiscountPrice + ' €  </span>');
+          }
+        }
+
+        $('#subtotalPrice').html(subTotalPrice + ' €').attr('data-subtotalprice', subTotalPrice);
+        $('#totalPrice').html(subTotalPrice + ' €');
+
+        $('#loading').addClass('d-none').removeClass('d-flex');
+        $('.cart, .cartWrap, .code_delivery, .subtotal').removeClass('d-none');
+      }
+    },
+    erreur: function (data){
+      console.log(data);
+    },
+    cache: false,
+    contentType: false,
+    processData: false
+  });
+
+  $('select#deliverySelect').change(function() {
+    var subTotalPrice = parseFloat($('#subtotalPrice').attr('data-subtotalprice'));
+    if ($(this).val() == "Livraison à domicile") {
+      $('#deliveryPrice').html('5 €');
+      $('#totalPrice').html(subTotalPrice + 5 + ' €');
+    }
+    else {
+      $('#deliveryPrice').html('0 €');
+      $('#totalPrice').html(subTotalPrice + ' €');
+    }
+  });
+
   // Bouton Quantité
   let quantities = document.querySelectorAll('[data-quantity]');
   if (quantities instanceof Node) quantities = [quantities];

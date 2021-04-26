@@ -85,14 +85,19 @@ $(document).ready(function () {
 
   $('button#add-product').click(function(e) {
     var quantity = $('input[name=quantity]').val();
+    var queryString = window.location.search;
+    var urLParams = new URLSearchParams(queryString);
+    var paramId = urLParams.get('id');
     var apiURLAddArticle = "../cart/api/add/" + paramId + "/" + quantity;
-
+    console.log(apiURLAddArticle);
     $.ajax({
       url: apiURLAddArticle,
       type: "GET",
       dataType: 'JSON',
       success: function (data){
         console.log(data);
+        console.log($('a#modalLink'));
+        console.log($('a#modalLink').attr('href'));
         window.location=$('a#modalLink').attr('href');
       },
       erreur: function (data){

@@ -69,6 +69,8 @@ class ShopRepository extends ServiceEntityRepository
 
     /**
      * Si un commercant a deja un magasin
+     * Magasin existe: Info de son magasin
+     * Magasin n'existe pas encore: false
      * @param $idTrader
      * @return \Doctrine\DBAL\Driver\ResultStatement|int
      */
@@ -170,56 +172,90 @@ class ShopRepository extends ServiceEntityRepository
         return $articles;
     }
 
-    /*/**
+    /**
      * @param $request
      * @param $idShop
      * @throws Exception
      */
-    /*public function updateShop($request, $idShop)
+    public function updateShop($request, $idShop /*, $mIdUser*/)
     {
-        $name = $request['name-article'];
-        $description = $request['description-article'];
-        // Obtenir le status en binaire
-        $availableArticle = $request['available-article'];
-        $available = ($availableArticle == "on") ? 1 : 0;
-        $discount = $request['discount-article'];
-        $discount_period = $request['period-discount-article'];
-        $price = $request['price-article'];
-        $quantity = $request['stock-article'];
-        $photo = $request['photo-article'];
-        $idShop = '10';
+        $horairesString = json_encode($request['horaires']);
+        $photos = $request['photos-magasin'];
+        $faq = $request['faq'];
 
+        $nomEnseigne = $request['nenseigne'];
+        $numVoie = $request['numvoie'];
+        $nomVoie = $request['nomvoie'];
+        $complementAdresse = $request['ca'];
+        $city = $request['nville'];
+        $description = $request['description'];
+        $numTel = $request['numtel'];
+        $pick = $request['oretrait'];
+        $typeMagasin = $request['type-magasin'];
+
+        /**
+         * Update les donnees dans 'shop'
+         */
         $conn = $this->getEntityManager()->getConnection();
         $qb = $conn->createQueryBuilder();
-        $qb->update('article', 'a')
-            ->set('a_name', '"' . $name . '"')
-            ->set('a_description', '"' . $description . '"')
-            ->set('a_price', '"' . $price . '"')
-            ->set('a_id_shop', '"' . $idShop . '"')
-            ->set('a_discount', '"' . $discount . '"')
-            ->set('a_discount_period', '"' . $discount_period . '"')
-            ->set('a_available', '"' . $available . '"')
-            ->set('a_quantity_stock', '"' . $quantity . '"')
-            ->where($qb->expr()->eq('a_id', '"' . $idArticle . '"'))
+        $qb->update('shop')
+            ->set('sh_name', '"' . $nomEnseigne . '"')
+            ->set('sh_num_street', '"' . $numVoie . '"')
+            ->set('sh_name_street', '"' . $nomVoie . '"')
+            ->set('sh_address_add', '"' . $complementAdresse . '"')
+            ->set('sh_city', '"' . $city . '"')
+            ->set('sh_description', '"' . $description . '"')
+            //->set('sh_id_trader', '"' . $mIdUser . '"')
+            ->set('sh_num_phone', '"' . $numTel . '"')
+            ->set("sh_open_hours", "'" . $horairesString . "'")
+            ->set("sh_pick", "'" . $pick . "'")
+            ->set("sh_type", "'" . $typeMagasin . "'")
+            ->where($qb->expr()->eq('sh_id', '"' . $idShop . '"'))
             ->execute();
+
+        /**
+         * Inserer/update les donnees dans 'faq'
+         */
+        foreach ($faq as $line) {
+            /**
+             * Update les donnees dans 'faq'
+             */
+            if ($line['id']!=0) {
+                $qb = $conn->createQueryBuilder();
+                $qb->update('faq')
+                    ->set('faq_question', '"' . $line['question'] . '"')
+                    ->set('faq_reply', '"' . $line['reponse'] . '"')
+                    ->where($qb->expr()->eq('faq_id', '"' . $line['id'] . '"'))
+                    ->execute();
+            }
+            /**
+             * Inserer les donnees dans 'faq'
+             */
+            elseif ($line['id']=null)
+                $qb = $conn->createQueryBuilder();
+                $qb->insert('faq')
+                ->setValue('faq_question', '"' . $line['question'] . '"')
+                ->setValue('faq_reply', '"' . $line['reponse'] . '"')
+                ->setValue('faq_id_shop', '"' . $idShop . '"')
+                ->execute();
+        }
 
         $qb = $conn->createQueryBuilder();
         /**
          * Inserer les photos dans 'photos'
          */
-        /*foreach ($photo as $line) {
+        foreach ($photos as $line) {
             $qb = $conn->createQueryBuilder();
             $qb->insert('picture')
                 ->setValue('p_base64', '"' . $line['pictureURL'] . '"')
-                ->setValue('p_id_article', '"' . $idArticle . '"')
                 ->setValue('p_id_shop', '"' . $idShop . '"')
                 ->execute();
         }
-    }*/
+    }
 
     public function getFilteredShop($request)
     {
-        
+
         $city = $request['city'];
         $pick = $request['pick'];
         $type = $request['type'];
@@ -235,7 +271,7 @@ class ShopRepository extends ServiceEntityRepository
         if ($city !== "") {
             $qb->andwhere($qb->expr()->eq('c_name', '"' . $city . '"'));
         }
-        
+
         // Ajout de filtres pour le type des commerces (obsolète)
         if (!empty($type)) {
             $orx = $qb->expr()->orX();
@@ -248,4 +284,5 @@ class ShopRepository extends ServiceEntityRepository
         $stmt = $qb->execute();
         return $stmt->fetchAllAssociative();
     }
+
 }

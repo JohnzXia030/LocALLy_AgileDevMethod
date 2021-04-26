@@ -18,7 +18,7 @@ var photo = [];
 /**
  * Photos deposées par commerçant
  */
-var imageArr;
+var imageArr = [];
 
 
 $(document).ready(function () {
@@ -164,6 +164,7 @@ $(".submit").click(function () {
     var questionArray = $.map($('input[name="question"]'), function (val, _) {
         var newObj = {};
         newObj.question= val.value;
+        newObj.id = val.id;
         return newObj;
     });
     var reponseArray = $.map($('input[name="reponse"]'), function (val, _) {
@@ -176,6 +177,7 @@ $(".submit").click(function () {
         let line = {};
         line.question = questionArray[i]['question'];
         line.reponse = reponseArray[i]['reponse'];
+        line.id = questionArray[i]['id'];
         faq.push(line);
     }
 
@@ -208,19 +210,12 @@ $(".submit").click(function () {
         object[key] = value;
     });
 
-    var pictures;
-    if (imageArr.length>0){
-        pictures = imageArr;
-    }
-    else{
-        pictures = null;
-    }
-
-        object['horaires'] = horaires;
-        object['faq'] = faq;
-        object['photos-magasin'] = pictures
-        console.log(formData.get('horaires'));
-        const formJson = JSON.stringify(object);
+    console.log(horairesObject);
+    object['horaires'] = horairesObject;
+    object['faq'] = faq;
+    object['photos-magasin'] = imageArr;
+    console.log(formData.get('horaires'));
+    const formJson = JSON.stringify(object);
 
     // Envoyer le contenu vers le controller
     const queryString = window.location.search;
@@ -234,15 +229,13 @@ $(".submit").click(function () {
         data: formJson,
         success: function (msg) {
             console.log(JSON.stringify(msg));
-            window.location.reload();
+            //window.location.reload();
         },
         cache: false,
         contentType: false,
         processData: false
     });
-    for (var pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-    }
+
     return false;
 })
 
@@ -394,8 +387,8 @@ window.onload = function () {
             document.getElementById("sunday").value = jsonHoraires['sunday'];
 
             for (var i = 0 ; i < faq.length ; i++) {
-                $('.faq-div').append('<div>' +
-                    '<input type="text" name="question" value="'+faq[i]["faq_question"]+'" placeholder="Question"/>\n' +
+                $('.faq-div').append('<div>' +              // TODO A corriger l'id, qui ne prend pas bien en valeur l'ID de faq
+                    '<input type="text" name="question" id="faq[i]["faq_id"]" value="'+faq[i]["faq_question"]+'" placeholder="Question"/>\n' +
                     '<input type="text" name="reponse" value="'+faq[i]["faq_reply"]+'" placeholder="Réponse"/>' +
                     '<a href="#" class="remove_field" >Supprimer</a>' +
                     '</div>'
