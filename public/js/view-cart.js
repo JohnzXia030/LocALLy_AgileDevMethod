@@ -4,6 +4,7 @@ $(document).ready(function () {
     url: "api/get-cart",
     type: "GET",
     dataType: 'JSON',
+    async: false,
     success: function (data){
       if (data['articles'].length == 0) {
         $('#loading').addClass('d-none').removeClass('d-flex');
@@ -34,14 +35,15 @@ $(document).ready(function () {
           }
           
           $('.cartWrap').append(
-            '<li class="items odd" data-idarticle=' + idArticle + '>' +
+            '<li class="items odd" data-idarticle="' + idArticle + '">' +
               '<div class="infoWrap">' +
                 '<div class="cartSection">' +
                   '<img src="'+'data:image/png;base64,' + base64PhotoArticle + '" class="itemImg" />' +
                   '<h3>' + nameArticle + '</h3>' +
                   '<div class="d-flex align-items-center">' +
-                  //  '<fieldset  data-quantity></fieldset>' +
-                    '<span> ' + quantityArticle + ' x </span>' +
+                    '<fieldset class="inputQuantity" data-quantity data-idarticle="' + idArticle + '" data-articleQuantity="'+quantityArticle+'"></fieldset>' +
+                    //'<span> ' + quantityArticle + ' x </span>' +
+                    '<span> x </span>' +
                     '<span class="mx-2 price">' + priceArticle + ' € </span>' +
                     '<span class="stockStatus mx-2"> En Stock</span>' +
                   '</div>' +
@@ -49,17 +51,18 @@ $(document).ready(function () {
                 '<div class="prodTotal cartSection">' +
                     '<span class="mx-2 totalPrice">' + totalArticle + ' € </span>' +
                 '</div>' +
-                '<div class="cartSection removeWrap d-none">' +
-                    '<a href="#" class="remove">x</a>' +
+                '<div class="cartSection removeWrap">' +
+                    '<a href="#" class="remove removeArticle" data-idarticle="' + idArticle + '" data-quantityarticle="' + quantityArticle + '">x</a>' +
                 '</div>' +
               '</div>' +
             '</li>'
           );
+          
           if (discount != null) {
-            $('li.items[data-idarticle=' + idArticle + '] span.price')
+            $('li.items[data-idarticle="' + idArticle + '"] span.price')
               .addClass('line')
               .after('<span> ' + discountPrice + ' €  </span>');
-            $('li.items[data-idarticle=' + idArticle + '] span.totalPrice')
+            $('li.items[data-idarticle="' + idArticle + '"] span.totalPrice')
               .addClass('line')
               .after('<span> ' + totalDiscountPrice + ' €  </span>');
           }
@@ -80,6 +83,20 @@ $(document).ready(function () {
     processData: false
   });
 
+  $('a.removeArticle').click(function() {
+    var idArticle = $(this).attr('data-idarticle');
+    var quantity = $(this).attr('data-quantityarticle');
+    
+    $.ajax({
+      url: "api/remove/"+idArticle+"/"+quantity,
+      type: "GET",
+      dataType: 'JSON',
+      success: function (data){
+        document.location.reload();
+      }
+    });
+  })
+
   $('select#deliverySelect').change(function() {
     var subTotalPrice = parseFloat($('#subtotalPrice').attr('data-subtotalprice'));
     if ($(this).val() == "Livraison à domicile") {
@@ -92,73 +109,55 @@ $(document).ready(function () {
     }
   });
 
-  // Bouton Quantité
-  let quantities = document.querySelectorAll('[data-quantity]');
-  if (quantities instanceof Node) quantities = [quantities];
-  if (quantities instanceof NodeList) quantities = [].slice.call(quantities);
-  if (quantities instanceof Array) {
-    quantities.forEach(div => (div.quantity = new QuantityInput(div, 'Down', 'Up')));
+  // Boutons Quantité
+  //let quantities = document.querySelectorAll('[data-quantity]'); console.log(quantities);
+  
+  var quantities = $('.inputQuantity');
+  //console.log(quantities);
+  
+  for (var i = 0 ; i < quantities.length ; i++) {
+    //console.log(quantities[i]);
+    //var quantity = new QuantityInput(quantities[i], '', '');
+
+    var articleId = $(quantities[i]).attr('data-idArticle');
+    var quantityArticle = parseInt($(quantities[i]).attr('data-articleQuantity'));
+    //console.log(quantityArticle);
+
+    $(quantities[i]).append(
+      '<button type="button" class="sub"></button>' +
+        '<input type="number" readonly class="quantityInput" name="quantity" pattern="[0-9]+" value='+quantityArticle+'>' +
+      '<button type="button" class="add"></button>');
   }
+  
+  $('button.sub').click(function() {
+    var fieldset = $(this).parents('fieldset'); console.log(fieldset);
+    //var quantity = $(fieldset).find('input').val();
+    var idArticle = $(fieldset).attr('data-idarticle');
+
+    $.ajax({
+      url: "api/remove/"+idArticle+"/1",
+      type: "GET",
+      dataType: 'JSON',
+      success: function (data){
+        document.location.reload();
+      }
+    });
+  });
+
+  $('button.add').click(function() {
+    var fieldset = $(this).parents('fieldset'); console.log(fieldset);
+    //var quantity = $(fieldset).find('input').val();
+    var idArticle = $(fieldset).attr('data-idarticle');
+
+    $.ajax({
+      url: "api/add/"+idArticle+"/1",
+      type: "GET",
+      dataType: 'JSON',
+      success: function (data){
+        document.location.reload();
+      }
+    });
+  });
+
+  
 });
-
-
-/**
- *  @class
- *  @function Quantity
- *  @param {DOMobject} element to create a quantity wrapper around
- */
- class QuantityInput {
-  constructor(self, decreaseText, increaseText) {
-    // Create input
-    this.input = document.createElement('input');
-    this.input.value = 1;
-    this.input.type = 'number';
-    this.input.name = 'quantity';
-    this.input.pattern = '[0-9]+';
-
-    // Get text for buttons
-    this.decreaseText = decreaseText || 'Decrease quantity';
-    this.increaseText = increaseText || 'Increase quantity';
-
-    // Button constructor
-    function Button(text, className){
-      this.button = document.createElement('button');
-      this.button.type = 'button';
-      this.button.innerHTML = text;
-      this.button.title = text;
-      this.button.classList.add(className);
-
-      return this.button;
-    }
-
-    // Create buttons
-    this.subtract = new Button(this.decreaseText, 'sub');
-    this.add = new Button(this.increaseText, 'add');
-
-    // Add functionality to buttons
-    this.subtract.addEventListener('click', () => this.change_quantity(-1));
-    this.add.addEventListener('click', () => this.change_quantity(1));
-
-    // Add input and buttons to wrapper
-    self.appendChild(this.subtract);
-    self.appendChild(this.input);
-    self.appendChild(this.add);
-  }
-
-  change_quantity(change) {
-    // Get current value
-    let quantity = Number(this.input.value);
-
-    // Ensure quantity is a valid number
-    if (isNaN(quantity)) quantity = 1;
-
-    // Change quantity
-    quantity += change;
-
-    // Ensure quantity is always a number
-    quantity = Math.max(quantity, 1);
-
-    // Output number
-    this.input.value = quantity;
-  }
-}

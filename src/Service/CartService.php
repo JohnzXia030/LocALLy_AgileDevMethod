@@ -39,6 +39,10 @@ class CartService {
         $this->session->set('cart', $cart);
     }
 
+    public function clear() {
+        $this->session->set('cart', array());
+    }
+
     public function getFullCart() {
         $cart = $this->session->get('cart', []);
         $fullCart = [];
