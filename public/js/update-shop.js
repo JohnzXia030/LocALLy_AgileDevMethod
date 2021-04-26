@@ -298,6 +298,7 @@ $(document).ready(function () {
     var max_fields = 10; //maximum input boxes allowed
     var wrapper = $(".input_fields_wrap"); //Fields wrapper
     var add_button = $(".add_field_button"); //Add button ID
+    var init_wrapper = $(".input_initial_wrap");
 
     var x = 1; //initlal text box count
     $(add_button).click(function (e) { //on add input button click
@@ -313,8 +314,59 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).parent('div').remove();
         x--;
+
+    })
+
+    $(init_wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+        e.preventDefault();
+        $(this).parent('div').remove();
+        x--;
+        //var idFaq = $(this).children('input')[0].id;
+        /*console.log($(this));
+        console.log($(this).parent)
+        console.log($(this).parent.children('input')[0]);
+        console.log($(this).parent.children('input')[0].id);*/
+        //deleteFAQ(id);
     })
 });
+
+function deleteFAQ(id){
+    console.log(id);
+    let apiURLDeleteFaq = "api/delete-faq";
+    $.ajax({
+        url: "api/delete-faq/" + id,
+        type: "GET",
+        dataType: 'JSON',
+        success: function (data) {
+            alert("FAQ supprimée!");
+
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+}
+
+function deletePhoto(e){
+    const r = confirm("Veuillez confirmer votre supression défitive!!!!");
+    if (r === false) {
+        return;
+    }
+    e.parent('div').remove();
+    console.log("test");
+    $.ajax({
+        url: "api/delete-photo/" + e.p_id,
+        type: "GET",
+        dataType: 'JSON',
+        success: function (data) {
+            alert("Photo supprimée!");
+            //window.location.reload();
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+}
 
 
 window.onload = function () {
@@ -386,14 +438,24 @@ window.onload = function () {
             document.getElementById("saturday").value = jsonHoraires['saturday'];
             document.getElementById("sunday").value = jsonHoraires['sunday'];
 
-            for (var i = 0 ; i < faq.length ; i++) {
+            /*faq.forEach(function (unFAQ) {
                 $('.faq-div').append('<div>' +              // TODO A corriger l'id, qui ne prend pas bien en valeur l'ID de faq
-                    '<input type="text" name="question" id="faq[i]["faq_id"]" value="'+faq[i]["faq_question"]+'" placeholder="Question"/>\n' +
-                    '<input type="text" name="reponse" value="'+faq[i]["faq_reply"]+'" placeholder="Réponse"/>' +
+                    '<input type="text" name="question" id="faq[i]["faq_id"]" value="${unFAQ.faq_question}" placeholder="Question"/>\n' +
+                    '<input type="text" name="reponse" value="${unFAQ.faq_reply}" placeholder="Réponse"/>' +
                     '<a href="#" class="remove_field" >Supprimer</a>' +
+                    '</div>');
+            });*/
+
+            for (var i = 0 ; i < faq.length ; i++) {
+                var idFaq = faq[i]["faq_id"];
+                $('.faq-div').append('<div id="i">' +
+                    '<input type="text" name="question" id="'+faq[i]["faq_id"]+'" value="'+faq[i]["faq_question"]+'" placeholder="Question"/>\n' +
+                    '<input type="text" name="reponse" value="'+faq[i]["faq_reply"]+'" placeholder="Réponse"/>' +
+                    '<a href="#" class="remove_field" onclick="deleteFAQ(\'' + idFaq + '\')" >Supprimer</a>' +
                     '</div>'
                 );
                 }
+
             // Charger et afficher les images sur la page
             for (let i = 0; i < photo.length; i++) {
                 var img = document.createElement('img');
