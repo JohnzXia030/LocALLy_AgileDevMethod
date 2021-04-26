@@ -20,8 +20,8 @@
         url: "../guest/api/is-logged",
         type: "POST",
         success: function (data) {
-            console.log(data);
-            if (data['idUser'] == null) {
+            console.log();
+            if (data['idRole'] == null) {
                 $('div#navbarResponsive ul').append('<li class="nav-item"><a class="nav-link js-scroll-trigger" href="../guest/login">Connexion / Inscription</a></li>');
             }
             else if(data['idRole']==="2") {
