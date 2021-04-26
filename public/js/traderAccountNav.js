@@ -1,4 +1,9 @@
 jQuery(document).ready(function(){
+    $('div#navPersonalData').click(function(e) {
+        e.preventDefault();
+        window.location.assign("account");
+    });
+
     $('div#navShopData').click(function(e) {
       e.preventDefault();
       window.location.assign("traderAccountShop");
