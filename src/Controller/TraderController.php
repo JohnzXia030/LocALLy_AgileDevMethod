@@ -43,7 +43,15 @@ class TraderController extends AbstractController
     {
         return $this->render('trader/add-article.html.twig', array());
     }
-    
+
+    /**
+     * @Route("/account")
+     */
+    public function account(): Response
+    {
+        return $this->render('guest/account.html.twig');
+    }
+
     /**
      * @Route("/traderAccountNav")
      */

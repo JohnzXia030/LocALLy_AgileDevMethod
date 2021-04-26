@@ -268,7 +268,7 @@ class ShopRepository extends ServiceEntityRepository
         $qb->select('*')
             ->from('shop', 'sh')
             ->leftJoin('sh', 'city', 'c', 'c.c_id = sh.sh_city')
-            ->leftJoin('sh', 'picture', 'p', ' sh.sh_id =p.p_id_article')
+            ->leftJoin('sh', 'picture', 'p', ' sh.sh_id =p.p_id_shop')
             // Option retrait
             ->where($qb->expr()->eq('sh_pick', '"' . $pick . '"'));
         // Villes

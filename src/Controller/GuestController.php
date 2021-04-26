@@ -76,7 +76,6 @@ class GuestController extends AbstractController
     public function account(): Response
     {
         return $this->render('guest/account.html.twig');
-        
     }
 
     /**
