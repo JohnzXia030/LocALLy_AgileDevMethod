@@ -24,5 +24,11 @@ jQuery(document).ready(function(){
       window.location.assign("create-shop");
     });
 
-  });
+    $('div#getOrders').click(function(e) {
+        e.preventDefault();
+        window.location.assign("orders");
+    });
+
+
+});
   

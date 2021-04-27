@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Repository\ArticleRepository;
+use App\Repository\OrderRepository;
 use App\Repository\ShopRepository;
 use App\Service\ToolService;
 use Doctrine\DBAL\Driver\Connection;
@@ -12,7 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route; //Ne pas supprimer, malgré ce qu'il conseille. Il est bien utilisé.
+use Symfony\Component\Routing\Annotation\Route;
+
+//Ne pas supprimer, malgré ce qu'il conseille. Il est bien utilisé.
 
 
 /**
@@ -57,10 +60,39 @@ class TraderController extends AbstractController
      */
     public function traderAccountNav(): Response
     {
-        return $this->render('trader/traderAccountNav.html.twig'); 
+        return $this->render('trader/traderAccountNav.html.twig');
     }
 
-     /**
+    /**
+     * @Route("/orders")
+     * @param Request $request
+     * @param OrderRepository $orderRepository
+     * @return JsonResponse
+     */
+    public function orders(Request $request, OrderRepository $orderRepository): Response
+    {
+        return $this->render('trader/orders.html.twig');
+        /*$session = $request->getSession();
+        $mIdUser = $session->get("idUser");
+        $result = $orderRepository->getOrderByIdTrader($id);
+        return new JsonResponse(['data' => $result]);*/
+    }
+
+    /**
+     * @Route("/api/get-orders")
+     * @param Request $request
+     * @param OrderRepository $orderRepository
+     * @return JsonResponse
+     */
+    public function getOrders(Request $request, OrderRepository $orderRepository): JsonResponse
+    {
+        $session = $request->getSession();
+        $mIdUser = $session->get("idUser");
+        $result = $orderRepository->getOrderByIdTrader($mIdUser);
+        return new JsonResponse(['data' => $result]);
+    }
+
+    /**
      * @Route("/traderAccountShop")
      */
     public function traderAccountShop(): Response
@@ -92,15 +124,15 @@ class TraderController extends AbstractController
      * @param ShopRepository $shopRepository
      * @return Response
      */
-    public function apiAddArticle(Request $request,ArticleRepository $articleRepository, ShopRepository $shopRepository): Response
+    public function apiAddArticle(Request $request, ArticleRepository $articleRepository, ShopRepository $shopRepository): Response
     {
         $mNewArticle = json_decode($this::$request->getContent(), true);
-        $session = $request ->getSession();
+        $session = $request->getSession();
         $mIdUser = $session->get("idUser");
         $mIfHasShop = $shopRepository->ifHasShop($mIdUser);
-        if ($mIfHasShop == 'false'){
+        if ($mIfHasShop == 'false') {
             return new Response('Vous n\'avez pas encore un magasin', Response::HTTP_BAD_REQUEST);
-        }else{
+        } else {
             $mIdShop = $mIfHasShop["sh_id"];
         }
         $result = $articleRepository->addArticle($mNewArticle, $mIdShop);
@@ -122,20 +154,20 @@ class TraderController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function apiAddShop(Request $request,ShopRepository $shopRepository): Response
+    public function apiAddShop(Request $request, ShopRepository $shopRepository): Response
     {
         $mNewShop = json_decode($request->getContent());
         // Si le commercant possede deja un magasin
-        $session = $request ->getSession();
+        $session = $request->getSession();
         $mIdUser = $session->get("idUser");
         /**
          * Magasin existe: Info de son magasin
          * Magasin n'existe pas encore: false
          */
         $ifHasShop = $shopRepository->ifHasShop($mIdUser);
-        if ($ifHasShop!= false){
+        if ($ifHasShop != false) {
             return new Response('Votre compte possède déja un magasin', Response::HTTP_BAD_REQUEST);
-        }else {
+        } else {
             $shopRepository->addShop($mNewShop, $mIdUser);
             return new Response('Magasin créé', Response::HTTP_OK);
         }
@@ -236,11 +268,11 @@ class TraderController extends AbstractController
      * @return JsonResponse
      * @throws Exception
      */
-    public function apiGetArticleFromShop(Request $request,ArticleRepository $articleRepository): JsonResponse
+    public function apiGetArticleFromShop(Request $request, ArticleRepository $articleRepository): JsonResponse
     {
         $session = $request->getSession();
-        $mIdUser= $session->get('idUser');
-        $mArticlesConcerned = self::$tool->unique_multi_array($articleRepository->getArticleFromShop($mIdUser),'a_id');
+        $mIdUser = $session->get('idUser');
+        $mArticlesConcerned = self::$tool->unique_multi_array($articleRepository->getArticleFromShop($mIdUser), 'a_id');
         return new JsonResponse(['data' => $articleRepository->getArticleFromShop($mIdUser)]);
     }
 
@@ -271,7 +303,8 @@ class TraderController extends AbstractController
      * @param ArticleRepository $articleRepository
      * @return Response
      */
-    public function apiDeleteArticle($idArticle, ArticleRepository $articleRepository): Response{
+    public function apiDeleteArticle($idArticle, ArticleRepository $articleRepository): Response
+    {
         $articleRepository->deleteArticle($idArticle);
         return new Response('Success', Response::HTTP_OK);
     }
