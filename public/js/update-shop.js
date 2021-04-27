@@ -427,6 +427,27 @@ window.onload = function () {
             $("#option-retrait").val(option_retrait).change();
             document.getElementById("description").value = shop['sh_description'];
 
+
+            // Charger et afficher les images sur la page
+            for (let i = 0; i < photo.length; i++) {
+                var img = document.createElement('img');
+                img.onclick = function (){
+                    deletePhoto(photo[i]);
+                };
+                img.src = "data:image/gif;base64," + photo[i]['p_base64'];
+                var divCarouselItem = document.createElement("div");
+                var button = document.createElement("button");
+                button.setAttribute("data-bs-target","#carouselExampleIndicators");
+                button.setAttribute("data-bs-slide-to", i.toString());
+                button.className = (i === 0) ? "active" : ""
+                divCarouselItem.className = (i === 0) ? "carousel-item active" : "carousel-item" ;
+                img.height = 500
+                img.width = 500
+                divCarouselItem.appendChild(img);
+                document.getElementById('button-list').append(button);
+                document.getElementById('photo-list').append(divCarouselItem);
+            }
+
             // // Initialisation des valeurs du deuxieme FieldSet
             var horaires = shop["sh_open_hours"];
             var jsonHoraires = JSON.parse(horaires);
@@ -456,20 +477,6 @@ window.onload = function () {
                 );
                 }
 
-            // Charger et afficher les images sur la page
-            for (let i = 0; i < photo.length; i++) {
-                var img = document.createElement('img');
-                img.onclick = function (){
-                    deletePhoto(photo[i]);
-                };
-                img.src = "data:image/gif;base64," + photo[i]['p_base64'];
-                var div = document.createElement("div");
-                div.className = (i === 0) ? "carousel-item active" : "carousel-item" ;
-                img.height = 500
-                img.width = 500
-                div.appendChild(img);
-                document.getElementById('photo-list').append(div);
-            }
 
         },
         cache: false,
