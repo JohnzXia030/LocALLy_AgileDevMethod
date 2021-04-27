@@ -2,64 +2,80 @@ var totalPage;
 var currentPage;
 var numArticle;
 var articleArr;
-
+var staticArticleArr;
 /* recherInput */
 const searchinput1 = document.getElementById('searchInput1');
-searchinput1.addEventListener('keyup', function() {
-    const rechercheInput = searchinput1.value;
-    const result = articleArr.filter(item => item.a_name.toLocaleLowerCase().includes(rechercheInput.toLocaleLowerCase()));
-
-    let suggestions ='';
-
-    if(rechercheInput !=''){
-        result.forEach(resultItem => 
+searchinput1.addEventListener('keyup', function () {
+    let rechercheInput = searchinput1.value;
+    let result = articleArr.filter(item => item.a_name.toLocaleLowerCase().includes(rechercheInput.toLocaleLowerCase()));
+    let suggestions = '';
+    if (rechercheInput != '') {
+        result.forEach(resultItem =>
             suggestions += `
-            <div class="suggestions"> ${resultItem.a_name}</div>
+            <div class="suggestions">${resultItem.a_name}</div>
             `
-            )
-        }
+        );
         document.getElementById('suggestions').innerHTML = suggestions;
+        articleArr = result;
+        showArticleSorted(articleArr);
+    } else if (rechercheInput === '' && rechercheInput.length === 0) {
+        articleArr = staticArticleArr;
+        showArticleSorted(articleArr);
+    }
 
-    })
+    // Ecouteur quand on clique sur les suggestions
+    $('div.suggestions').click(function () {
+        console.log($(this).html());
+        $('#searchInput1').val($(this).html());
+        $('#suggestions').html("");
+        result = result.filter(item => item.a_name.toLocaleLowerCase().includes($(this).html()));
+        articleArr = result;
+        showArticleSorted(articleArr);
+    });
+
+})
+
+
 /* END */
 
 $(document).ready(function () {
-    var sortArticle='';
+    var sortArticle = '';
 
     $('.shop-type-option').select2({
         theme: "classic",
         width: "resolve"
     });
 
-    $("#ascending").click(function(){
-        sortArticle="Up";
-        articleSort(sortArticle);
-        console.log("UP");
-    });
-
-    $("#descending").click(function(){
-        sortArticle="Down";
+    $(".article-sort").click(function () {
+        sortArticle = $(this).attr('id');
         articleSort(sortArticle);
     });
 });
 
 function articleSort(sortArticle) {
-    if(sortArticle=="Up"){
-            articleArr.sort(function(a, b){
-            return a.a_price - b.a_price;});
-            console.log(articleArr);
-            
-    }else if(sortArticle=="Down") {
-        articleArr.sort(function(a, b){
-            return b.a_price - a.a_price ;});
-            console.log(articleArr);
+    if (sortArticle == "ascending") {
+        articleArr.sort(function (a, b) {
+            return a.a_price - b.a_price;
+        });
+        console.log(articleArr);
+
+    } else if (sortArticle == "descending") {
+        articleArr.sort(function (a, b) {
+            return b.a_price - a.a_price;
+        });
+    } else if (sortArticle == "sort-a-to-z") {
+        articleArr.sort(function (a, b) {
+            return (b.a_name.toLowerCase() < a.a_name.toLowerCase()) ? 1 : -1;
+        });
+    } else if (sortArticle == "sort-z-to-a") {
+        articleArr.sort(function (a, b) {
+            return (a.a_name.toLowerCase() < b.a_name.toLowerCase()) ? 1 : -1;
+        });
     }
     showArticleSorted(articleArr);
 }
 
-function showArticleSorted(articleArr){
-    
-    console.log(articleArr);
+function showArticleSorted(articleArr) {
     let articlesContainer = document.getElementById('articles-container');
     while (articlesContainer.lastElementChild) {
         articlesContainer.removeChild(articlesContainer.lastElementChild);
@@ -113,6 +129,7 @@ function applyFilters() {
         type: "POST",
         data: filtersJson,
         success: function (data) {
+            staticArticleArr = data.data;
             articleArr = data.data;
             console.log(articleArr);
             let articlesContainer = document.getElementById('articles-container');
@@ -157,7 +174,7 @@ function applyFilters() {
 
 function showCurrentPageArticles(startIndex, endIndex) {
     for (let i = startIndex; i <= endIndex; i++) {
-       
+
         let articlesContainer = document.getElementById('articles-container');
         let colDiv = document.createElement('div');
         colDiv.className = "col";
@@ -170,6 +187,8 @@ function showCurrentPageArticles(startIndex, endIndex) {
         cardBodyDiv.className = "card-body";
         let cardTitleH5 = document.createElement('h5');
         cardTitleH5.innerText = articleArr[i]['a_name'];
+        console.log(i);
+        console.log(articleArr[i]);
         let cardFooterDiv = document.createElement('div');
         cardFooterDiv.className = "card-footer";
         let smallPriceInitial = document.createElement('small');

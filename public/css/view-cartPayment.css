@@ -1,0 +1,85 @@
+body{
+  background-color: white;
+  background-image:linear-gradient(rgba(222, 222, 231, 0.712), rgba(255, 255, 0, 0)), url('../img/inscriptionPicture.jpg');
+  background-position:80% 20%;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  margin: 0;
+  opacity: 0.9;
+}
+
+div#pageContent {
+  min-height: 60%;
+}
+
+#container{
+  background-color: #fff;
+  max-width: 600px;
+  margin-top: 30px;
+  padding: 30px 50px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  /*box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);*/
+}
+
+.btn, .btn:link, .btn:visited {
+  text-decoration: none;
+  letter-spacing: -0.015em;
+  font-size: 1em;
+  padding: 1em 3em;
+  color: #fff !important;
+  background-color: #fed136 !important;
+  font-weight: bold;
+  border-radius: 50px;
+  float: right;
+  text-align: right;
+  -webkit-transition: all 0.25s linear;
+  -moz-transition: all 0.25s linear;
+  -ms-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+.btn:after {
+  content: "\276f";
+  padding: 0.5em;
+  position: relative;
+  right: 0;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -ms-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
+}
+.btn:hover, .btn:focus, .btn:active {
+  background-color: #f69679 !important;
+  text-decoration: none !important;
+}
+.btn:hover:after, .btn:focus:after, .btn:active:after {
+  right: -10px;
+}
+
+/* CSS for Credit Card Payment form */
+.credit-card-box .panel-title {
+  display: inline;
+  font-weight: bold;
+}
+.credit-card-box label {
+  display: block;
+}
+/* The old "center div vertically" hack */
+.credit-card-box .display-table {
+  display: table;
+}
+.credit-card-box .display-tr {
+  display: table-row;
+}
+.credit-card-box .display-td {
+  display: table-cell;
+  vertical-align: middle;
+  width: 50%;
+}
+.credit-card-box .panel-heading img {
+  min-width: 180px;
+}
+

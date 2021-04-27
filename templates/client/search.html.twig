@@ -37,11 +37,12 @@
         <div class="recherche_p mt-4 mx-4">
             <form class="form-inline my-3 my-lg-3">
                 <div class="recherche-barr w-100">
-                     
-                    <input class="rechercheInput w-80 mr-2 px-2" id="searchInput1" type="search" placeholder=" Rechercher">
+
+                    <input class="rechercheInput w-80 mr-2 px-2" id="searchInput1" type="search"
+                           placeholder=" Rechercher">
                     <a href="#" class="recherche-icone">
                         <i class="fas fa-search fa-2x"></i>
-                     </a>
+                    </a>
                     <div id="suggestions"></div>
                 </div>
             </form>
@@ -50,10 +51,12 @@
             <!-- Filters -->
             <ul class="shop__sorting">
                 <!--<li class="active"><a href="#">Les plus populaires</a></li>-->
-                <li id="newProducts" class="active" value="New"><a href="#">Nouveautés</a></li>
-                <li id="bestSellers"><a href="#">Les plus vendus</a></li>
-                <li id="ascending" value="Up"><a  href="#">Prix (Croissant)</a></li>
-                <li id="descending" value="Down"><a  href="#">Prix (Décroissant)</a></li>
+                <li id="newProducts" class="active" value="New"><a href="#">Nouveautés</a></li>{#
+                <li id="bestSellers"><a href="#">Les plus vendus</a></li>#}
+                <li id="ascending" value="Up" class="article-sort"><a href="#">Prix (Croissant)</a></li>
+                <li id="descending" value="Down" class="article-sort"><a href="#">Prix (Décroissant)</a></li>
+                <li id="sort-a-to-z" value="sort-a-to-z" class="article-sort"><a href="#">Tri [A-Z]</a></li>
+                <li id="sort-z-to-a" value="sort-z-to-a" class="article-sort"><a href="#">Tri [Z-A]</a></li>
             </ul>
         </div>
     </div>
@@ -65,7 +68,7 @@
             <div class="d-flex flex-wrap">
                 <div class="select-outline position-relative w-100">
                     <select id="city" class="mdb-select md-outline md-form" searchable="Rechercher Ville">
-                        <option value=""  selected>Choisir ville</option>
+                        <option value="" selected>Choisir ville</option>
                         <option value="bordeaux">Bordeaux</option>
                         <option value="pessac">Pessac</option>
                         <option value="talence">Talence</option>

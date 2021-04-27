@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
 /**
 * @Route("/cart")
 */
@@ -18,52 +16,57 @@ class CartController extends AbstractController{
     /**
      * @Route("/view-cart")
      */
-    public function viewCart(SessionInterface $session)
+    public function viewCart()
     {
-        //dd($session->get('cart'));
+        
         return $this->render('view/viewCart.html.twig');
     }
 
     /**
      * @Route("/cart-payment")
      */
-    public function cartPayment(SessionInterface $session)
+    public function cartPayment()
     {
-        //dd($session->get('cart'));
+        
         return $this->render('view/viewCartpayment.html.twig');
     }
 
     /**
      * @Route("/api/add/{id}/{quantity}")
      */
-    public function add($id, $quantity, CartService $cartService, SessionInterface $session) : Response
+    public function add($id, $quantity, CartService $cartService) : Response
     {
         $cartService->add($id, $quantity);
 
-        //dd($session->get('cart'));
         return new JsonResponse(['return' => true]);
     }
 
     /**
      * @Route("/api/remove/{id}/{quantity}")
      */
-    public function remove($id, $quantity, CartService $cartService, SessionInterface $session) : Response
+    public function remove($id, $quantity, CartService $cartService) : Response
     {
         $cartService->remove($id, $quantity);
-        //dd($session->get('cart'));
+        
+        return new JsonResponse(['return' => true]);
+    }
+
+    /**
+     * @Route("/api/clear")
+     */
+    public function clear(CartService $cartService) : Response
+    {
+        $cartService->clear();
+        
         return new JsonResponse(['return' => true]);
     }
 
     /**
      * @Route("/api/get-cart")
      */
-    public function getCart(CartService $cartService, SessionInterface $session)
+    public function getCart(CartService $cartService)
     {
-        /*dd(array(
-            "articles" => $cartService->getFullCart(),
-            "total" => $cartService->getTotal()
-        ));*/
-
+        
         return new JsonResponse([
             'articles' => $cartService->getFullCart(),
             'total' => $cartService->getTotal()
