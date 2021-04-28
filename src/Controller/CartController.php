@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\BasketRepository;
+use App\Repository\OrderRepository;
 use App\Service\CartService;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 * @Route("/cart")
 */
 class CartController extends AbstractController{
+
 
     /**
      * @Route("/view-cart")
@@ -71,5 +75,40 @@ class CartController extends AbstractController{
             'articles' => $cartService->getFullCart(),
             'total' => $cartService->getTotal()
         ]);
+    }
+
+    /**
+     * @Route("/api/create-order")
+     */
+    public function createOrder(CartService $cartService, Request $request, OrderRepository $orderRepository,BasketRepository $basketRepository)
+    {
+        $cart = $cartService->getFullCart();
+        $session = $request->getSession();
+        $sIdUserSession = $session->get('idUser');
+        $orders = array();
+        $totals = array();
+
+        foreach ($cart as $product){
+            $idShop = $product['product'][0]['article']['a_id_shop'];
+            if (!array_key_exists($idShop,$orders)){
+                $orders[$idShop] = array();
+                $totals[$idShop] = 0;
+            }
+            array_push($orders[$idShop], $product);
+            $discount = (1-($product['product'][0]['article']['a_discount']/100));
+            $totals[$idShop] += $product['product'][0]['article']['a_price'] * $product['quantity'] * $discount;
+        }
+        foreach ($orders as $idShop=>$products) {
+
+
+            $idOrder = $orderRepository->addOrder($idShop, $totals[$idShop], $sIdUserSession);
+            foreach($products as $product) {
+                $discount = (1-($product['product'][0]['article']['a_discount']/100));
+                $totalProduct = $product['product'][0]['article']['a_price'] * $product['quantity'] * $discount;
+                $idArticle = $product['product'][0]['article']['a_id'];
+                $basketRepository->addBasket($idArticle, $idOrder, $product['quantity'], $totalProduct);
+            }
+        }
+        return new JsonResponse(['return' => true]);
     }
 }
