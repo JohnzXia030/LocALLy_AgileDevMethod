@@ -132,7 +132,7 @@ class ShopRepository extends ServiceEntityRepository
     public function getCities(){
         $conn = $this->getEntityManager()->getConnection();
         $qb = $conn->createQueryBuilder();
-        //get all shops
+        //get all cities
         $stmt =
             $qb->select('*')
                 ->from('city')
@@ -159,7 +159,7 @@ class ShopRepository extends ServiceEntityRepository
     public function getArticles($id)
     {
         $conn = $this->getEntityManager()->getConnection();
-        // Info de la ville
+        // Info des articles
         $qb = $conn->createQueryBuilder();
         $stmt =
         $qb->select('a.*', 'p.p_base64')
@@ -298,6 +298,36 @@ class ShopRepository extends ServiceEntityRepository
         $qb->delete('faq')
                 ->where($qb->expr()->eq('faq_id', '"' . $id . '"'));
         $stmt = $qb->execute();
+    }
+
+    /**
+     * @param $idShop
+     */
+    public function deleteShop($idShop)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $qb->delete('shop')
+            ->where($qb->expr()->eq('sh_id', '"' . $idShop . '"'))
+            ->execute();
+    }
+
+    /** Récuperer tous les magasins
+     *
+     */
+    public function getAllShop(){
+        $conn = $this->getEntityManager()->getConnection();
+        // Info de ce shop
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+            $qb->select('*')
+                ->from('shop', "sh")
+                ->join('sh', 'city', 'c', 'sh.sh_city = c.c_id')
+                ->join('sh', 'picture', 'p', 'sh.sh_id = p.p_id_shop')
+                ->where($qb->expr()->isNull('p.p_id_article'))
+                ->execute();
+        $shop = $stmt->fetchAllAssociative();
+        return $shop;
     }
 
 }

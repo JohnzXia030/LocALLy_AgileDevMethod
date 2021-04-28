@@ -27,101 +27,67 @@
     <div class="col col-xs-5 text-center">
     <h1 class="panel-title">Gestion des magasins</h1>
     </div>
+
+
     <div class="container-fluid" id="field">
-        <div class="row">
+        <div class="row" id="menu">
             <div class="col-3">
                 <nav class="navbar">
-                <ul class="navbar-menu">
-                    <li class="navbar-item accueil">
-                        <a href="http://localhost/locALLy/public/admin/administrator" class="navbar-link">
-                        <i class="fas fa-angle-double-left navbar-icon"></i>
-                        <span class="navbar-title">Accueil</span>
-                        </a>
-                    </li>
-                    <li class="navbar-item">
-                        <a href="http://localhost/locALLy/public/admin/traderManagement" class="navbar-link">
-                        <i class="fas fa-house-user navbar-icon"></i>
-                        <span class="navbar-title">Gestion commerçant</span>
-                        </a>
-                    </li>
-                    <li class="navbar-item">
-                        <a href="http://localhost/locALLy/public/admin/clientManagement" class="navbar-link">
-                        <i class="fas fa-user-alt navbar-icon"></i>
-                        <span class="navbar-title">Gestion client</span>
-                        </a>
-                    </li>
-                    <li class="navbar-item">
-                        <a href="http://localhost/locALLy/public/admin/shopManagement" class="navbar-link">
-                        <i class="fas fa-store-alt navbar-icon"></i>
-                        <span class="navbar-title">Gestion magasin</span>
-                        </a>
-                    </li>
-                </ul>
+                    <ul class="navbar-menu">
+                        <li class="navbar-item accueil">
+                            <a href="http://localhost/locALLy/public/admin/administrator" class="navbar-link">
+                                <i class="fas fa-angle-double-left navbar-icon"></i>
+                                <span class="navbar-title">Accueil</span>
+                            </a>
+                        </li>
+                        <li class="navbar-item">
+                            <a href="http://localhost/locALLy/public/admin/traderManagement" class="navbar-link">
+                                <i class="fas fa-house-user navbar-icon"></i>
+                                <span class="navbar-title">Gestion commerçant</span>
+                            </a>
+                        </li>
+                        <li class="navbar-item">
+                            <a href="http://localhost/locALLy/public/admin/clientManagement" class="navbar-link">
+                                <i class="fas fa-user-alt navbar-icon"></i>
+                                <span class="navbar-title">Gestion client</span>
+                            </a>
+                        </li>
+                        <li class="navbar-item">
+                            <a href="http://localhost/locALLy/public/admin/shopManagement" class="navbar-link">
+                                <i class="fas fa-store-alt navbar-icon"></i>
+                                <span class="navbar-title">Gestion magasin</span>
+                            </a>
+                        </li>
+                    </ul>
                 </nav>
             </div> <!-- col-3-->
             <div class="col-9">
-                <div class="container-fluid" id="shopList">
-                <div class="row">
-                    <div class="col-4">
-                        <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="..." alt="...">
-                            </div>
-                            <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
+            <div class="row pagination-div m-5">
+                <div class="col-12 col-md-2">
+                </div>
+                <div class="col-12 col-md-8">
+                    <div class="row row-cols-1 row-cols-md-3 g-4" id="shop-list">
                     </div>
-                    <div class="col-4">
-                        <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="..." alt="...">
-                            </div>
-                            <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="..." alt="...">
-                            </div>
-                            <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
+                    <div class="pagePagination">
+                        <ul id="pagination" class="pagination-sm "></ul>
                     </div>
                 </div>
-                </div> 
-            </div> <!-- col-9 -->
+                <div class="col-12 col-md-2">
+                </div>
+            </div>
+            </div>
         </div> <!--Row-->
     </div> <!--container-fluid-->
+
+
 </main>
     {% include 'footer.html.twig' %}
     <!-- Optional JavaScript; choose one of the two! -->
-
+    <script type="text/javascript" src="{{ asset('js/shopManagement.js') }}"></script>
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-  </body>
+    {% include 'extern-library.html.twig' %}
+    </body>
 </html>

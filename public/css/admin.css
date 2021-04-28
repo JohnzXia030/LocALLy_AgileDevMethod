@@ -37,7 +37,7 @@ main {
     flex-direction: column;
     align-items: center;
     height: 120%;
-    background: var(--navbar-background-color);
+    background: black;
 }
 
 .navbar-menu:hover{
@@ -120,6 +120,40 @@ tbody tr td a .fa-trash{
       margin-left: 380px;
   }
 
-/****************************************/
-.container-fluid #shopList div{
+
+/***********Pagination***********/
+.pagePagination ul{
+    margin-left: 295px;
+}
+
+.pagePagination ul li a{
+    color: gray !important;
+    border-radius: 10px;
+    border: 2px solid;
+    border-color: #343a40;
+}
+
+.pagePagination #pagination li .disabled{
+    color: rgba(207, 179, 78) !important;
+    background-color: lightcoral;
+}
+/**************card******************/
+.card-body h5{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: x-large;
+    font-weight: bold;
+}
+.btn{
+    background-color: #343a40 !important ;
+    width: 40px;
+}
+
+.row{
+    margin-left: 10px;
+}
+
+.col .card-img-top:hover{
+    -ms-transform: scale(0.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(0.5);
 }
