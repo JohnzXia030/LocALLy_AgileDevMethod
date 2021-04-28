@@ -22,4 +22,31 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/administrator.html.twig');
     }
+
+    /**
+     * @Route("/traderManagement")
+     */
+
+    public function traderManagement(): Response
+    {
+        return $this->render('admin/traderManagement.html.twig');
+    }
+
+    /**
+     * @Route("/clientManagement")
+     */
+
+    public function clientManagement(): Response
+    {
+        return $this->render('admin/clientManagement.html.twig');
+    }
+
+    /**
+     * @Route("/shopManagement")
+     */
+
+    public function shopManagement(): Response
+    {
+        return $this->render('admin/shopManagement.html.twig');
+    }
 }

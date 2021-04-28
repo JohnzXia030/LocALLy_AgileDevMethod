@@ -87,3 +87,39 @@ main {
 .navbar:hover .accueil .navbar-icon{
     transform: rotate(180deg);
 } 
+
+
+/**************Trader Management**************/
+
+tbody tr td a .fa-check{
+    color:green;
+}
+
+tbody tr td a .fa-trash{
+    color: red;
+}
+
+
+.panel-body .tab-content .table-bordered > thead > tr > th{
+    text-align:center;
+  }
+
+.panel-footer .pagination li{
+    height:30px;
+    padding:0px;
+    margin-left: 5px;
+    color: #212529;
+  }
+
+.panel-body .pagination > li > a {
+    
+    font-weight: bold;
+    font-size: 20px;
+}
+  .panel-footer .pagination{
+      margin-left: 380px;
+  }
+
+/****************************************/
+.container-fluid #shopList div{
+}
