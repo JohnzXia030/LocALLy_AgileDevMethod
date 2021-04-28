@@ -37,6 +37,39 @@ class OrderRepository extends ServiceEntityRepository
 
     }
 
+    public function getOrdersByIdClient($idClient)
+    {
+        $qb = $this::$conn->createQueryBuilder();
+        $qb->select('*')
+            ->from('`'.'order'.'`', 'o')
+            ->leftJoin('o', 'shop', 'sh', 'o.o_id_shop = sh.sh_id')
+            ->leftJoin('o', 'state', 'st', 'o.o_statecode = st.s_code')
+            ->where($qb->expr()->eq('o.o_id_client', '"' . $idClient . '"'))
+            ->where($qb->expr()->eq('o_statecode', '"' . '1' . '"'))
+            ->where($qb->expr()->eq('o_statecode', '"' . '2' . '"'));
+        $stmt = $qb->execute();
+
+        $orders = $stmt->fetchAllAssociative();
+
+        foreach($orders as $key => $order) {
+            $idOrder = $order['o_id'];
+
+            $qbBasket = $this::$conn->createQueryBuilder();
+            $qbBasket->select('*')
+                ->from('basket', 'b')
+                ->leftJoin('b', 'article', 'a', 'b.b_id_article = a.a_id')
+                ->where($qb->expr()->eq('b_id_order', '"' . $idOrder . '"'));
+            $stmtBasket = $qbBasket->execute();
+
+            $basket = $stmtBasket->fetchAllAssociative();
+
+            $orders[$key]['basket'] = $basket;
+        }
+        
+
+        return $orders;
+    }
+
     public function getBasketByIdOrder($idOrder)
     {
         $qb = $this::$conn->createQueryBuilder();
