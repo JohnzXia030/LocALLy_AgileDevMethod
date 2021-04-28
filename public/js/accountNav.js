@@ -21,4 +21,14 @@ jQuery(document).ready(function(){
     e.preventDefault();
     window.location.assign("account");
   });
+
+  $('div#navCurrentOrders').click(function(e) {
+    e.preventDefault();
+    window.location.assign("current-orders");
+  });
+
+  $('div#navPastOrders').click(function(e) {
+    e.preventDefault();
+    window.location.assign("past-orders");
+  });
 });

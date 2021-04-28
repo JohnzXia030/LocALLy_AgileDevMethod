@@ -42,6 +42,7 @@ $(document).ready(function () {
           $("#delivery-product").html(shop["sh_pick"]);
 
           /* PHOTOS */
+          console.log(photos);
           if (photos.length == 0) {
             // Aucune photos disponibles
             photos.push({'p_base64': base64AucunePhoto});
@@ -60,6 +61,8 @@ $(document).ready(function () {
             var taillePhoto = 50 / (photos.length);
             $(".thumbnails img").css("height", taillePhoto + "vmin");
           }
+          window.location.href = "#slide0";
+
       },
       erreur: function (data){
           console.log(data);       
@@ -89,16 +92,13 @@ $(document).ready(function () {
     var urLParams = new URLSearchParams(queryString);
     var paramId = urLParams.get('id');
     var apiURLAddArticle = "../cart/api/add/" + paramId + "/" + quantity;
-    console.log(apiURLAddArticle);
+    
     $.ajax({
       url: apiURLAddArticle,
       type: "GET",
       dataType: 'JSON',
       success: function (data){
-        console.log(data);
-        console.log($('a#modalLink'));
-        console.log($('a#modalLink').attr('href'));
-        window.location=$('a#modalLink').attr('href');
+        window.location = $('a#modalLink').attr('href');
       },
       erreur: function (data){
         console.log(data);       

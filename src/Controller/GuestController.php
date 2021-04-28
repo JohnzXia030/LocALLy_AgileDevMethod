@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Order;
 use App\Repository\UserRepository;
+use App\Repository\OrderRepository;
 use Doctrine\DBAL\Driver\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -76,6 +78,67 @@ class GuestController extends AbstractController
     public function account(): Response
     {
         return $this->render('guest/account.html.twig');
+    }
+
+    /**
+     * @Route("/current-orders")
+     */
+    public function currentOrders(): Response
+    {
+        return $this->render('guest/current-orders.html.twig');
+    }
+
+    /**
+     * @Route("/past-orders")
+     */
+    public function pastOrders(): Response
+    {
+        return $this->render('guest/past-orders.html.twig');
+    }
+
+    /**
+     * @Route("/api/get-current-orders")
+     * @param OrderRepository $orderRepository
+     * @param Request $request
+     * @return Response
+     */
+    public function getCurrentOrders(Request $request, OrderRepository $orderRepository): Response
+    {
+        $session = $request->getSession();
+        $sIdUserSession = $session->get('idUser');
+
+        $currentOrders = $orderRepository->getCurrentOrdersByIdClient($sIdUserSession);
+        
+        return new JsonResponse(['orders' => $currentOrders]);
+    }
+
+    /**
+     * @Route("/api/get-past-orders")
+     * @param OrderRepository $orderRepository
+     * @param Request $request
+     * @return Response
+     */
+    public function getPastOrders(Request $request, OrderRepository $orderRepository): Response
+    {
+        $session = $request->getSession();
+        $sIdUserSession = $session->get('idUser');
+
+        $pastOrders = $orderRepository->getPastOrdersByIdClient($sIdUserSession);
+        
+        return new JsonResponse(['orders' => $pastOrders]);
+    }
+
+    /**
+     * @Route("/api/cancel-order/{id}")
+     * @param OrderRepository $orderRepository
+     * @param Request $request
+     * @return Response
+     */
+    public function cancelOrder($id, OrderRepository $orderRepository): Response
+    {
+        $orderRepository->cancelOrder($id);
+        
+        return new Response(true);
     }
 
     /**
