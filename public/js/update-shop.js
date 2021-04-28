@@ -144,7 +144,7 @@ $(".submit").click(function () {
     }, 1000);
     let form = document.getElementById('msform');
     let formData = new FormData(form);
-
+    //creation du tableau des horaires d'ouverture
     var monday = document.getElementById("monday").value;
     var tuesday = document.getElementById("tuesday").value;
     var wednesday = document.getElementById("wednesday").value;
@@ -160,18 +160,20 @@ $(".submit").click(function () {
     for (let i in days){
         horairesObject[jours[i]] = days[i]
     }
-
+    //Creation de l'arraylist des questions de la faq
     var questionArray = $.map($('input[name="question"]'), function (val, _) {
         var newObj = {};
         newObj.question= val.value;
         newObj.id = val.id;
         return newObj;
     });
+    //creation de l'arraylist des réponses de la faq
     var reponseArray = $.map($('input[name="reponse"]'), function (val, _) {
         var newObj = {};
         newObj.reponse = val.value;
         return newObj;
     });
+    //creation du tableau questions/reponses
     var faq = [];
     for (let i = 0; i < reponseArray.length; i++) {
         let line = {};
@@ -187,30 +189,12 @@ $(".submit").click(function () {
         return;
     }
 
-    /*var picture = $.map($('input[name="picture"]'), function (val, index) {
-        var newObj = {};
-        newObj.picture = val.value;
-        const file = document.querySelector('input[type="file"]').files[index];
-        newObj.base64 = 'test';
-        let base64;
-        getBase64(file, function (e) {
-            console.log(e.target.result);
-            console.log(newObj);
-            base64 = e.target.result;
-            //newObj.base64 = String(e.target.result);
-        });
-        //newObj.base64 = ;
-        /!*console.log(photoUrl);
-        newObj.base64 = photoUrl;*!/
-        return newObj;
-    });*/
     // Convertir le formulaire en json
     const object = {};
     formData.forEach(function(value, key){
         object[key] = value;
     });
 
-    console.log(horairesObject);
     object['horaires'] = horairesObject;
     object['faq'] = faq;
     object['photos-magasin'] = imageArr;
@@ -239,21 +223,7 @@ $(".submit").click(function () {
     return false;
 })
 
-/*function getBase64(file, onLoadCallback) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = onLoadCallback;/!*function () {
-        console.log(reader.result);
-        photoUrl = reader.result;
-    }*!/
-    reader.onerror = function (error) {
-        console.log('Error: ', error);
-    };
-
-}*/
-
-
-
+//ajout de plage horaires en dynamique
 $(document).ready(function () {
     var y = 1;
 
@@ -289,11 +259,11 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).parent('div').remove();
         y--;
-        //console.log($(this));
     });
 
 });
 
+//ajout des box questions/reponses en dynamique
 $(document).ready(function () {
     var max_fields = 10; //maximum input boxes allowed
     var wrapper = $(".input_fields_wrap"); //Fields wrapper
@@ -321,12 +291,6 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).parent('div').remove();
         x--;
-        //var idFaq = $(this).children('input')[0].id;
-        /*console.log($(this));
-        console.log($(this).parent)
-        console.log($(this).parent.children('input')[0]);
-        console.log($(this).parent.children('input')[0].id);*/
-        //deleteFAQ(id);
     })
 });
 
@@ -352,8 +316,14 @@ function deletePhoto(e){
     if (r === false) {
         return;
     }
-    e.parent('div').remove();
+    //e.parent('div').remove();
     console.log("test");
+    console.log($(this));
+    console.log(e);
+
+    $('div[data-idphoto='+e.p_id+']').remove();
+    $($('div.carousel-item')[0]).addClass("active");
+
     $.ajax({
         url: "api/delete-photo/" + e.p_id,
         type: "GET",
@@ -361,6 +331,8 @@ function deletePhoto(e){
         success: function (data) {
             alert("Photo supprimée!");
             //window.location.reload();
+
+
         },
         cache: false,
         contentType: false,
@@ -410,7 +382,6 @@ window.onload = function () {
             faq = data.data[0]['faq'];
             photo = data.data[0]['pictures'];
             shop = data.data[0]['shop'];
-            console.log(data.data[0]);
 
             // Initialisation des valeurs du premier FieldSet
             var villeId = shop['sh_city'];
@@ -431,6 +402,7 @@ window.onload = function () {
             // Charger et afficher les images sur la page
             for (let i = 0; i < photo.length; i++) {
                 var img = document.createElement('img');
+                img.setAttribute('data-idphoto', photo[i]['p_id']);
                 img.onclick = function (){
                     deletePhoto(photo[i]);
                 };
@@ -441,6 +413,7 @@ window.onload = function () {
                 button.setAttribute("data-bs-slide-to", i.toString());
                 button.className = (i === 0) ? "active" : ""
                 divCarouselItem.className = (i === 0) ? "carousel-item active" : "carousel-item" ;
+                divCarouselItem.setAttribute("data-idphoto", photo[i]['p_id']) ;
                 img.height = 500
                 img.width = 500
                 divCarouselItem.appendChild(img);
@@ -459,14 +432,8 @@ window.onload = function () {
             document.getElementById("saturday").value = jsonHoraires['saturday'];
             document.getElementById("sunday").value = jsonHoraires['sunday'];
 
-            /*faq.forEach(function (unFAQ) {
-                $('.faq-div').append('<div>' +              // TODO A corriger l'id, qui ne prend pas bien en valeur l'ID de faq
-                    '<input type="text" name="question" id="faq[i]["faq_id"]" value="${unFAQ.faq_question}" placeholder="Question"/>\n' +
-                    '<input type="text" name="reponse" value="${unFAQ.faq_reply}" placeholder="Réponse"/>' +
-                    '<a href="#" class="remove_field" >Supprimer</a>' +
-                    '</div>');
-            });*/
 
+            //Initialistaion du 3eme fieldset : la FAQ
             for (var i = 0 ; i < faq.length ; i++) {
                 var idFaq = faq[i]["faq_id"];
                 $('.faq-div').append('<div id="i">' +
@@ -475,7 +442,7 @@ window.onload = function () {
                     '<a href="#" class="remove_field" onclick="deleteFAQ(\'' + idFaq + '\')" >Supprimer</a>' +
                     '</div>'
                 );
-                }
+            }
 
 
         },
@@ -483,7 +450,6 @@ window.onload = function () {
         contentType: false,
         processData: false
     });
-
 }
 
 /**

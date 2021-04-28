@@ -42,6 +42,15 @@
                     '<a id="" class="linkLogout nav-link js-scroll-trigger" onclick="logOut()">Déconnexion</a>' +
                     '</li>');
             }
+            else if(data['idRole']==="1") {
+                $('div#navbarResponsive ul').append(' ' +
+                    '<li class="nav-item">' +
+                    '<a id="" class="linkAccount nav-link js-scroll-trigger" href="../admin/administrator">Admin</a>' +
+                    '</li>' +
+                    '<li class="nav-item">' +
+                    '<a id="" class="linkLogout nav-link js-scroll-trigger" onclick="logOut()">Déconnexion</a>' +
+                    '</li>');
+            }
         },
         error: function(e){
             console.log(e);
