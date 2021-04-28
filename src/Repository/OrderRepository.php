@@ -52,7 +52,12 @@ class OrderRepository extends ServiceEntityRepository
         return $lastId;
     }
 
-
+    /**
+     * Obtenir l'info de toutes les commandes d'un commercant
+     * @param $idTrader
+     * @return mixed
+     * @throws Exception
+     */
     public function getOrderByIdTrader($idTrader)
     {
         $qb = $this::$conn->createQueryBuilder();
@@ -60,11 +65,11 @@ class OrderRepository extends ServiceEntityRepository
             ->from('`'.'order'.'`', 'o')
             ->leftJoin('o', 'shop', 'sh', 'o.o_id_shop = sh.sh_id')
             ->leftJoin('o', 'user', 'u', 'o.o_id_client = u.u_id')
+            ->leftJoin('o', 'state', 's', 's.s_code = o.o_statecode')
             ->where($qb->expr()->eq('sh.sh_id_trader', '"' . $idTrader . '"'));
 
         $stmt = $qb->execute();
         return $stmt->fetchAllAssociative();
-
     }
 
     public function getBasketByIdOrder($idOrder)
@@ -78,5 +83,35 @@ class OrderRepository extends ServiceEntityRepository
             return $stmt->fetchAllAssociative();
         } catch (Exception $e) {
         }
+    }
+
+    public function getState(){
+        $qb = $this::$conn->createQueryBuilder();
+        $qb->select('*')
+            ->from('state', 's');
+        try {
+            $stmt = $qb->execute();
+            return $stmt->fetchAllAssociative();
+        } catch (Exception $e) {
+        }
+    }
+
+    public function updateState($request){
+        $idOrder = $request['idOrder'];
+        $stateCode = $request['stateCode'];
+        $qb = $this::$conn->createQueryBuilder();
+
+        $qb->update('`'.'order'.'`', 'o')
+            ->set('o_statecode', '"' . $stateCode . '"')
+            ->where($qb->expr()->eq('o_id', '"' . $idOrder . '"'))
+            ->execute();
+
+    }
+
+    public function deleteOrder($idOrder){
+        $qb = $this::$conn->createQueryBuilder();
+        $qb->delete('`'.'order'.'`')
+            ->where($qb->expr()->eq('o_id', '"' . $idOrder . '"'))
+            ->execute();
     }
 }

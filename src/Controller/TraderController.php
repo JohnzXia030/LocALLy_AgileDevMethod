@@ -93,6 +93,42 @@ class TraderController extends AbstractController
     }
 
     /**
+     * @Route("/api/delete-order/{id}")
+     * @param $id
+     * @param Request $request
+     * @param OrderRepository $orderRepository
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function deleteOrder($id, Request $request, OrderRepository $orderRepository): JsonResponse
+    {
+        $orderRepository->deleteOrder($id);
+        return new JsonResponse(['data' => 'success']);
+    }
+
+
+    /**
+     * @Route("/api/get-states")
+     * @param OrderRepository $orderRepository
+     * @return JsonResponse
+     */
+    public function getStates(OrderRepository $orderRepository): JsonResponse
+    {
+        return new JsonResponse(['states'=>$orderRepository->getState()]);
+    }
+
+    /**
+     * @Route("/api/update-order-state")
+     * @param OrderRepository $orderRepository
+     * @return JsonResponse
+     */
+    public function updateStates(OrderRepository $orderRepository): JsonResponse
+    {
+        $mRequest = json_decode($this::$request->getContent(), true);
+        return new JsonResponse(['states'=>$orderRepository->updateState($mRequest)]);
+    }
+
+    /**
      * @Route("/traderAccountShop")
      */
     public function traderAccountShop(): Response
