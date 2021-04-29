@@ -313,14 +313,16 @@ class TraderController extends AbstractController
     }
 
     /**
-     * @Route("/api/get-shop/{id}")
-     * @param $id
+     * @Route("/api/get-shop")
+     * @param Request $request
      * @param ShopRepository $shopRepository
      * @return JsonResponse
      */
-    public function apiGetShop($id, ShopRepository $shopRepository): JsonResponse
+    public function apiGetShop(Request $request, ShopRepository $shopRepository): JsonResponse
     {
-        return new JsonResponse(['data' => $shopRepository->getShop($id)]);
+        $session = $request->getSession();
+        $mIdUser = $session->get('idUser');
+        return new JsonResponse(['data' => $shopRepository->getShop($mIdUser)]);
     }
 
     /**

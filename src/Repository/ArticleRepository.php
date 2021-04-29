@@ -9,7 +9,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use function Doctrine\DBAL\Query\QueryBuilder;
 
 class ArticleRepository extends ServiceEntityRepository
 {
@@ -151,7 +150,6 @@ class ArticleRepository extends ServiceEntityRepository
             ->set('a_name', '"' . $name . '"')
             ->set('a_description', '"' . $description . '"')
             ->set('a_price', '"' . $price . '"')
-            //->set('a_id_shop', '"' . $idShop . '"')
             ->set('a_discount', '"' . $discount . '"')
             ->set('a_discount_period', '"' . $discount_period . '"')
             ->set('a_available', '"' . $available . '"')
@@ -168,7 +166,6 @@ class ArticleRepository extends ServiceEntityRepository
             $qb->insert('picture')
                 ->setValue('p_base64', '"' . $line['pictureURL'] . '"')
                 ->setValue('p_id_article', '"' . $idArticle . '"')
-                ->setValue('p_id_shop', '"' . $idShop . '"')
                 ->execute();
         }
     }

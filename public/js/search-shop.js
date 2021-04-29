@@ -161,6 +161,10 @@ function showCurrentPageShop(startIndex, endIndex) {
         let shopContainer = document.getElementById('shop-container');
         let colDiv = document.createElement('div');
         colDiv.className = "col";
+        var shopId = shopArr[i]['sh_id'];
+        colDiv.onclick =  function (){
+            location.href='http://localhost/locally/public/view/view-shop?id=' + shopId;
+        };
         let cardDiv = document.createElement('div');
         cardDiv.className = "card h-100";
         /* image shop*/

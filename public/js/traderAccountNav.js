@@ -29,6 +29,9 @@ jQuery(document).ready(function(){
         window.location.assign("orders");
     });
 
-
+    $('div#updateShop').click(function(e) {
+        e.preventDefault();
+        window.location.assign("update-shop");
+    });
 });
   

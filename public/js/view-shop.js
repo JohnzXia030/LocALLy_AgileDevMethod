@@ -22,7 +22,7 @@ $(document).ready(function () {
         $("#phone_shop").html(shop["sh_num_phone"]);
 
         $("#about-shop").html(shop["sh_description"]);
-        /*
+
         var horaires = shop["sh_open_hours"];
         var jsonHoraires = JSON.parse(horaires);
         $("#open-hours").html(
@@ -34,7 +34,7 @@ $(document).ready(function () {
           "</br> Samedi : " + jsonHoraires['saturday'].replace(';', ' ; ') + 
           "</br> Dimanche : " + jsonHoraires['sunday'].replace(';', ' ; ')
         );
-          */
+
         var articles = data['articles'];
         var idArticles = [];
         for (var i = 0 ; i < articles.length ; i++) {

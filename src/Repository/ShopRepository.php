@@ -13,6 +13,7 @@ class ShopRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Shop::class);
+
     }
 
     /**
@@ -88,7 +89,7 @@ class ShopRepository extends ServiceEntityRepository
     /**
      * Récupérer un shop en fonction de son id
      */
-    public function getShop($id)
+    public function getShop($idUser)
     {
         $conn = $this->getEntityManager()->getConnection();
         // Info de ce shop
@@ -97,17 +98,16 @@ class ShopRepository extends ServiceEntityRepository
             $qb->select('sh.*', 'c.c_name')
                 ->from('shop', "sh")
                 ->join('sh', 'city', 'c', 'sh.sh_city = c.c_id')
-                ->where($qb->expr()->eq('sh.sh_id', '"' . $id . '"'))
-                /*->join('sh', 'state', 'st', 'sh.sh_state = st.s_code')
-                ->where($qb->expr()->eq('sh.sh_id', '"' . $id . '"')) A effacer lors de la décision de transformation du champ state du shop en boolean */
+                ->where($qb->expr()->eq('sh.sh_id_trader', '"' . $idUser . '"'))
                 ->execute();
         $shop = $stmt->fetchAssociative();
+        $idShop = $shop['sh_id'];
         // Info base64 des photos
         $qb = $conn->createQueryBuilder();
         $stmt =
             $qb->select('*')
                 ->from('picture', 'p')
-                ->where($qb->expr()->eq('p_id_shop', '"' . $id . '"'))
+                ->where($qb->expr()->eq('p_id_shop', '"' . $idShop . '"'))
                 ->andWhere($qb->expr()->isNull('p.p_id_article'))
                 ->execute();
         $pictures = $stmt->fetchAllAssociative();
@@ -116,7 +116,7 @@ class ShopRepository extends ServiceEntityRepository
         $stmt =
             $qb->select('*')
                 ->from('faq', 'p')
-                ->where($qb->expr()->eq('faq_id_shop', '"' . $id . '"'))
+                ->where($qb->expr()->eq('faq_id_shop', '"' . $idShop . '"'))
                 ->execute();
         $faq = $stmt->fetchAllAssociative();
 
@@ -311,6 +311,10 @@ class ShopRepository extends ServiceEntityRepository
         $qb->delete('shop')
             ->where($qb->expr()->eq('sh_id', '"' . $idShop . '"'))
             ->execute();
+        $qb = $conn->createQueryBuilder();
+        $qb->delete('article')
+            ->where($qb->expr()->eq('a_id_shop', '"' . $idShop . '"'))
+            ->execute();
     }
 
     /** Récuperer tous les magasins
@@ -331,4 +335,22 @@ class ShopRepository extends ServiceEntityRepository
         return $shop;
     }
 
+
+    public function suspendShop($idShop){
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $qb->update('shop')
+            ->set('sh_state', '"' . 0 . '"')
+            ->where($qb->expr()->eq('sh_id', '"' . $idShop . '"'))
+            ->execute();
+    }
+
+    public function activateShop($idShop){
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $qb->update('shop')
+            ->set('sh_state', '"' . 1 . '"')
+            ->where($qb->expr()->eq('sh_id', '"' . $idShop . '"'))
+            ->execute();
+    }
 }
