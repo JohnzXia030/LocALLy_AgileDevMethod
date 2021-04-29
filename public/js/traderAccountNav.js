@@ -28,5 +28,10 @@ jQuery(document).ready(function(){
         e.preventDefault();
         window.location.assign("orders");
     });
+
+    $('div#updateShop').click(function(e) {
+        e.preventDefault();
+        window.location.assign("update-shop");
+    });
 });
   

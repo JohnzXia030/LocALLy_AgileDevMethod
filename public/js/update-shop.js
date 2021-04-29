@@ -2,6 +2,7 @@
 var current_fs, next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
+var idShop;
 
 /**
  * Param de URL: id d'article
@@ -206,7 +207,7 @@ $(".submit").click(function () {
     const urLParams = new URLSearchParams(queryString);
     paramId = urLParams.get('id');
     // Afficher l'info d'article
-    let apiURL = "api/update-shop/" + paramId;
+    let apiURL = "api/update-shop/" + idShop;
     $.ajax({
         url: apiURL,
         type: "POST",
@@ -371,8 +372,8 @@ window.onload = function () {
     // Obtenir l'id de shop
     const queryString = window.location.search;
     const urLParams = new URLSearchParams(queryString);
-    paramId = urLParams.get('id');
-    let apiURL = "api/get-shop/" + paramId;
+    //paramId = urLParams.get('id');
+    let apiURL = "api/get-shop";
     // Obtenir l'info du magasin
     $.ajax({
         url: apiURL,
@@ -382,6 +383,7 @@ window.onload = function () {
             faq = data.data[0]['faq'];
             photo = data.data[0]['pictures'];
             shop = data.data[0]['shop'];
+            idShop = shop['sh_id'];
 
             // Initialisation des valeurs du premier FieldSet
             var villeId = shop['sh_city'];
