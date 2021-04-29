@@ -68,7 +68,12 @@ function showCurrentPageShop(startIndex, endIndex) {
         let cardBodyDiv = document.createElement('div');
         cardBodyDiv.className = "card-body";
         let cardTitleH5 = document.createElement('h5');
-        cardTitleH5.innerText = shopArr[i]['sh_name'];
+        if (shopArr[i]['sh_state']==='0'){
+            cardTitleH5.innerHTML = shopArr[i]['sh_name'] + '</br>' + " <p>(Désactivé)</p>" ;
+        } else if(shopArr[i]['sh_state']==='1'){
+            cardTitleH5.innerHTML= shopArr[i]['sh_name'] + '</br>' + " <p>(Activé)</p>" ;
+        }
+
         let cardFooterDiv = document.createElement('div');
         cardFooterDiv.className = "card-footer";
 
@@ -132,9 +137,29 @@ function deleteShop(idShop) {
 }
 
 function hangShop(idShop){
-
+    $.ajax({
+        url: "api/suspend-shop/" + idShop,
+        type: "POST",
+        success: function (data) {
+            console.log(data);
+            window.location.reload();
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 }
 
 function reactivateShop(idShop){
-
+    $.ajax({
+        url: "api/activate-shop/" + idShop,
+        type: "POST",
+        success: function (data) {
+            console.log(data);
+            window.location.reload();
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 }

@@ -9,7 +9,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use function Doctrine\DBAL\Query\QueryBuilder;
 
 class ArticleRepository extends ServiceEntityRepository
 {
