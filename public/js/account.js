@@ -161,7 +161,7 @@ function checkInputs(sCodeRole){
     // Envoyer le contenu vers le controller
     var formJson = JSON.stringify(object);
     $.ajax({
-        url: "api/update-user",
+        url: "../guest/api/update-user",
         type: "POST",
         data: formJson,
         success: function (aRetour) {

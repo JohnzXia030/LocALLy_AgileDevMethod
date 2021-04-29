@@ -3,9 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use ContainerJv0NQNs\getConsole_Command_AboutService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Params;
+use PhpParser\Node\Expr\Array_;
 use function Doctrine\DBAL\Query\QueryBuilder;
 
 class UserRepository extends ServiceEntityRepository
@@ -55,11 +58,22 @@ class UserRepository extends ServiceEntityRepository
         /**
          * Modifie les donnees dans 'user'
          */
+        //if(is_null($request['phoneNumber']))
+        $requestArray = array($request);
+        if (sizeof($requestArray)==3) {
 
-        $conn = $this->getEntityManager()->getConnection();
-        $user = $conn->executeStatement('UPDATE user SET u_lastname = ?, u_firstname = ?, u_birth = ?, u_num_phone = ?, u_email = ?, u_num_street = ?, u_name_street = ?, u_city = ? WHERE u_id = ?', 
+            $conn = $this->getEntityManager()->getConnection();
+            $user = $conn->executeStatement('UPDATE user SET u_lastname = ?, u_firstname = ?, u_birth = ?, u_num_phone = ?, u_email = ?, u_num_street = ?, u_name_street = ?, u_city = ? WHERE u_id = ?',
                 array($request['lastname'], $request['firstname'], $request['birth'], $request['phoneNumber'], $request['email'], $request['streetNum'], $request['streetName'], $request['city'], $sIdUser));
-        
+            return ("3 parametres --> pro");
+        }
+        elseif (count($requestArray)==8){
+            return("10 parametres --> particulier");
+        }
+        else{
+            return("Nombre de parametres = " . count($requestArray));
+        }
+
     }
 
     public function getInfoUser($id) {

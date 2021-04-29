@@ -178,6 +178,10 @@ function showCurrentPageArticles(startIndex, endIndex) {
         let articlesContainer = document.getElementById('articles-container');
         let colDiv = document.createElement('div');
         colDiv.className = "col";
+        var shopId = articleArr[i]['a_id'];
+        colDiv.onclick =  function (){
+            location.href='http://localhost/locally/public/view/view-article?id=' + shopId;
+        }
         let cardDiv = document.createElement('div');
         cardDiv.className = "card h-100";
         let cardImg = document.createElement('img');

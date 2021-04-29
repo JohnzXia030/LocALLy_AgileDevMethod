@@ -98,8 +98,6 @@ class ShopRepository extends ServiceEntityRepository
                 ->from('shop', "sh")
                 ->join('sh', 'city', 'c', 'sh.sh_city = c.c_id')
                 ->where($qb->expr()->eq('sh.sh_id', '"' . $id . '"'))
-                /*->join('sh', 'state', 'st', 'sh.sh_state = st.s_code')
-                ->where($qb->expr()->eq('sh.sh_id', '"' . $id . '"')) A effacer lors de la décision de transformation du champ state du shop en boolean */
                 ->execute();
         $shop = $stmt->fetchAssociative();
         // Info base64 des photos
