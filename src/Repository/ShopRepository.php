@@ -108,6 +108,7 @@ class ShopRepository extends ServiceEntityRepository
             $qb->select('*')
                 ->from('picture', 'p')
                 ->where($qb->expr()->eq('p_id_shop', '"' . $id . '"'))
+                ->andWhere($qb->expr()->isNull('p.p_id_article'))
                 ->execute();
         $pictures = $stmt->fetchAllAssociative();
         //Infos FAQ
