@@ -14,7 +14,8 @@ use function Doctrine\DBAL\Query\QueryBuilder;
 
 class UserRepository extends ServiceEntityRepository
 {
-    public static $shopRepository ;
+    public static $shopRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -32,15 +33,15 @@ class UserRepository extends ServiceEntityRepository
             case 'Particulier' :
                 $role = 2;
                 break;
-            case 'Professionel' : 
+            case 'Professionel' :
                 $role = 3;
                 break;
-            default: 
+            default:
                 $role = 1;
         }
-        
+
         $qb = $conn->createQueryBuilder();
-        $qb ->insert('user')
+        $qb->insert('user')
             ->setValue('u_lastname', '"' . $request['lastname'] . '"')
             ->setValue('u_firstname', '"' . $request['firstname'] . '"')
             ->setValue('u_birth', '"' . $request['birth'] . '"')
@@ -61,53 +62,64 @@ class UserRepository extends ServiceEntityRepository
         /**
          * Modifie les donnees dans 'user'
          */
-        //if(is_null($request['phoneNumber']))
+        $countParam = 0;
+        foreach ($request as $key => $value) {
+            $countParam++;
+        }
         $requestArray = array($request);
-        if (sizeof($requestArray)==3) {
+        if ($countParam == 8) {
 
             $conn = $this->getEntityManager()->getConnection();
             $user = $conn->executeStatement('UPDATE user SET u_lastname = ?, u_firstname = ?, u_birth = ?, u_num_phone = ?, u_email = ?, u_num_street = ?, u_name_street = ?, u_city = ? WHERE u_id = ?',
                 array($request['lastname'], $request['firstname'], $request['birth'], $request['phoneNumber'], $request['email'], $request['streetNum'], $request['streetName'], $request['city'], $sIdUser));
-            return ("3 parametres --> pro");
-        }
-        elseif (count($requestArray)==8){
-            return("10 parametres --> particulier");
-        }
-        else{
-            return("Nombre de parametres = " . count($requestArray));
+
+        } elseif ($countParam == 3) {
+            $qb = $conn->createQueryBuilder();
+            $stmt =
+                $qb->update('user', 'u')
+                    ->set('u.u_lastname', '"' . $request['lastname'] . '"')
+                    ->set('u.u_firstname', '"' . $request['firstname'] . '"')
+                    ->set('u.u_email', '"' . $request['email'] . '"')
+                    ->where($qb->expr()->eq('u.u_id', '"' . $sIdUser . '"'))
+                    ->execute();
         }
 
     }
 
-    public function getInfoUser($id) {
+    public function getInfoUser($id)
+    {
         $conn = $this->getEntityManager()->getConnection();
         $user = $conn->fetchAll("SELECT * FROM user WHERE u_id = " . $id);
-        
+
         return $user;
     }
 
-    public function checkLogin($request) {
+    public function checkLogin($request)
+    {
         $conn = $this->getEntityManager()->getConnection();
         $user = $conn->fetchAll("SELECT u_id, u_email, u_password, u_role FROM user WHERE u_email = '" . $request['email'] . "' AND u_password = '" . $request['password'] . "'");
-        
+
         return $user;
     }
 
-    public function checkUserExists($request) {
+    public function checkUserExists($request)
+    {
         $conn = $this->getEntityManager()->getConnection();
         $user = $conn->fetchAll("SELECT * FROM user WHERE u_email = '" . $request['email'] . "'");
-        
+
         return $user;
     }
 
-    public function changePassword($request) {
+    public function changePassword($request)
+    {
         $conn = $this->getEntityManager()->getConnection();
         $user = $conn->executeStatement('UPDATE user SET u_password = ? WHERE u_email = ?', array($request['password'], $request['email']));
-        
+
         return $user;
     }
 
-    public function getAllTrader(){
+    public function getAllTrader()
+    {
         $conn = $this->getEntityManager()->getConnection();
         $qb = $conn->createQueryBuilder();
         $stmt =
@@ -118,7 +130,8 @@ class UserRepository extends ServiceEntityRepository
         return $stmt->fetchAllAssociative();
     }
 
-    public function getAllClient(){
+    public function getAllClient()
+    {
         $conn = $this->getEntityManager()->getConnection();
         $qb = $conn->createQueryBuilder();
         $stmt =
@@ -129,7 +142,8 @@ class UserRepository extends ServiceEntityRepository
         return $stmt->fetchAllAssociative();
     }
 
-    public function deleteUser($idUser){
+    public function deleteUser($idUser)
+    {
         $conn = $this->getEntityManager()->getConnection();
         // role
         $qb = $conn->createQueryBuilder();
@@ -139,7 +153,7 @@ class UserRepository extends ServiceEntityRepository
                 ->where($qb->expr()->eq('u_id', '"' . $idUser . '"'))
                 ->execute();
         $idRole = $stmt->fetchAssociative()['u_role'];
-        if($idRole == "3"){
+        if ($idRole == "3") {
             $qb = $conn->createQueryBuilder();
             $stmt =
                 $qb->select('*')
