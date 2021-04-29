@@ -191,7 +191,7 @@ class ShopRepository extends ServiceEntityRepository
         $city = $request['nville'];
         $description = $request['description'];
         $numTel = $request['numtel'];
-        $pick = $request['oretrait'];
+        //$pick = $request['oretrait'];
         $typeMagasin = $request['type-magasin'];
 
         /**
@@ -209,7 +209,7 @@ class ShopRepository extends ServiceEntityRepository
             //->set('sh_id_trader', '"' . $mIdUser . '"')
             ->set('sh_num_phone', '"' . $numTel . '"')
             ->set("sh_open_hours", "'" . $horairesString . "'")
-            ->set("sh_pick", "'" . $pick . "'")
+            //->set("sh_pick", "'" . $pick . "'")
             ->set("sh_type", "'" . $typeMagasin . "'")
             ->where($qb->expr()->eq('sh_id', '"' . $idShop . '"'))
             ->execute();
