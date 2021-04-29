@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Shop;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Exception;
@@ -10,9 +11,11 @@ use function Doctrine\DBAL\Query\QueryBuilder;
 
 class UserRepository extends ServiceEntityRepository
 {
+    public static $shopRepository ;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+        $this::$shopRepository = $this->getEntityManager()->getRepository(Shop::class);
     }
 
     public function addUser($request)
@@ -88,5 +91,62 @@ class UserRepository extends ServiceEntityRepository
         $user = $conn->executeStatement('UPDATE user SET u_password = ? WHERE u_email = ?', array($request['password'], $request['email']));
         
         return $user;
+    }
+
+    public function getAllTrader(){
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+            $qb->select('*')
+                ->from('user', 'u')
+                ->where($qb->expr()->eq('u.u_role', '"' . 3 . '"'))
+                ->execute();
+        return $stmt->fetchAllAssociative();
+    }
+
+    public function getAllClient(){
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+            $qb->select('*')
+                ->from('user', 'u')
+                ->where($qb->expr()->eq('u.u_role', '"' . 2 . '"'))
+                ->execute();
+        return $stmt->fetchAllAssociative();
+    }
+
+    public function deleteUser($idUser){
+        $conn = $this->getEntityManager()->getConnection();
+        // role
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+            $qb->select('*')
+                ->from('user', 'u')
+                ->where($qb->expr()->eq('u_id', '"' . $idUser . '"'))
+                ->execute();
+        $idRole = $stmt->fetchAssociative()['u_role'];
+        if($idRole == "3"){
+            $qb = $conn->createQueryBuilder();
+            $stmt =
+                $qb->select('*')
+                    ->from('shop')
+                    ->where($qb->expr()->eq('sh_id_trader', '"' . $idUser . '"'))
+                    ->execute();
+            $idShop = $stmt->fetchAssociative()['sh_id'];
+            // Supprimer magasins et articles liees
+            $qb = $conn->createQueryBuilder();
+            $qb->delete('shop')
+                ->where($qb->expr()->eq('sh_id', '"' . $idShop . '"'))
+                ->execute();
+            $qb = $conn->createQueryBuilder();
+            $qb->delete('article')
+                ->where($qb->expr()->eq('a_id_shop', '"' . $idShop . '"'))
+                ->execute();
+        }
+        $qb = $conn->createQueryBuilder();
+        $stmt =
+            $qb->delete('user')
+                ->where($qb->expr()->eq('u_id', '"' . $idUser . '"'))
+                ->execute();
     }
 }

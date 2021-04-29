@@ -38,12 +38,6 @@ $(document).ready(function () {
             {data: 'u_email'},
             {
                 data: 'u_city'
-            },
-            {
-                data: 'o_id',
-                render: function (data, type, row, meta) {
-                    return '<a onclick="deleteOrder(value)" class="btn btn-danger"  title="delete"><i class="fa fa-trash" ></i></a>';
-                }
             }
         ],
         dataSrc: 'data',

@@ -13,6 +13,7 @@ class ShopRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Shop::class);
+
     }
 
     /**
@@ -311,6 +312,10 @@ class ShopRepository extends ServiceEntityRepository
         $qb->delete('shop')
             ->where($qb->expr()->eq('sh_id', '"' . $idShop . '"'))
             ->execute();
+        $qb = $conn->createQueryBuilder();
+        $qb->delete('article')
+            ->where($qb->expr()->eq('a_id_shop', '"' . $idShop . '"'))
+            ->execute();
     }
 
     /** Récuperer tous les magasins
@@ -331,4 +336,22 @@ class ShopRepository extends ServiceEntityRepository
         return $shop;
     }
 
+
+    public function suspendShop($idShop){
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $qb->update('shop')
+            ->set('sh_state', '"' . 0 . '"')
+            ->where($qb->expr()->eq('sh_id', '"' . $idShop . '"'))
+            ->execute();
+    }
+
+    public function activateShop($idShop){
+        $conn = $this->getEntityManager()->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $qb->update('shop')
+            ->set('sh_state', '"' . 1 . '"')
+            ->where($qb->expr()->eq('sh_id', '"' . $idShop . '"'))
+            ->execute();
+    }
 }

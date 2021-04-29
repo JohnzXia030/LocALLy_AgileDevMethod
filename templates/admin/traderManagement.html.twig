@@ -33,25 +33,25 @@
                 <nav class="navbar">
                 <ul class="navbar-menu">
                     <li class="navbar-item accueil">
-                        <a href="http://localhost/locALLy/public/admin/administrator" class="navbar-link">
+                        <a href="../admin/administrator" class="navbar-link">
                         <i class="fas fa-angle-double-left navbar-icon"></i>
                         <span class="navbar-title">Accueil</span>
                         </a>
                     </li>
                     <li class="navbar-item">
-                        <a href="http://localhost/locALLy/public/admin/traderManagement" class="navbar-link">
+                        <a href="../admin/traderManagement" class="navbar-link">
                         <i class="fas fa-house-user navbar-icon"></i>
                         <span class="navbar-title">Gestion commerçant</span>
                         </a>
                     </li>
                     <li class="navbar-item">
-                        <a href="http://localhost/locALLy/public/admin/clientManagement" class="navbar-link">
+                        <a href="../admin/clientManagement" class="navbar-link">
                         <i class="fas fa-user-alt navbar-icon"></i>
                         <span class="navbar-title">Gestion client</span>
                         </a>
                     </li>
                     <li class="navbar-item">
-                        <a href="http://localhost/locALLy/public/admin/shopManagement" class="navbar-link">
+                        <a href="../admin/shopManagement" class="navbar-link">
                         <i class="fas fa-store-alt navbar-icon"></i>
                         <span class="navbar-title">Gestion magasin</span>
                         </a>
@@ -63,62 +63,20 @@
             <div class="panel-body">
             <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="list">
-                <table class="table table-striped table-bordered table-list">
+                <table class="table table-striped table-bordered table-list display" id="traders-management">
                 <thead>
                     <tr>
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>Email</th>
-                        <th>Password</th>
                         <th><em class="fa fa-cog"></em></th>
-                    </tr> 
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr class="ok">
-                        <td>Djelal</td>
-                        <td>Eddine</td>
-                        <td>djelaleddine@gmail.com </td>
-                        <td>Algeria </td>
-                        <td align="center">
-                        <a href="#" class="btn btn-success" title="Edit"><i class="fas fa-check"></i></a>
-                        <a href="#" class="btn btn-danger" title="ban"><i class="fas fa-times"></i></a>
-                        <!--<a href="#" class="btn btn-danger"  title="delete"><i class="fa fa-trash" ></i></a>-->
-                        </td>
-                    </tr>
-                    <tr class="ok">
-                        <td>Djelal</td>
-                        <td>Eddine</td>
-                        <td>djelaleddine@gmail.com </td>
-                        <td>Algeria </td>
-                        <td align="center">
-                        <a href="#" class="btn btn-success" title="Edit"><i class="fas fa-check"></i></i></a>
-                        <a href="#" class="btn btn-danger" title="ban"><i class="fas fa-times"></i></a>
-                        </td>
-                    </tr>
-                    <tr class="ok">
-                        <td>Djelal</td>
-                        <td>Eddine</td>
-                        <td>djelaleddine@gmail.com </td>
-                        <td>Algeria</td>
-                        <td align="center">
-                        <a href="#" class="btn btn-success" title="Edit"><i class="fas fa-check"></i></a>
-                        <a href="#" class="btn btn-danger" title="ban"><i class="fas fa-times"></i></a>
-                        </td>
-                    </tr>
                 </tbody>
                 </table>
+
             </div><!-- END id="list" -->
-            </div><!-- END tab-content --> 
-                <div class="panel-footer text-center">
-                    <ul class="pagination">
-                        <li ><a>«</a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li ><a href="#">2</a></li>
-                        <li ><a href="#">3</a></li>
-                        <li ><a>»</a></li>
-                    </ul>
-                </div>
-            </div><!--END panel-table-->
             </div>
         </div> <!--Row-->
     </div> <!--container-->
@@ -130,5 +88,14 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-  </body>
+        <link rel="stylesheet" type="text/css"
+              href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-colvis-1.7.0/b-html5-1.7.0/datatables.min.css"/>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+        <script type="text/javascript"
+                src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-colvis-1.7.0/b-html5-1.7.0/datatables.min.js"></script>
+        <script type="text/javascript" src="{{ asset('js/admin.js') }}"></script>
+
+    </body>
 </html>

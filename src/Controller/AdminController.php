@@ -3,7 +3,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\ShopRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,11 +17,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 
-
 /**
  * @Route("/admin")
  */
-
 class AdminController extends AbstractController
 {
     /**
@@ -71,6 +71,27 @@ class AdminController extends AbstractController
 
     }
 
+
+    /**
+     * @Route("/api/get-all-traders")
+     * @param UserRepository $userRepository
+     * @return JsonResponse
+     */
+    public function getTraders(UserRepository $userRepository): JsonResponse
+    {
+        return new JsonResponse(['data' => $userRepository->getAllTrader()]);
+    }
+
+    /**
+     * @Route("/api/get-all-clients")
+     * @param UserRepository $userRepository
+     * @return JsonResponse
+     */
+    public function getClients(UserRepository $userRepository): JsonResponse
+    {
+        return new JsonResponse(['data' => $userRepository->getAllClient()]);
+    }
+
     /**
      * @Route("/api/delete-shop/{idShop}")
      * @param $idShop
@@ -83,5 +104,38 @@ class AdminController extends AbstractController
         return new Response('Success', Response::HTTP_OK);
     }
 
+    /**
+     * @Route("/api/suspend-shop/{idShop}")
+     * @param $idShop
+     * @param ShopRepository $shopRepository
+     * @return Response
+     */
+    public function suspendShop($idShop, ShopRepository $shopRepository): Response
+    {
+        $shopRepository->suspendShop($idShop);
+        return new Response('Success', Response::HTTP_OK);
+    }
 
+    /**
+     * @Route("/api/activate-shop/{idShop}")
+     * @param $idShop
+     * @param ShopRepository $shopRepository
+     * @return Response
+     */
+    public function activateShop($idShop, ShopRepository $shopRepository): Response
+    {
+        $shopRepository->activateShop($idShop);
+        return new Response('Success', Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/api/delete-user/{idUser}")
+     * @param $idUser
+     * @param UserRepository $userRepository
+     * @return JsonResponse
+     */
+    public function deleteUser($idUser, UserRepository $userRepository): JsonResponse
+    {
+        return new JsonResponse(['data' => $userRepository->deleteUser($idUser)]);
+    }
 }
